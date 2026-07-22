@@ -100,8 +100,46 @@ aws s3 cp "${WORK}/frames/" "s3://${BUCKET}/${PREFIX}/frames/" --recursive
 # 4) 정리
 rm -rf "${WORK}"
 ```
+
+xargs 를 이용하여 병렬 처리 합니다.
+```
+aws s3 cp "s3://${BUCKET}/finevideo/sports/manifest.jsonl" - \
+  | jq -r '.video_id' \
+  | xargs -P 8 -I {} ./sample_frames.sh {}
+```
+* -P 8 → 동시에 8개 프로세스 (코어 수에 맞춰 조정)
+* -I {} → video_id를 {} 자리에 넣어 호출
+
+
 > [!NOTE]
 > EKS에서는 이 스크립트를 컨테이너로 감싸 Graviton 노드풀의 K8s Job으로 돌리고, manifest.jsonl의 각 줄(video_id)을 여러 Job에 나눠 병렬 처리하면 됩니다.
+> ```
+> 4. EKS Indexed Job에서 shard 처리 (앞서 얘기한 그 방식)
+프로덕션에선 각 Pod가 자기 몫만 처리해야 하죠. JOB_COMPLETION_INDEX로 manifest를 나눕니다.
+
+bash
+
+#!/usr/bin/env bash
+set -euo pipefail
+
+BUCKET="vlm-data-499514681453-ap-northeast-2"
+TOTAL_SHARDS="${TOTAL_SHARDS:?}"        # = Job completions 수
+SHARD_INDEX="${JOB_COMPLETION_INDEX:?}" # K8s Indexed Job이 주입
+
+# manifest를 로컬로 받아서
+aws s3 cp "s3://${BUCKET}/finevideo/sports/manifest.jsonl" /tmp/manifest.jsonl
+
+# 이 Pod가 맡을 줄만 골라 처리 (줄번호 % 전체shard == 내 index)
+jq -r '.video_id' /tmp/manifest.jsonl \
+  | awk -v n="${TOTAL_SHARDS}" -v k="${SHARD_INDEX}" 'NR % n == k' \
+  | while read -r VIDEO_ID; do
+      ./sample_frames.sh "${VIDEO_ID}"
+    done
+awk 'NR % n == k'가 핵심이에요. 전체 줄 중 "줄번호를 shard 수로 나눈 나머지가 내 인덱스인 것"만 골라서, Pod마다 겹치지 않게 나눠 처리합니다.
+
+
+> ```
+
 
 ### 4. 다음 단계(InternVL3-78B)와의 연결 ####
 인퍼런스 단계는 이제 영상 원본이 아니라 frames/ 아래 JPG들 + frames.json만 읽으면 됩니다.
