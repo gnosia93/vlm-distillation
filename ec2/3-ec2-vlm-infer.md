@@ -2,6 +2,7 @@
 
 #### 1) 환경설정 ####
 ```
+export ACCOUNT_ID=$(aws sts get-caller-identity --query 'Account' --output text)
 export REGION=ap-northeast-2
 export SG_ID=$SG_ID
 export SUBNET_ID=$SUBNET_ID
