@@ -178,3 +178,29 @@ kubectl apply -f k8s/job.yaml
 ```
 
 ### 5. 실행 및 결과 확인 ###
+
+* 파드가 뜨는지, 인덱스별로 노드에 잘 분산됐는지
+```
+kubectl -n vlm-batch get pods -l app=vlm-batch-infer -o wide -w
+```
+
+* initContainer(가중치 다운로드) 로그
+```
+kubectl -n vlm-batch logs <pod-name> -c fetch-weights -f
+```
+syncing weights ... done.가 나오면 성공.
+
+* 워커(추론) 로그 - 진행 상황
+```
+kubectl -n vlm-batch logs <pod-name> -c worker -f
+```
+[결과]
+```
+[worker] model=/models/InternVL3-78B tp=4 shard=0/2 ...
+[worker] 이미 완료 0건 스킵
+[worker] 이 샤드 처리 대상: 12345건
+(vLLM 모델 로딩 - 수 분 소요)
+[worker] 진행 48/12345 (2.15 rec/s) → s3 주기 업로드
+[worker] 진행 96/12345 ...
+```
+
