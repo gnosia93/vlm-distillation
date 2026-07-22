@@ -1,6 +1,6 @@
 ### 1. 아키텍처 개요 ###
 
-```
+```mermaid
 flowchart TB
     subgraph S3["Amazon S3 (모든 상태 저장)"]
         MANIFEST["input/manifest.jsonl<br/>이미지 + 프롬프트 목록"]
