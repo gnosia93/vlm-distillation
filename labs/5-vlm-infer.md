@@ -13,6 +13,7 @@ RUN curl -sL https://github.com/peak/s5cmd/releases/download/v2.2.2/s5cmd_2.2.2_
     && pip install --no-cache-dir pillow==11.0.0 requests==2.32.3 boto3==1.35.76
 
 COPY src/ /app/src/
+# ENV PYTHONPATH 는 파이썬이 모듈을 import 할때 뒤지는 경로 목록에 추가하는 설정.
 ENV PYTHONPATH=/app/src
 
 ENTRYPOINT []
