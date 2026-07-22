@@ -116,3 +116,19 @@ if __name__ == "__main__":
 export BUCKET=your-bucket-name
 python3 prepare_finevideo.py
 ```
+
+### 4. S3 데이터 레이아웃 ###
+파이프라인 후속 단계(추론/파인튜닝)가 쉽게 참조하도록 카테고리별로 나눠 준다.
+```
+s3://<BUCKET>/finevideo/
+├── manifest.json                 # 전체 색인 (카테고리별 개수 등)
+├── sports/
+│   ├── <video_id>/
+│   │   ├── video.mp4
+│   │   └── metadata.json
+│   └── ...
+└── cooking/
+    └── <video_id>/
+        ├── video.mp4
+        └── metadata.json
+```
