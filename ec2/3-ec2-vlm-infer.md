@@ -72,6 +72,13 @@ aws iam put-role-policy \
   --role-name vlm-ec2-role \
   --policy-name vlm-s3-access \
   --policy-document file://s3-policy.json
+
+aws iam create-instance-profile \
+  --instance-profile-name vlm-ec2-profile
+
+aws iam add-role-to-instance-profile \
+  --instance-profile-name vlm-ec2-profile \
+  --role-name vlm-ec2-role
 ```
 
 
