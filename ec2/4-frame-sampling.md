@@ -20,13 +20,6 @@
 * 영상 길이에 상관없이 N개로 고정하면 토큰 수가 예측 가능해져 GPU 배치 사이징이 안정됩니다.
 * 균일 샘플링 = 영상을 N구간으로 나눠 각 구간에서 1프레임씩. 장면 전환을 고루 커버합니다.
 
-
-### 2. ffmpeg 설치 (Graviton / aarch64) ###
-```
-sudo apt update && sudo apt install -y ffmpeg
-ffmpeg -version
-```
-
 #### 고정 개수 균일 샘플링 (권장) — 영상 길이 무관하게 16프레임 ####
 ```
 DURATION=$(ffprobe -v error -show_entries format=duration -of csv=p=0 input.mp4)
@@ -43,7 +36,7 @@ ffmpeg -i input.mp4 \
 * pad → 종횡비 유지하며 정사각형으로 (왜곡 방지)
 * -q:v 2 → JPEG 고품질
 
-### 3. 출력 레이아웃 ###
+#### 출력 레이아웃 ####
 뒤 단계(인퍼런스)가 쉽게 찾을 수 있도록 video_id 기준으로 구조화 한다.
 ```
 s3://$BUCKET/finevideo/sports/G_VTkkb34gw/
@@ -72,8 +65,13 @@ s3://$BUCKET/finevideo/sports/G_VTkkb34gw/
 ```
 * sampling_config_hash를 넣어두면, 앞서 얘기한 캐싱/멱등성에 활용됩니다. 샘플링 설정이 바뀌면 해시가 달라져 재샘플링, 그대로면 스킵.
 
+### 2. ffmpeg 설치 (Graviton / aarch64) ###
+```
+sudo apt update && sudo apt install -y ffmpeg
+ffmpeg -version
+```
 
-### 4. 샘플링 스크립트 ###
+### 3. 샘플링 스크립트 ###
 ```
 #!/usr/bin/env bash
 set -euo pipefail
