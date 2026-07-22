@@ -38,7 +38,7 @@ echo "SUBNET_ID: $SUBNET_ID"
 ```
 AMI_ID=$(aws ssm get-parameter \
   --region $REGION \
-  --name /aws/service/deeplearning/ami/x86_64/base-oss-nvidia-driver-gpu-ubuntu-22.04/latest/ami-id \
+  --name /aws/service/canonical/ubuntu/server/22.04/stable/current/arm64/hvm/ebs-gp2/ami-id \
   --query 'Parameter.Value' --output text)
 echo $AMI_ID
 
