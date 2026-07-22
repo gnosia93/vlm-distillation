@@ -115,7 +115,12 @@ python3 inspect_pl.py
 스트리밍하면서 대상 카테고리만 골라 로컬에 임시 저장후 S3 로 업로드 한다.
 ```
 export BUCKET=vlm-data-${ACCOUNT_ID}-${REGION}
+export REGION=ap-northeast-2      # 버킷/인스턴스 리전에 맞게
 
+# 오래 걸리니 tmux 안에서 (SSM 세션 끊겨도 계속 돌게)
+tmux new -s ingest
+python3 prepare_finevideo.py
+# Ctrl+b, d 로 detach → 나중에 tmux attach -t ingest 로 재확인
 ```
 
 아래 명령어로 실행한다. 
