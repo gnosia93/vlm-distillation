@@ -13,6 +13,7 @@
 * https://huggingface.co/ 이동하여 회원 가입 후, 
 * https://huggingface.co/settings/tokens 로 이동하여 우측 상단의 + Create new token 버튼을 클릭한 후, 
 * Read 타입의 토큰을 발급 받는다. 
+![](https://github.com/gnosia93/vlm-on-eks/blob/main/images/hf-token.png)
 
 ### 2. EC2 생성하기 ###
 
