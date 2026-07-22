@@ -2,7 +2,7 @@
 
 프레임 샘플링은 영상을 디코딩해서 이미지를 추출하는 작업으로, 전형적인 CPU 바운드 작업입니다. 따라서 이 작업은 GPU 없이 CPU만으로 충분히 처리할 수 있어, x86 대비 비용이 저렴한 Graviton(ARM) 노드에 배치하는 것이 유리합니다. 이렇게 하면 GPU 노드는 프레임 샘플링에 자원을 쓰지 않고 인퍼런스에만 집중할 수 있습니다. 프레임 추출 도구로는 영상 디코딩과 프레임 추출의 사실상 표준인 ffmpeg를 사용하며, ffmpeg는 ARM 아키텍처에서도 안정적으로 동작하기 때문에 Graviton 환경에 잘 맞습니다.
 
-### 샘플링 전략 ###
+### 1. 샘플링 전략 ###
 
 이 단계에서 가장 중요한 설계 포인트는 프레임 수가 곧 토큰 수를 결정한다는 점입니다. KV 캐시의 크기를 좌우하는 "영상 토큰 폭발"이 바로 이 프레임 샘플링 단계에서 결정되기 때문입니다.
 예를 들어 FineVideo는 영상 한 편이 평균 4.7분, 약 282초에 달합니다. 만약 이를 1fps로 추출하면 영상 하나당 282프레임이 나오는데, InternVL3에서 프레임당 약 256토큰이 생성되므로 영상 하나가 약 7만 토큰에 이르게 됩니다. 이렇게 되면 시퀀스 하나가 컨텍스트를 거의 다 차지해 버려, 배치 처리가 사실상 불가능해집니다.
@@ -19,13 +19,13 @@
 * 균일 샘플링 = 영상을 N구간으로 나눠 각 구간에서 1프레임씩. 장면 전환을 고루 커버합니다.
 
 
-### ffmpeg 설치 (Graviton / aarch64) ###
+### 2. ffmpeg 설치 (Graviton / aarch64) ###
 ```
 sudo apt update && sudo apt install -y ffmpeg
 ffmpeg -version
 ```
 
-* 고정 개수 균일 샘플링 (권장) — 영상 길이 무관하게 16프레임
+#### 고정 개수 균일 샘플링 (권장) — 영상 길이 무관하게 16프레임 ####
 ```
 DURATION=$(ffprobe -v error -show_entries format=duration -of csv=p=0 input.mp4)
 N=16
@@ -41,7 +41,7 @@ ffmpeg -i input.mp4 \
 * pad → 종횡비 유지하며 정사각형으로 (왜곡 방지)
 * -q:v 2 → JPEG 고품질
 
-### 출력 레이아웃 ###
+### 3. 출력 레이아웃 ###
 뒤 단계(인퍼런스)가 쉽게 찾을 수 있도록 video_id 기준으로 구조화 한다.
 ```
 s3://$BUCKET/finevideo/sports/G_VTkkb34gw/
@@ -71,7 +71,7 @@ s3://$BUCKET/finevideo/sports/G_VTkkb34gw/
 * sampling_config_hash를 넣어두면, 앞서 얘기한 캐싱/멱등성에 활용됩니다. 샘플링 설정이 바뀌면 해시가 달라져 재샘플링, 그대로면 스킵.
 
 
-### 샘플링 스크립트 ###
+### 4. 샘플링 스크립트 ###
 ```
 #!/usr/bin/env bash
 set -euo pipefail
@@ -100,7 +100,13 @@ aws s3 cp "${WORK}/frames/" "s3://${BUCKET}/${PREFIX}/frames/" --recursive
 # 4) 정리
 rm -rf "${WORK}"
 ```
-> [!INFORMATION]
+> [!NOTE]
 > EKS에서는 이 스크립트를 컨테이너로 감싸 Graviton 노드풀의 K8s Job으로 돌리고, manifest.jsonl의 각 줄(video_id)을 여러 Job에 나눠 병렬 처리하면 됩니다.
 
+### 5. 다음 단계(InternVL3-78B)와의 연결 ####
+인퍼런스 단계는 이제 영상 원본이 아니라 frames/ 아래 JPG들 + frames.json만 읽으면 됩니다.
+
+* GPU 노드는 무거운 영상 디코딩을 할 필요가 없음 (Graviton이 이미 처리)
+* 프레임이 이미 448x448·16장으로 고정 → 토큰 수가 예측 가능 → 배치 사이징 안정
+* 프롬프트만 튜닝할 때 프레임은 캐시 재사용 (재샘플링 불필요)
 
