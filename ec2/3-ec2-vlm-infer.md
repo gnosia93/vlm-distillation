@@ -3,9 +3,8 @@
 #### 1) 환경설정 ####
 ```
 export REGION=ap-northeast-2
-export KEY_NAME=my-key                 # 기존 EC2 키페어 이름
-export SG_ID=$SG_ID                    # SSH(22) 열린 보안그룹
-export SUBNET_ID=$SUBNET_ID            # GPU 용량 있는 AZ의 서브넷
+export SG_ID=$SG_ID
+export SUBNET_ID=$SUBNET_ID
 ```
 
 #### 2) GPU 드라이버 포함 AMI 조회 (SSM) ####
