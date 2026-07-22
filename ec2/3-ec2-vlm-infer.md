@@ -23,59 +23,6 @@ echo $AMI_ID
 ```
 
 
-#### 4) 인스턴스 프로파일 생성 ####
-```
-cat > trust-policy.json <<'EOF'
-{
-  "Version": "2012-10-17",
-  "Statement": [{
-    "Effect": "Allow",
-    "Principal": { "Service": "ec2.amazonaws.com" },
-    "Action": "sts:AssumeRole"
-  }]
-}
-EOF
-
-aws iam create-role \
-  --role-name vlm-ec2-role \
-  --assume-role-policy-document file://trust-policy.json
-
-cat > s3-policy.json <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Action": ["s3:ListBucket"],
-      "Resource": "arn:aws:s3:::${BUCKET}"
-    },
-    {
-      "Effect": "Allow",
-      "Action": ["s3:GetObject", "s3:PutObject"],
-      "Resource": "arn:aws:s3:::${BUCKET}/*"
-    }
-  ]
-}
-EOF
-
-aws iam put-role-policy \
-  --role-name vlm-ec2-role \
-  --policy-name vlm-s3-access \
-  --policy-document file://s3-policy.json
-
-aws iam create-instance-profile \
-  --instance-profile-name vlm-ec2-profile
-
-aws iam add-role-to-instance-profile \
-  --instance-profile-name vlm-ec2-profile \
-  --role-name vlm-ec2-role
-```
-ssh 대신 system manager 로 접속하기 위해서 AmazonSSMManagedInstanceCore 정책을 추가한다.  
-```
-aws iam attach-role-policy \
-  --role-name vlm-ec2-role \
-  --policy-arn arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore
-```
 
 
 #### 5) 인스턴스 생성 ####
