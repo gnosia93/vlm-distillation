@@ -51,7 +51,7 @@ aws ec2 run-instances \
   --block-device-mappings '[{"DeviceName":"/dev/sda1","Ebs":{"VolumeSize":600,"VolumeType":"gp3","Throughput":500,"Iops":6000,"DeleteOnTermination":true}}]' \
   --iam-instance-profile Name=vlm-ec2-profile \
   --instance-initiated-shutdown-behavior terminate \
-  --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=internvl3-infer}]' \
+  --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=data-preprocessing}]' \
   --count 1
 ```
 
