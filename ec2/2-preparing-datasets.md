@@ -140,3 +140,16 @@ s3://<BUCKET>/finevideo/
 * 비용: EC2와 S3 버킷을 같은 리전에 두면 업로드 전송료가 없어요.
 
 원하시면 이 스크립트를 워크스페이스에 파일로 만들어 드리거나, 재개(resume) 로직·병렬 처리까지 넣은 버전으로 확장해 드릴게요. 그리고 2단계에서 실제 JSON 구조를 확인한 결과를 알려주시면 get_category()를 정확한 필드로 맞춰드릴게요. 대상 카테고리가 정해져 있으면 그것도 반영할게요.
+
+
+## 모델 가중치 S3 저장하기 ##
+
+```
+export HF_TOKEN=hf_xxx
+export HF_HUB_ENABLE_HF_TRANSFER=1
+
+huggingface-cli download OpenGVLab/InternVL3-78B \
+  --local-dir /mnt/data/internvl3-78b
+
+aws s3 sync /mnt/data/internvl3-78b/ s3://${BUCKET}/models/internvl3-78b/
+```
