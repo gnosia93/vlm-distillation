@@ -122,14 +122,16 @@ brew install --cask session-manager-plugin
 인스턴스 정보를 조회한다. 
 ```
 INSTANCE=$(aws ssm describe-instance-information \
-  --query "InstanceInformationList[].InstanceId" --region $REGION)
-
+  --query "InstanceInformationList[].InstanceId" --region $REGION --output text)
 echo "INSTANCE: $INSTANCE"
+
 aws ssm start-session --target $INSTANCE --region $REGION
 
-
-nvidia-smi          # RTX PRO 6000 4장이 보이면 정상
+sudo su ubuntu
+nvidia-smi
 ```
+[결과]
+
 
 
 ### 2.소스 다운로드 ###
