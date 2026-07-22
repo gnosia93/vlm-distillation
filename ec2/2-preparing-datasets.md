@@ -85,16 +85,18 @@ export HF_TOKEN=hf_xxxxxxxxxxxx
 export HF_HUB_ENABLE_HF_TRANSFER=1
 ```
 
-### 2. 카테고리 필드 먼저 확인 ###
+### 3. 카테고리 필드 먼저 확인 ###
 스크립트 짜기 전에 JSON 구조를 확인한다.
 ```
+python3 -c "
 from datasets import load_dataset
-
-ds = load_dataset("HuggingFaceFV/finevideo", split="train", streaming=True)
-sample = next(iter(ds))
-print(sample.keys())            # 보통 dict_keys(['mp4', 'json'])
 import json
-print(json.dumps(sample["json"], indent=2, ensure_ascii=False)[:3000])
+
+ds = load_dataset('HuggingFaceFV/finevideo', split='train', streaming=True)
+sample = next(iter(ds))
+print(sample.keys())
+print(json.dumps(sample['json'], indent=2, ensure_ascii=False)[:3000])
+"
 ```
 여기서 카테고리가 어디에 들어있는지 확인하고(예: sample["json"]["content_metadata"]["content_parent_category"]),
 아래 스크립트의 get_category()를 맞춰준다.
