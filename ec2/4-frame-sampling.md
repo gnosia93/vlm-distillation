@@ -100,4 +100,7 @@ aws s3 cp "${WORK}/frames/" "s3://${BUCKET}/${PREFIX}/frames/" --recursive
 # 4) 정리
 rm -rf "${WORK}"
 ```
+> [! INFORMATION]
+> EKS에서는 이 스크립트를 컨테이너로 감싸 Graviton 노드풀의 K8s Job으로 돌리고, manifest.jsonl의 각 줄(video_id)을 여러 Job에 나눠 병렬 처리하면 됩니다.
+
 
