@@ -114,65 +114,8 @@ python3 inspect_pl.py
 ### 5. 다운로드 및 S3 적재 ###
 스트리밍하면서 대상 카테고리만 골라 로컬에 임시 저장후 S3 로 업로드 한다.
 ```
-import io
-import os
-import json
-import boto3
-from datasets import load_dataset
+export BUCKET=vlm-data-${ACCOUNT_ID}-${REGION}
 
-BUCKET = os.environ["BUCKET"]
-PREFIX = "finevideo"                       # S3 최상위 경로
-TARGET_CATEGORIES = {"Sports", "Cooking"}  # 원하는 카테고리로 교체
-MAX_PER_CATEGORY = 500                     # 카테고리당 상한 (None이면 무제한)
-
-s3 = boto3.client("s3")
-
-def get_category(meta: dict) -> str | None:
-    # 2단계에서 확인한 실제 경로로 맞추세요
-    cm = meta.get("content_metadata", {})
-    return cm.get("content_parent_category") or meta.get("categories")
-
-def s3_put_bytes(key: str, data: bytes):
-    s3.upload_fileobj(io.BytesIO(data), BUCKET, key)
-
-def main():
-    ds = load_dataset("HuggingFaceFV/finevideo", split="train", streaming=True)
-    counts = {c: 0 for c in TARGET_CATEGORIES}
-
-    for i, sample in enumerate(ds):
-        meta = sample["json"]
-        cat = get_category(meta)
-        if cat not in TARGET_CATEGORIES:
-            continue
-        if MAX_PER_CATEGORY and counts[cat] >= MAX_PER_CATEGORY:
-            if all(counts[c] >= MAX_PER_CATEGORY for c in TARGET_CATEGORIES):
-                break
-            continue
-
-        # 안정적인 식별자 (youtube id 있으면 그걸 사용)
-        vid = meta.get("youtube_id") or meta.get("id") or f"idx_{i:06d}"
-        safe_cat = cat.replace(" ", "_").lower()
-
-        # mp4 bytes 추출 (datasets 버전에 따라 형태가 다를 수 있음)
-        mp4 = sample["mp4"]
-        video_bytes = mp4 if isinstance(mp4, (bytes, bytearray)) else open(mp4, "rb").read()
-
-        base = f"{PREFIX}/{safe_cat}/{vid}"
-        s3_put_bytes(f"{base}/video.mp4", video_bytes)
-        s3_put_bytes(f"{base}/metadata.json",
-                     json.dumps(meta, ensure_ascii=False).encode("utf-8"))
-
-        counts[cat] += 1
-        print(f"[{sum(counts.values())}] {cat} -> {base}")
-
-    # 매니페스트(색인) 저장
-    manifest = {"categories": counts, "prefix": PREFIX, "target": list(TARGET_CATEGORIES)}
-    s3_put_bytes(f"{PREFIX}/manifest.json",
-                 json.dumps(manifest, indent=2, ensure_ascii=False).encode("utf-8"))
-    print("done:", counts)
-
-if __name__ == "__main__":
-    main()
 ```
 
 아래 명령어로 실행한다. 
