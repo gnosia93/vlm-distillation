@@ -130,12 +130,6 @@ python3 prepare_finevideo.py
 # Ctrl+b, d 로 detach → 나중에 tmux attach -t ingest 로 재확인
 ```
 
-아래 명령어로 실행한다. 
-```
-export BUCKET=your-bucket-name
-python3 prepare_finevideo.py
-```
-
 ### 6. S3 데이터 레이아웃 ###
 파이프라인 후속 단계(추론/파인튜닝)가 쉽게 참조하도록 카테고리별로 나눠 준다.
 ```
