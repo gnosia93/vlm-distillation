@@ -71,5 +71,33 @@ s3://$BUCKET/finevideo/sports/G_VTkkb34gw/
 * sampling_config_hash를 넣어두면, 앞서 얘기한 캐싱/멱등성에 활용됩니다. 샘플링 설정이 바뀌면 해시가 달라져 재샘플링, 그대로면 스킵.
 
 
+### 샘플링 스크립트 ###
+```
+#!/usr/bin/env bash
+set -euo pipefail
 
+BUCKET="vlm-data-499514681453-ap-northeast-2"
+VIDEO_ID="$1"
+PREFIX="finevideo/sports/${VIDEO_ID}"
+N_FRAMES=16
+WORK=$(mktemp -d)
+
+# 1) 원본 영상 다운로드
+aws s3 cp "s3://${BUCKET}/${PREFIX}/video.mp4" "${WORK}/video.mp4"
+
+# 2) 균일 샘플링
+DURATION=$(ffprobe -v error -show_entries format=duration -of csv=p=0 "${WORK}/video.mp4")
+FPS=$(echo "scale=6; ${N_FRAMES} / ${DURATION}" | bc)
+mkdir -p "${WORK}/frames"
+ffmpeg -y -i "${WORK}/video.mp4" \
+  -vf "fps=${FPS},scale=448:448:force_original_aspect_ratio=decrease,pad=448:448:(ow-iw)/2:(oh-ih)/2" \
+  -frames:v ${N_FRAMES} -q:v 2 \
+  "${WORK}/frames/frame_%03d.jpg"
+
+# 3) 결과를 S3에 업로드
+aws s3 cp "${WORK}/frames/" "s3://${BUCKET}/${PREFIX}/frames/" --recursive
+
+# 4) 정리
+rm -rf "${WORK}"
+```
 
