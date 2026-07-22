@@ -296,3 +296,17 @@ aws s3 cp s3://my-vlm-data-bucket/output/run-2026-07-22/train.jsonl - | wc -l
 kubectl -n vlm-batch delete job vlm-batch-infer
 kubectl apply -f k8s/job.yaml
 ```
+
+## 적업 merge ##
+```
+pip install boto3
+
+export S3_BUCKET=my-vlm-data-bucket
+export AWS_REGION=ap-northeast-2
+export OUTPUT_PREFIX=output/run-2026-07-22/
+# AWS 자격증명 (aws configure 했거나 환경변수로)
+# export AWS_ACCESS_KEY_ID=...  AWS_SECRET_ACCESS_KEY=...
+
+python job_merge.py
+```
+
