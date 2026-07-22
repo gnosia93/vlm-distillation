@@ -175,7 +175,7 @@ aws s3 ls $BUCKET/finevideo/sports/
 2026-07-23 01:19:20         98 manifest.json
 2026-07-23 01:19:20       9174 manifest.jsonl
 ```
-menifest를 조회한다. 
+전반적인 정보를 저장하고 있는 menifest를 조회한다. 
 ```
 aws s3 cp s3://$BUCKET/finevideo/sports/manifest.json - | jq .
 ```
@@ -188,6 +188,41 @@ aws s3 cp s3://$BUCKET/finevideo/sports/manifest.json - | jq .
   "n_shards": 10
 }
 ```
+영상에 대한 상세 정보를 가지고 있는 manifest.jsonl 을 조회한다.
+```
+aws s3 cp s3://$BUCKET/finevideo/sports/manifest.jsonl - | jq .
+```
+[결과]
+```
+{
+  "video_id": "G_VTkkb34gw",
+  "category": "Sports",
+  "fine_category": "Career Highlights",
+  "video_key": "finevideo/sports/G_VTkkb34gw/video.mp4",
+  "metadata_key": "finevideo/sports/G_VTkkb34gw/metadata.json",
+  "channel": "QueenslandPolice",
+  "title": "Life at the Academy - Queensland Police Service",
+  "upload_date": "20230921",
+  "duration": 268,
+  "resolution": "640x360"
+}
+{
+  "video_id": "1TtcXC_u4r4",
+  "category": "Sports",
+  "fine_category": "Career Highlights",
+  "video_key": "finevideo/sports/1TtcXC_u4r4/video.mp4",
+  "metadata_key": "finevideo/sports/1TtcXC_u4r4/metadata.json",
+  "channel": "Interserve Learning & Employment",
+  "title": "Kerry Mills | Trainer Assessor",
+  "upload_date": "20170223",
+  "duration": 251,
+  "resolution": "640x360"
+}
+{
+  "video_id": "LttCU4RK-Zc",
+  "category": "Sports",
+```
+
 
 ## 모델 가중치 S3 저장하기 ##
 
