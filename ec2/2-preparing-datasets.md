@@ -205,6 +205,12 @@ sudo chown ubuntu:ubuntu /mnt/data
 
 hf download OpenGVLab/InternVL3-78B --local-dir /mnt/data/internvl3-78b
 
+sudo apt update && sudo apt install -y unzip
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+sudo ./aws/install
+aws --version
+
 echo "model weight loading in $BUCKET"
 aws s3 sync /mnt/data/internvl3-78b/ s3://${BUCKET}/models/internvl3-78b/
 ```
