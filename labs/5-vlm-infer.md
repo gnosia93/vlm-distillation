@@ -203,4 +203,12 @@ kubectl -n vlm-batch logs <pod-name> -c worker -f
 [worker] 진행 48/12345 (2.15 rec/s) → s3 주기 업로드
 [worker] 진행 96/12345 ...
 ```
+* 중간 산출물(S3) 확인
+```
+aws s3 ls s3://my-vlm-data-bucket/output/run-2026-07-22/shards/
+# shard-00000.jsonl, shard-00001.jsonl
+
+# 샘플 몇 줄만 미리보기
+aws s3 cp s3://my-vlm-data-bucket/output/run-2026-07-22/shards/shard-00000.jsonl - | head -n 3
+```
 
