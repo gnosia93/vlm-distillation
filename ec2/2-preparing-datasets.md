@@ -9,7 +9,12 @@
 > [!IMPORTANT]
 > CC 라이선스 영상이라 재배포/저장 시 원본 라이선스와 저작자 표시(attribution) 조건을 지켜야 하는데, JSON의 provenance 필드를 함께 S3에 저장해두면 나중에 출처 추적이 된다.
 
-### 1. EC2 생성하기 ###
+### 1. hf 토큰 발급 ###
+
+
+
+
+### 2. EC2 생성하기 ###
 
 ```
 export REGION=ap-northeast-2
@@ -55,7 +60,7 @@ aws ec2 run-instances \
   --count 1
 ```
 
-### 2. 인스턴스 접속하기 ####
+### 3. 인스턴스 접속하기 ####
 system manager 를 이용하여 인스턴스에 접속 한다. 클라이이언트가 맥 os 인 경우 플러그인을 설치가 필요하다. 
 ```
 brew install --cask session-manager-plugin
@@ -85,7 +90,7 @@ export HF_TOKEN=hf_xxxxxxxxxxxx
 export HF_HUB_ENABLE_HF_TRANSFER=1
 ```
 
-### 3. 카테고리 필드 먼저 확인 ###
+### 4. 카테고리 필드 먼저 확인 ###
 스크립트 짜기 전에 JSON 구조를 확인한다.
 ```
 python3 -c "
@@ -101,7 +106,7 @@ print(json.dumps(sample['json'], indent=2, ensure_ascii=False)[:3000])
 여기서 카테고리가 어디에 들어있는지 확인하고(예: sample["json"]["content_metadata"]["content_parent_category"]),
 아래 스크립트의 get_category()를 맞춰준다.
 
-### 3. 다운로드 및 S3 적재 ###
+### 5. 다운로드 및 S3 적재 ###
 스트리밍하면서 대상 카테고리만 골라 로컬에 임시 저장후 S3 로 업로드 한다.
 ```
 import io
@@ -171,7 +176,7 @@ export BUCKET=your-bucket-name
 python3 prepare_finevideo.py
 ```
 
-### 4. S3 데이터 레이아웃 ###
+### 6. S3 데이터 레이아웃 ###
 파이프라인 후속 단계(추론/파인튜닝)가 쉽게 참조하도록 카테고리별로 나눠 준다.
 ```
 s3://<BUCKET>/finevideo/
