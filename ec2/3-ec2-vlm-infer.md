@@ -280,20 +280,6 @@ drwxrwxrwt 4 root   root   4096 Jul 22 09:59 ..
 drwxr-xr-x 4 root   root   4096 Jul 22 10:06 hub
 drwxr-xr-x 2 root   root   4096 Jul 22 10:06 modules
 ```
-* 경로 구조
-```
-/opt/dlami/nvme/hf-cache/
-├── hub/
-│   └── models--OpenGVLab--InternVL3-78B/
-│       ├── blobs/          ← 실제 파일 내용 (해시 이름의 대용량 파일들)
-│       ├── snapshots/
-│       │   └── <commit-hash>/
-│       │       ├── *.safetensors   ← 가중치 (blobs로의 심볼릭 링크)
-│       │       ├── config.json
-│       │       └── ...
-│       └── refs/
-└── modules/               ← trust_remote_code로 받은 커스텀 모델 코드
-```
 
 * 실제 가중치 파일 위치
 ```
@@ -352,3 +338,26 @@ lrwxrwxrwx 1 root root   52 Jul 22 10:06 vocab.json -> ../../blobs/6bce3a0a3866c
 ```
 find /opt/dlami/nvme/hf-cache/hub -name "*.safetensors" | wc -l
 ```
+
+### S3 업로드 ###
+
+모델 정보를 저장하는 hf-cache 디렉토리 구조는 아래와 같다.
+```
+/opt/dlami/nvme/hf-cache/
+├── hub/
+│   └── models--OpenGVLab--InternVL3-78B/
+│       ├── blobs/          ← 실제 파일 내용 (해시 이름의 대용량 파일들)
+│       ├── snapshots/
+│       │   └── <commit-hash>/
+│       │       ├── *.safetensors   ← 가중치 (blobs로의 심볼릭 링크)
+│       │       ├── config.json
+│       │       └── ...
+│       └── refs/
+└── modules/               ← trust_remote_code로 받은 커스텀 모델 코드
+```
+
+앞에서 얘기한 S3 백업은 hub/ 통째로 올리면 된다. 심볼릭 링크 구조까지 유지하려면 aws s3 sync가 링크를 따라가서 실제 내용을 올려준다.
+```
+aws s3 sync /opt/dlami/nvme/hf-cache/ s3://${BUCKET}/hf-cache/
+```
+다음에 복원하면 같은 hub/ 구조로 내려받아지고, HF_HOME이나 캐시 마운트만 맞으면 vLLM이 재다운로드 없이 바로 인식한다.
