@@ -114,8 +114,15 @@ python3 inspect_pl.py
 ### 5. 다운로드 및 S3 적재 ###
 스트리밍하면서 대상 카테고리만 골라 로컬에 임시 저장후 S3 로 업로드 한다.
 ```
+TOKEN=$(curl -sX PUT "http://169.254.169.254/latest/api/token" -H "X-aws-ec2-metadata-token-ttl-seconds: 21600")
+REGION=$(curl -s -H "X-aws-ec2-metadata-token: $TOKEN" http://169.254.169.254/latest/meta-data/placement/region)
+MAC=$(curl -s -H "X-aws-ec2-metadata-token: $TOKEN" http://169.254.169.254/latest/meta-data/mac)
+ACCOUNT_ID=$(curl -s -H "X-aws-ec2-metadata-token: $TOKEN" \
+  http://169.254.169.254/latest/meta-data/network/interfaces/macs/${MAC}/owner-id)
+
+export ACCOUNT_ID REGION
 export BUCKET=vlm-data-${ACCOUNT_ID}-${REGION}
-export REGION=ap-northeast-2      # 버킷/인스턴스 리전에 맞게
+echo "BUCKET: $BUCKET"
 
 # 오래 걸리니 tmux 안에서 (SSM 세션 끊겨도 계속 돌게)
 tmux new -s ingest
