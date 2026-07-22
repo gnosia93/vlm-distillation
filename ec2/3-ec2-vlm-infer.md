@@ -270,4 +270,13 @@ INFO 07-22 04:20:44 multiproc_worker_utils.py:140] Terminating local vLLM worker
 > -e HF_TOKEN=hf_xxxxxxxxxxxx
 > ```
 
-## 모델 가중치 S3 업로드 하기 ##
+## 가중치 S3 업로드 하기 ##
+```
+$ cd /opt/dlami/nvme/hf-cache
+ubuntu@ip-10-0-1-41:/opt/dlami/nvme/hf-cache$ ls -la
+total 16
+drwxr-xr-x 4 ubuntu ubuntu 4096 Jul 22 10:06 .
+drwxrwxrwt 4 root   root   4096 Jul 22 09:59 ..
+drwxr-xr-x 4 root   root   4096 Jul 22 10:06 hub
+drwxr-xr-x 2 root   root   4096 Jul 22 10:06 modules
+```
