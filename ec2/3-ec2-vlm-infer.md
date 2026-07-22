@@ -56,12 +56,12 @@ cat > s3-policy.json <<'EOF'
     {
       "Effect": "Allow",
       "Action": ["s3:ListBucket"],
-      "Resource": "arn:aws:s3:::my-vlm-data-bucket"
+      "Resource": "arn:aws:s3:::$BUCKET"
     },
     {
       "Effect": "Allow",
       "Action": ["s3:GetObject", "s3:PutObject"],
-      "Resource": "arn:aws:s3:::my-vlm-data-bucket/*"
+      "Resource": "arn:aws:s3:::$BUCKET/*"
     }
   ]
 }
