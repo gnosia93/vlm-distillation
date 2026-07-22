@@ -55,6 +55,24 @@ aws ec2 run-instances \
   --count 1
 ```
 
+### 2. 인스턴스 접속하기 ####
+system manager 를 이용하여 인스턴스에 접속 한다. 클라이이언트가 맥 os 인 경우 플러그인을 설치가 필요하다. 
+```
+brew install --cask session-manager-plugin
+```
+
+접속할 인스턴스를 조회하고, system manager 를 이용하여 로그인한다.  
+```
+INSTANCE=$(aws ssm describe-instance-information \
+  --query "InstanceInformationList[].InstanceId" --region $REGION --output text)
+echo "INSTANCE: $INSTANCE"
+
+aws ssm start-session --target $INSTANCE --region $REGION
+
+sudo su ubuntu
+```
+
+
 인스턴스로 접속한 후 ffmpeg 및 hf 패키지를 설치한다. 
 ```
 sudo apt-get update && sudo apt-get install -y python3-pip ffmpeg
