@@ -72,7 +72,7 @@ NVIDIA L40S
 ```
 
 ### 3.소스 다운로드 ###
-인스턴스 접속에 인퍼런스용으로 사용할 어플리케이션을 다운로드 받는다. 
+인퍼런스용으로 사용할 어플리케이션을 다운로드 받는다. 
 ```
 git clone https://github.com/gnosia93/vlm-on-eks.git
 cd vlm-on-eks/src
