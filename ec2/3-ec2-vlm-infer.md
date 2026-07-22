@@ -20,7 +20,7 @@ aws s3api create-bucket \
   --create-bucket-configuration LocationConstraint=$REGION
 ```
 
-#### 2) GPU 드라이버 포함 AMI 조회 (SSM) ####
+#### 3) GPU 드라이버 포함 AMI 조회 (SSM) ####
 NVIDIA 드라이버 + Docker가 들어간 Deep Learning Base GPU AMI(Ubuntu 22.04)를 조회한다.
 ```
 AMI_ID=$(aws ssm get-parameter \
@@ -32,7 +32,7 @@ echo $AMI_ID
 ```
 
 
-#### 3) 인스턴스 프로파일 생성 ####
+#### 4) 인스턴스 프로파일 생성 ####
 ```
 cat > trust-policy.json <<'EOF'
 {
@@ -74,8 +74,7 @@ aws iam put-role-policy \
 ```
 
 
-
-#### 4) 인스턴스 생성 ####
+#### 5) 인스턴스 생성 ####
 ```
 aws ec2 run-instances \
   --region $REGION \
@@ -94,14 +93,14 @@ aws ec2 run-instances \
 * 용량 부족(InsufficientInstanceCapacity): 최신 GPU라 AZ에 물량이 없을 수 있다. 이럴 땐 AZ를 바꾸거나, 온디맨드 용량 예약(ODCR)을 잡고 띄우는 게 확실하다.
 
 
-#### 5) 퍼블릭 IP 확인 ####
+#### 6) 퍼블릭 IP 확인 ####
 ```
 aws ec2 describe-instances --region $REGION \
   --filters "Name=tag:Name,Values=internvl3-infer" "Name=instance-state-name,Values=running" \
   --query 'Reservations[].Instances[].PublicIpAddress' --output text
 ```
 
-#### 6) SSH 접속 후 GPU 4장 확인 ####
+#### 7) SSH 접속 후 GPU 4장 확인 ####
 ```
 ssh -i my-key.pem ubuntu@<PUBLIC_IP>
 nvidia-smi          # RTX PRO 6000 4장이 보이면 정상
