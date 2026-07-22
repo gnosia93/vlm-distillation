@@ -5,6 +5,7 @@
 export REGION=ap-northeast-2
 export SG_ID=$SG_ID
 export SUBNET_ID=$SUBNET_ID
+export INSTANCE_TYPE="g6e.48xlarge"
 ```
 
 #### 2) GPU 드라이버 포함 AMI 조회 (SSM) ####
