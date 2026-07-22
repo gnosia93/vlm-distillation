@@ -98,15 +98,36 @@ export HF_XET_HIGH_PERFORMANCE=1
 https://huggingface.co/datasets/HuggingFaceFV/finevideo 이동하여 Gate Model 에 대한 License 에 동의 한 후, 
 아래 파이썬 스크립트를 이용하여 JSON 구조를 확인한다. 
 ```
-python3 -c "
-from datasets import load_dataset
-import json
+pip install -U --user datasets pyarrow huggingface_hub
 
-ds = load_dataset('HuggingFaceFV/finevideo', split='train', streaming=True)
-sample = next(iter(ds))
-print(sample.keys())
-print(json.dumps(sample['json'], indent=2, ensure_ascii=False)[:3000])
-"
+cat > inspect_finevideo.py <<'EOF'
+from huggingface_hub import hf_hub_download
+import pyarrow.parquet as pq
+
+# 샤드 1개만 다운로드
+path = hf_hub_download(
+    repo_id="HuggingFaceFV/finevideo",
+    filename="data/train-00000-of-01357.parquet",
+    repo_type="dataset",
+)
+print("downloaded:", path)
+
+pf = pq.ParquetFile(path)
+print("=== schema ===")
+print(pf.schema_arrow)
+
+# 첫 배치에서 영상 바이트 뺀 나머지 컬럼만 미리보기
+cols = [f.name for f in pf.schema_arrow if "mp4" not in f.name.lower()
+        and "video" not in f.name.lower()]
+print("=== preview columns ===", cols)
+
+batch = next(pf.iter_batches(batch_size=1, columns=cols))
+row = batch.to_pylist()[0]
+import json
+print(json.dumps(row, indent=2, ensure_ascii=False, default=str)[:3000])
+EOF
+
+python3 inspect_finevideo.py
 ```
 여기서 카테고리가 어디에 들어있는지 확인하고(예: sample["json"]["content_metadata"]["content_parent_category"]),
 아래 스크립트의 get_category()를 맞춰준다.
