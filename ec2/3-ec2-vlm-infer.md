@@ -50,7 +50,7 @@ aws iam create-role \
   --role-name vlm-ec2-role \
   --assume-role-policy-document file://trust-policy.json
 
-cat > s3-policy.json <<'EOF'
+cat > s3-policy.json <<EOF
 {
   "Version": "2012-10-17",
   "Statement": [
