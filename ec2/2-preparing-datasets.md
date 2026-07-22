@@ -7,7 +7,7 @@
 * 게이트 데이터셋으로, HF 페이지에서 라이선스(CC) 동의를 먼저 해야 하고, 다운로드 시 HF_TOKEN이 필요하다.
 
 > [!IMPORTANT]
-> CC 라이선스 영상이라 재배포/저장 시 원본 라이선스와 저작자 표시(attribution) 조건을 지켜야 하는데, JSON의 provenance 필드를 함께 S3에 저장해두면 나중에 출처 추적이 된다.
+> CC 라이선스 영상이라 재배포/저장 시 원본 라이선스와 저작자 표시(attribution) 조건을 지켜야 하는데, JSON 과 함께 mp4 를 S3에 저장해 두면 된다. JSON 파일에 provenance 필드가 있음.
 
 ### 1. hf 토큰 발급 ###
 * https://huggingface.co/ 이동하여 회원 가입 후, 
