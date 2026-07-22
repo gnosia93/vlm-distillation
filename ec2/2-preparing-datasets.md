@@ -8,3 +8,10 @@
 
 > [!IMPORTANT]
 > CC 라이선스 영상이라 재배포/저장 시 원본 라이선스와 저작자 표시(attribution) 조건을 지켜야 하는데, JSON의 provenance 필드를 함께 S3에 저장해두면 나중에 출처 추적이 된다.
+
+### EC2 생성하기 ###
+
+데이터 준비 단계에서는 네트워크 대역폭과 디스크 성능이 좋은 CPU 인스턴스가 필요하다.
+* 인스턴스: m7i.4xlarge 또는 c7i.4xlarge 정도 (네트워크 좋고 vCPU 넉넉). 대량이면 network-optimized(m7in)도 고려.
+* 스토리지: 임시 스크래치용 로컬 NVMe 있는 타입이면 좋고, 없으면 EBS gp3 500GB~1TB.
+* S3 버킷으로 다운로드 받은 파일을 업로드하므로 S3 쓰기 권한(vlm-s3-access) 이 필요하다.
