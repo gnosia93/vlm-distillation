@@ -21,7 +21,7 @@ aws ec2 modify-vpc-attribute --region $REGION --vpc-id $VPC_ID --enable-dns-supp
 aws ec2 modify-vpc-attribute --region $REGION --vpc-id $VPC_ID --enable-dns-hostnames
 ```
 
-#### 3. 인터넷 게이트웨이 생성 및 연결 #### 
+#### 3. 인터넷 게이트웨이 생성 #### 
 ```
 IGW_ID=$(aws ec2 create-internet-gateway \
   --region $REGION \
