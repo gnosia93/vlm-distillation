@@ -128,10 +128,19 @@ echo "INSTANCE: $INSTANCE"
 aws ssm start-session --target $INSTANCE --region $REGION
 
 sudo su ubuntu
-nvidia-smi
+nvidia-smi --query-gpu=name --format=csv,noheader
 ```
 [결과]
-
+```
+NVIDIA L40S
+NVIDIA L40S
+NVIDIA L40S
+NVIDIA L40S
+NVIDIA L40S
+NVIDIA L40S
+NVIDIA L40S
+NVIDIA L40S
+```
 
 
 ### 2.소스 다운로드 ###
