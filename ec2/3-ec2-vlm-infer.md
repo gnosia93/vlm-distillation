@@ -114,8 +114,14 @@ aws ec2 describe-instances --region $REGION \
 ```
 
 #### 7) SSH 접속 후 GPU 4장 확인 ####
+맥 os 인 경우 아래 플러그인을 설치한다. 
 ```
-ssh -i my-key.pem ubuntu@<PUBLIC_IP>
+brew install --cask session-manager-plugin
+```
+
+```
+aws ssm describe-instance-information --query "InstanceInformationList[].InstanceId"
+
 nvidia-smi          # RTX PRO 6000 4장이 보이면 정상
 ```
 
