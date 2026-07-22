@@ -142,7 +142,7 @@ aws s3 cp "s3://${BUCKET}/finevideo/sports/manifest.jsonl" - \
 > awk 'NR % n == k'가 핵심으로, 전체 줄 중 "줄번호를 shard 수로 나눈 나머지가 내 인덱스인 것"만 골라서, Pod마다 겹치지 않게 나눠 처리합니다.
 > ```
 
-### 4. InternVL3-78B 와의 연결 ####
+### 3. InternVL3-78B 와의 연결 ####
 인퍼런스 단계는 이제 영상 원본이 아니라 frames/ 아래 JPG들 + frames.json만 읽으면 됩니다.
 
 * GPU 노드는 무거운 영상 디코딩을 할 필요가 없음 (Graviton이 이미 처리)
