@@ -1,7 +1,7 @@
 ## 인퍼런스 하기 ##
 
-### 1. GPU 인스턴스 생성 ###
-
+### 1. GPU 인스턴스 생성하기 ###
+인스턴스에 필요한 정보를 설정한다.  
 ```
 export ACCOUNT_ID=$(aws sts get-caller-identity --query 'Account' --output text)
 export REGION=ap-northeast-2
@@ -9,23 +9,16 @@ export SG_ID=$SG_ID
 export SUBNET_ID=$SUBNET_ID
 export INSTANCE_TYPE=g6e.48xlarge
 ```
-가급적 g7e.24xlarge 인스턴스를 생성한다. 유효 수량이 없는 경우 g7e.48xlarge 또는 g6e.48xlarge 를 선택한다.
 
-#### 1) GPU 드라이버 포함 AMI 조회 (SSM) ####
 NVIDIA 드라이버 + Docker가 들어간 Deep Learning Base GPU AMI(Ubuntu 22.04)를 조회한다.
 ```
 AMI_ID=$(aws ssm get-parameter \
   --region $REGION \
   --name /aws/service/deeplearning/ami/x86_64/base-oss-nvidia-driver-gpu-ubuntu-22.04/latest/ami-id \
   --query 'Parameter.Value' --output text)
-
 echo $AMI_ID
 ```
-
-
-
-
-#### 5) 인스턴스 생성 ####
+인스턴스를 생성한다.
 ```
 aws ec2 run-instances \
   --region $REGION \
@@ -39,24 +32,23 @@ aws ec2 run-instances \
   --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=internvl3-infer}]' \
   --count 1
 ```
-* CPU 쿼터: g7e.24xlarge는 vCPU가 많아서(약 96개), 계정의 "Running On-Demand G instances" 쿼터가 부족하면 생성이 막힐수 있다. 처음 쓰는 계정이면 Service Quotas에서 상향 요청이 필요할 수 있다.
-* 용량 부족(InsufficientInstanceCapacity): 최신 GPU라 AZ에 물량이 없을 수 있다. 이럴 땐 AZ를 바꾸거나, 온디맨드 용량 예약(ODCR)을 잡고 띄우는 게 확실하다.
+* CPU 쿼터: 계정의 "Running On-Demand G instances" 쿼터가 부족하면 생성이 실패할 수 있으니, Service Quotas 를 확인한다. 
+* 용량 부족(InsufficientInstanceCapacity): 최신 GPU 인스턴스의 경우 AZ에 물량이 없을 수 있다. 이럴 땐 AZ를 바꾸거나 온디맨드 용량 예약(ODCR)을 활용한다.
 
-
-#### 6) 퍼블릭 IP 확인 ####
+생성된 인스턴스의 퍼블릭 IP 를 확인한다. 
 ```
 aws ec2 describe-instances --region $REGION \
   --filters "Name=tag:Name,Values=internvl3-infer" "Name=instance-state-name,Values=running" \
   --query 'Reservations[].Instances[].PublicIpAddress' --output text
 ```
 
-#### 7) SSH 접속 후 GPU 4장 확인 ####
-맥 os 인 경우 아래 플러그인을 설치한다. 
+### 2. 인스턴스 접속하기 ####
+system manager 를 이용하여 인스턴스에 접속 한다. 클라이이언트가 맥 os 인 경우 플러그인을 설치가 필요하다. 
 ```
 brew install --cask session-manager-plugin
 ```
 
-인스턴스 정보를 조회한다. 
+접속할 인스턴스를 조회하고, system manager 를 이용하여 로그인한다.  
 ```
 INSTANCE=$(aws ssm describe-instance-information \
   --query "InstanceInformationList[].InstanceId" --region $REGION --output text)
@@ -79,17 +71,14 @@ NVIDIA L40S
 NVIDIA L40S
 ```
 
-
-### 2.소스 다운로드 ###
-
+### 3.소스 다운로드 ###
+인스턴스 접속에 인퍼런스용으로 사용할 어플리케이션을 다운로드 받는다. 
 ```
 git clone https://github.com/gnosia93/vlm-on-eks.git
 cd vlm-on-eks/src
 ```
 
-
-
-### 3. 실행하기 ###
+### 4. docker 이미지 실행하기 ###
 nvlme 인스턴스 스토어 정보를 확인한다.
 ```
 ls -ld /opt/dlami/nvme
@@ -205,6 +194,16 @@ INFO 07-22 04:20:44 multiproc_worker_utils.py:140] Terminating local vLLM worker
 > -e HF_TOKEN=hf_xxxxxxxxxxxx
 > ```
 
+
+## 인스턴스 삭제 ##
+```
+aws ec2 terminate-instances --instance-ids $INSTANCE --region $REGION
+```
+
+
+
+----
+
 ## 가중치 S3 업로드 하기 ##
 ```
 $ cd /opt/dlami/nvme/hf-cache
@@ -297,7 +296,4 @@ aws s3 sync /opt/dlami/nvme/hf-cache/ s3://${BUCKET}/hf-cache/
 ```
 다음에 복원하면 같은 hub/ 구조로 내려받아지고, HF_HOME이나 캐시 마운트만 맞으면 vLLM이 재다운로드 없이 바로 인식한다.
 
-## 인스턴스 삭제 ##
-```
-aws ec2 terminate-instances --instance-ids $INSTANCE --region $REGION
-```
+
