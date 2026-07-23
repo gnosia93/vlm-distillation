@@ -3,4 +3,5 @@
 * p4d.24xlarge - USD 30.41028
 * g7e.48xlarge - USD 40.74921
 * g6.48xlarge - USD 16.41595
-* g5.48xlarge = USD 20.02809
+* g5.48xlarge - USD 20.02809
+* g4dn.16xlarge - USD 4.352
