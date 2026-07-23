@@ -107,6 +107,16 @@ rm -rf "${WORK}"
 EOF
 ```
 
+버킷 환경변수를 설정합니다.
+```
+export REGION=ap-northeast-2
+export ACCOUNT_ID=$(aws sts get-caller-identity --query 'Account' --output text)
+export BUCKET=vlm-data-${ACCOUNT_ID}-${REGION}
+
+echo "\n-------------------------------------"
+echo "BUCKET: $BUCKET"
+```
+
 xargs 를 이용하여 샘플링을 병렬로 처리 합니다.
 ```
 chmod +x sample_frames.sh
