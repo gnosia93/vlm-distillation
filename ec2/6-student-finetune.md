@@ -121,6 +121,12 @@ _student가 1B라 가중치·옵티마이저는 3 GB 안쪽으로 가볍고, 진
 
 ### 훈련 스크립트 실행 ###
 
+```
+git clone https://github.com/gnosia93/vlm-on-aws.git
+cd vlm-on-aws/src
+
+python train_student.py --data data/train.jsonl --out out/student-ft --bs 4 --accum 2
+```
 
 
 
