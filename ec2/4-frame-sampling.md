@@ -115,6 +115,8 @@ export BUCKET=vlm-data-${ACCOUNT_ID}-${REGION}
 
 echo "\n-------------------------------------"
 echo "BUCKET: $BUCKET"
+
+sudo apt update && sudo apt install -y jq && jq --version
 ```
 
 xargs 를 이용하여 샘플링을 병렬로 처리 합니다.
