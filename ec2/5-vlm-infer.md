@@ -143,7 +143,82 @@ docker run --rm -it --gpus all --shm-size=16g \
    
 [결과]
 ```
-
+[로드 완료] video_id=09buIj5Z5lk, 프레임 16장, num_frames(명세)=16, hash=d587a6
+tokenizer_config.json: 7.33kB [00:00, 41.7MB/s]
+vocab.json: 3.38MB [00:00, 170MB/s]
+merges.txt: 1.67MB [00:00, 143MB/s]
+tokenizer.json: 7.03MB [00:00, 228MB/s]
+added_tokens.json: 100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 790/790 [00:00<00:00, 11.6MB/s]
+special_tokens_map.json: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 613/613 [00:00<00:00, 5.13MB/s]
+config.json: 6.35kB [00:00, 34.6MB/s]
+preprocessor_config.json: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 287/287 [00:00<00:00, 2.12MB/s]
+INFO 07-23 19:25:36 config.py:510] This model supports multiple tasks: {'classify', 'reward', 'score', 'generate', 'embed'}. Defaulting to 'generate'.
+INFO 07-23 19:25:36 config.py:1310] Defaulting to use mp for distributed inference
+INFO 07-23 19:25:36 llm_engine.py:234] Initializing an LLM engine (v0.6.6.post1) with config: model='OpenGVLab/InternVL3-78B', speculative_config=None, tokenizer='OpenGVLab/InternVL3-78B', skip_tokenizer_init=False, tokenizer_mode=auto, revision=None, override_neuron_config=None, tokenizer_revision=None, trust_remote_code=True, dtype=torch.bfloat16, max_seq_len=8192, download_dir=None, load_format=LoadFormat.AUTO, tensor_parallel_size=8, pipeline_parallel_size=1, disable_custom_all_reduce=False, quantization=None, enforce_eager=False, kv_cache_dtype=auto, quantization_param_path=None, device_config=cuda, decoding_config=DecodingConfig(guided_decoding_backend='xgrammar'), observability_config=ObservabilityConfig(otlp_traces_endpoint=None, collect_model_forward_time=False, collect_model_execute_time=False), seed=0, served_model_name=OpenGVLab/InternVL3-78B, num_scheduler_steps=1, multi_step_stream_outputs=True, enable_prefix_caching=False, chunked_prefill_enabled=False, use_async_output_proc=True, disable_mm_preprocessor_cache=False, mm_processor_kwargs=None, pooler_config=None, compilation_config={"splitting_ops":["vllm.unified_attention","vllm.unified_attention_with_output"],"candidate_compile_sizes":[],"compile_sizes":[],"capture_sizes":[256,248,240,232,224,216,208,200,192,184,176,168,160,152,144,136,128,120,112,104,96,88,80,72,64,56,48,40,32,24,16,8,4,2,1],"max_capture_size":256}, use_cached_outputs=False,
+generation_config.json: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 69.0/69.0 [00:00<00:00, 486kB/s]
+WARNING 07-23 19:25:37 multiproc_worker_utils.py:312] Reducing Torch parallelism from 96 threads to 1 to avoid unnecessary CPU contention. Set OMP_NUM_THREADS in the external environment to tune this value as needed.
+INFO 07-23 19:25:37 custom_cache_manager.py:17] Setting Triton cache manager to: vllm.triton_utils.custom_cache_manager:CustomCacheManager
+(VllmWorkerProcess pid=533) INFO 07-23 19:25:38 selector.py:120] Using Flash Attention backend.
+(VllmWorkerProcess pid=533) INFO 07-23 19:25:38 multiproc_worker_utils.py:222] Worker ready; awaiting tasks
+(VllmWorkerProcess pid=532) INFO 07-23 19:25:38 selector.py:120] Using Flash Attention backend.
+(VllmWorkerProcess pid=532) INFO 07-23 19:25:38 multiproc_worker_utils.py:222] Worker ready; awaiting tasks
+INFO 07-23 19:25:38 selector.py:120] Using Flash Attention backend.
+(VllmWorkerProcess pid=537) INFO 07-23 19:25:38 selector.py:120] Using Flash Attention backend.
+(VllmWorkerProcess pid=537) INFO 07-23 19:25:38 multiproc_worker_utils.py:222] Worker ready; awaiting tasks
+(VllmWorkerProcess pid=535) INFO 07-23 19:25:38 selector.py:120] Using Flash Attention backend.
+(VllmWorkerProcess pid=535) INFO 07-23 19:25:38 multiproc_worker_utils.py:222] Worker ready; awaiting tasks
+(VllmWorkerProcess pid=538) INFO 07-23 19:25:39 selector.py:120] Using Flash Attention backend.
+(VllmWorkerProcess pid=538) INFO 07-23 19:25:39 multiproc_worker_utils.py:222] Worker ready; awaiting tasks
+(VllmWorkerProcess pid=536) INFO 07-23 19:25:39 selector.py:120] Using Flash Attention backend.
+(VllmWorkerProcess pid=536) INFO 07-23 19:25:39 multiproc_worker_utils.py:222] Worker ready; awaiting tasks
+(VllmWorkerProcess pid=534) INFO 07-23 19:25:39 selector.py:120] Using Flash Attention backend.
+(VllmWorkerProcess pid=534) INFO 07-23 19:25:39 multiproc_worker_utils.py:222] Worker ready; awaiting tasks
+INFO 07-23 19:25:43 utils.py:918] Found nccl from library libnccl.so.2
+(VllmWorkerProcess pid=532) INFO 07-23 19:25:43 utils.py:918] Found nccl from library libnccl.so.2
+(VllmWorkerProcess pid=533) INFO 07-23 19:25:43 utils.py:918] Found nccl from library libnccl.so.2
+INFO 07-23 19:25:43 pynccl.py:69] vLLM is using nccl==2.21.5
+(VllmWorkerProcess pid=532) INFO 07-23 19:25:43 pynccl.py:69] vLLM is using nccl==2.21.5
+(VllmWorkerProcess pid=533) INFO 07-23 19:25:43 pynccl.py:69] vLLM is using nccl==2.21.5
+(VllmWorkerProcess pid=535) INFO 07-23 19:25:43 utils.py:918] Found nccl from library libnccl.so.2
+(VllmWorkerProcess pid=534) INFO 07-23 19:25:43 utils.py:918] Found nccl from library libnccl.so.2
+(VllmWorkerProcess pid=535) INFO 07-23 19:25:43 pynccl.py:69] vLLM is using nccl==2.21.5
+(VllmWorkerProcess pid=537) INFO 07-23 19:25:43 utils.py:918] Found nccl from library libnccl.so.2
+(VllmWorkerProcess pid=538) INFO 07-23 19:25:43 utils.py:918] Found nccl from library libnccl.so.2
+(VllmWorkerProcess pid=536) INFO 07-23 19:25:43 utils.py:918] Found nccl from library libnccl.so.2
+(VllmWorkerProcess pid=537) INFO 07-23 19:25:43 pynccl.py:69] vLLM is using nccl==2.21.5
+(VllmWorkerProcess pid=538) INFO 07-23 19:25:43 pynccl.py:69] vLLM is using nccl==2.21.5
+(VllmWorkerProcess pid=534) INFO 07-23 19:25:43 pynccl.py:69] vLLM is using nccl==2.21.5
+(VllmWorkerProcess pid=536) INFO 07-23 19:25:43 pynccl.py:69] vLLM is using nccl==2.21.5
+(VllmWorkerProcess pid=538) WARNING 07-23 19:25:43 custom_all_reduce.py:134] Custom allreduce is disabled because it's not supported on more than two PCIe-only GPUs. To silence this warning, specify disable_custom_all_reduce=True explicitly.
+WARNING 07-23 19:25:43 custom_all_reduce.py:134] Custom allreduce is disabled because it's not supported on more than two PCIe-only GPUs. To silence this warning, specify disable_custom_all_reduce=True explicitly.
+(VllmWorkerProcess pid=536) WARNING 07-23 19:25:43 custom_all_reduce.py:134] Custom allreduce is disabled because it's not supported on more than two PCIe-only GPUs. To silence this warning, specify disable_custom_all_reduce=True explicitly.
+(VllmWorkerProcess pid=537) WARNING 07-23 19:25:43 custom_all_reduce.py:134] Custom allreduce is disabled because it's not supported on more than two PCIe-only GPUs. To silence this warning, specify disable_custom_all_reduce=True explicitly.
+(VllmWorkerProcess pid=534) WARNING 07-23 19:25:43 custom_all_reduce.py:134] Custom allreduce is disabled because it's not supported on more than two PCIe-only GPUs. To silence this warning, specify disable_custom_all_reduce=True explicitly.
+(VllmWorkerProcess pid=535) WARNING 07-23 19:25:43 custom_all_reduce.py:134] Custom allreduce is disabled because it's not supported on more than two PCIe-only GPUs. To silence this warning, specify disable_custom_all_reduce=True explicitly.
+(VllmWorkerProcess pid=533) WARNING 07-23 19:25:43 custom_all_reduce.py:134] Custom allreduce is disabled because it's not supported on more than two PCIe-only GPUs. To silence this warning, specify disable_custom_all_reduce=True explicitly.
+(VllmWorkerProcess pid=532) WARNING 07-23 19:25:43 custom_all_reduce.py:134] Custom allreduce is disabled because it's not supported on more than two PCIe-only GPUs. To silence this warning, specify disable_custom_all_reduce=True explicitly.
+INFO 07-23 19:25:43 shm_broadcast.py:255] vLLM message queue communication handle: Handle(connect_ip='127.0.0.1', local_reader_ranks=[1, 2, 3, 4, 5, 6, 7], buffer_handle=(7, 4194304, 6, 'psm_ae169ca6'), local_subscribe_port=49035, remote_subscribe_port=None)
+INFO 07-23 19:25:43 model_runner.py:1094] Starting to load model OpenGVLab/InternVL3-78B...
+(VllmWorkerProcess pid=535) INFO 07-23 19:25:43 model_runner.py:1094] Starting to load model OpenGVLab/InternVL3-78B...
+(VllmWorkerProcess pid=534) INFO 07-23 19:25:43 model_runner.py:1094] Starting to load model OpenGVLab/InternVL3-78B...
+(VllmWorkerProcess pid=537) INFO 07-23 19:25:43 model_runner.py:1094] Starting to load model OpenGVLab/InternVL3-78B...
+(VllmWorkerProcess pid=533) INFO 07-23 19:25:43 model_runner.py:1094] Starting to load model OpenGVLab/InternVL3-78B...
+(VllmWorkerProcess pid=538) INFO 07-23 19:25:43 model_runner.py:1094] Starting to load model OpenGVLab/InternVL3-78B...
+(VllmWorkerProcess pid=532) INFO 07-23 19:25:43 model_runner.py:1094] Starting to load model OpenGVLab/InternVL3-78B...
+(VllmWorkerProcess pid=536) INFO 07-23 19:25:43 model_runner.py:1094] Starting to load model OpenGVLab/InternVL3-78B...
+(VllmWorkerProcess pid=535) INFO 07-23 19:25:44 weight_utils.py:251] Using model weights format ['*.safetensors']
+(VllmWorkerProcess pid=532) INFO 07-23 19:25:44 weight_utils.py:251] Using model weights format ['*.safetensors']
+(VllmWorkerProcess pid=537) INFO 07-23 19:25:44 weight_utils.py:251] Using model weights format ['*.safetensors']
+(VllmWorkerProcess pid=534) INFO 07-23 19:25:44 weight_utils.py:251] Using model weights format ['*.safetensors']
+(VllmWorkerProcess pid=533) INFO 07-23 19:25:44 weight_utils.py:251] Using model weights format ['*.safetensors']
+(VllmWorkerProcess pid=536) INFO 07-23 19:25:44 weight_utils.py:251] Using model weights format ['*.safetensors']
+INFO 07-23 19:25:44 weight_utils.py:251] Using model weights format ['*.safetensors']
+(VllmWorkerProcess pid=538) INFO 07-23 19:25:44 weight_utils.py:251] Using model weights format ['*.safetensors']
+model-00001-of-00033.safetensors: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████▉| 4.99G/4.99G [00:09<00:00, 538MB/s]
+model-00002-of-00033.safetensors: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████▉| 4.94G/4.94G [00:08<00:00, 588MB/s]
+model-00003-of-00033.safetensors: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████▉| 4.90G/4.90G [00:09<00:00, 495MB/s]
+model-00004-of-00033.safetensors: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████▉| 4.78G/4.78G [00:09<00:00, 528MB/s]
+model-00005-of-00033.safetensors:  18%|████████████████████▎                                                                                            | 860M/4.78G [
 ```
 
 ### 5. S3 로 업로드 된 인퍼런스 결과 확인하기 ###
