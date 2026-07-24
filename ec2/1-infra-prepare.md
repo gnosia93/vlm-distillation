@@ -91,9 +91,10 @@ helm version
 
 #### 4. k9s 설치 ####
 ```
-curl --silent --location "https://github.com/derailed/k9s/releases/latest/download/k9s_Linux_${ARCH}.tar.gz" | tar xz -C /tmp
-sudo mv /tmp/k9s /usr/local/bin/
-k9s version
+curl -sL https://github.com/derailed/k9s/releases/latest/download/k9s_Linux_amd64.tar.gz -o k9s.tar.gz
+tar -xzf k9s.tar.gz k9s
+sudo install k9s /usr/local/bin/
+rm k9s.tar.gz k9s
 ```
 
 #### 5. eks-node-viewer 설치 ####
