@@ -2,11 +2,6 @@ AWSTemplateFormatVersion: '2010-09-09'
 Description: 'Terraform to CloudFormation: Development Environment with EKS Roles'
 
 Parameters:
-  KeyPairName:
-    Type: "AWS::EC2::KeyPair::KeyName"
-    Default: "aws-kp-2"
-    Description: "AWS SSH Key Pair name for EC2 access"
-
   ClusterName:
     Type: String
     Default: "vlm-distillation"
