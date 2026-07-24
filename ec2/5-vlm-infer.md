@@ -57,7 +57,7 @@ aws ec2 run-instances \
   --block-device-mappings '[{"DeviceName":"/dev/sda1","Ebs":{"VolumeSize":600,"VolumeType":"gp3","Throughput":500,"Iops":6000,"DeleteOnTermination":true}}]' \
   --iam-instance-profile Name=vlm-ec2-profile \
   --instance-initiated-shutdown-behavior terminate \
-  --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=internvl3-infer}]' \
+  --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=model-infer}]' \
   --count 1
 ```
 * CPU 쿼터: 계정의 "Running On-Demand G instances" 쿼터가 부족하면 생성이 실패할 수 있으니, Service Quotas 를 확인한다. 
@@ -72,25 +72,21 @@ brew install --cask session-manager-plugin
 
 접속할 인스턴스를 조회하고, system manager 를 이용하여 로그인한다.  
 ```
-INSTANCE=$(aws ssm describe-instance-information \
-  --query "InstanceInformationList[].InstanceId" --region $REGION --output text)
+INSTANCE=$(aws ssm describe-instance-information --region $REGION \
+  --filters "Key=tag:Name,Values=model-infer" \
+  --query "InstanceInformationList[].InstanceId" \
+  --output text)
 echo "INSTANCE: $INSTANCE"
 
 aws ssm start-session --target $INSTANCE --region $REGION
 
 sudo su ubuntu
-nvidia-smi --query-gpu=name --format=csv,noheader
+nvidia-smi --query-gpu=name --format=csv,noheader | awk 'END{print $0" * "NR}'
 ```
+
 [결과]
 ```
-NVIDIA L40S
-NVIDIA L40S
-NVIDIA L40S
-NVIDIA L40S
-NVIDIA L40S
-NVIDIA L40S
-NVIDIA L40S
-NVIDIA L40S
+NVIDIA L40S * 8
 ```
 
 ### 3. 모델 가중치 캐싱하기 ###
