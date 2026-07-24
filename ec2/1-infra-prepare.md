@@ -3,6 +3,8 @@
 
 ```
 export AWS_REGION="ap-northeast-2"
+export CF_STACK="vlm-distillation`date +"%Y-%m-%d-%H-%M-%S"`"
+echo "CF_STACK: $CF_STACK"
 
 cd ~
 git clone https://github.com/gnosia93/vlm-distillation.git
@@ -16,14 +18,14 @@ echo ${MY_IP}
 
 aws cloudformation create-stack \
   --region ${AWS_REGION} \
-  --stack-name vlm-distillation \
+  --stack-name ${CF_STACK} \
   --template-body file://$(pwd)/src/cf/eks-vpc.yaml \
   --capabilities CAPABILITY_NAMED_IAM \
   --tags Key=Project,Value=vlm-distillation
 ```
 vpc 생성 진행 과정을 조회하고 완료될때 까지 대기한다. 
 ```
-aws cloudformation describe-stacks --stack-name vlm-distillation \
+aws cloudformation describe-stacks --stack-name ${CF_STACK} \
 --region $AWS_REGION \
 --query "Stacks[0].StackStatus"
 ```
@@ -31,7 +33,7 @@ aws cloudformation describe-stacks --stack-name vlm-distillation \
 생성 결과를 출력한다. 
 ```
 OUTPUT=$(aws cloudformation describe-stacks --region ${AWS_REGION} \
-  --stack-name vlm-distillation \
+  --stack-name ${CF_STACK} \
   --query "Stacks[0].Outputs[?OutputKey=='X86VsCode'].\
   {Name: OutputKey, Value: OutputValue}" \
   --output json)
@@ -49,5 +51,5 @@ echo ${OUTPUT}
 
 ## vpc 삭제하기 ##
 ```
-aws cloudformation delete-stack --stack-name vlm-distillation
+aws cloudformation delete-stack --stack-name ${CF_STACK} --region $AWS_REGION
 ```
