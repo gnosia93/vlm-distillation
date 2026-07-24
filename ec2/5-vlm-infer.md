@@ -100,22 +100,6 @@ echo "BUCKET: $BUCKET"
 aws s3 sync s3://${BUCKET}/models/internvl3-78b/ /opt/dlami/nvme/hf-cache/models/internvl3-78b/
 ```
 
-모델 가중치를 저장하는 hf-cache 디렉토리 구조는 아래와 같다.
-```
-/opt/dlami/nvme/hf-cache/
-├── hub/
-│   └── models--OpenGVLab--InternVL3-78B/
-│       ├── blobs/          ← 실제 파일 내용 (해시 이름의 대용량 파일들)
-│       ├── snapshots/
-│       │   └── <commit-hash>/
-│       │       ├── *.safetensors   ← 가중치 (blobs로의 심볼릭 링크)
-│       │       ├── config.json
-│       │       └── ...
-│       └── refs/
-└── modules/               ← trust_remote_code로 받은 커스텀 모델 코드
-```
-
-
 ### 4. 인퍼런스 하기 ###
 
 영상 하나만 인스턴스 해 본다.
@@ -129,15 +113,14 @@ echo $VIDEO_ID
 
 docker run --rm -it --gpus all --shm-size=16g \
   -v $(pwd):/work -w /work \
-  -v /opt/dlami/nvme/hf-cache:/root/.cache/huggingface \
+  -v /opt/dlami/nvme/hf-cache/models:/models \
   -e PYTHONUNBUFFERED=1 \
   -e BUCKET="$BUCKET" \
   --entrypoint python3 \
   vllm/vllm-openai:v0.6.6.post1 \
   s3_infer.py $VIDEO_ID "이 영상을 한국어로 설명해줘."
 ```
-> [!NOTE]
-> * -v /opt/dlami/nvme/hf-cache:/root/.cache/huggingface 에서 /opt/dlami/nvme/hf-cache 는 호스트 경로이고 /root/.cache/huggingface 는 컨테이너 경로이다. 호스트 경로에 있는 모델 가중치를 컨테이너에서 실행되는 모델에서 읽어간다.    
+> [!NOTE] 
 > * -v $(pwd):/work 는 s3_infer.py 있는 로컬 디렉토가 컨테이너의 /work 디렉토리에 매핑.
 > * -w /work 는 컨테이너 안에서 명령이 실행될 작업 디렉토리(working directory)를 지정하는 옵션.
    
