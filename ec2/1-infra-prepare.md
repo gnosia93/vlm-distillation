@@ -121,6 +121,7 @@ export K8S_VERSION="1.34"
 export KARPENTER_VERSION="1.8.1"
 export VPC_ID=$(aws ec2 describe-vpcs --filters Name=tag:Name,Values="${CLUSTER_NAME}" --query "Vpcs[].VpcId" --output text)
 
+echo "\n------------------------------------------" 
 echo "AWS_REGION: $AWS_REGION"
 echo "AWS_ACCOUNT_ID: $AWS_ACCOUNT_ID"
 echo "CLUSTER_NAME: $CLUSTER_NAME"
