@@ -585,6 +585,33 @@ fi_info -p efa
 ls -la /sys/class/infiniband/
 ```
 
+[결과]
+```
+root@efa-test-pod:/# fi_info -p efa
+provider: efa
+    fabric: efa-direct
+    domain: rdmap47s0-rdm
+    version: 204.0
+    type: FI_EP_RDM
+    protocol: FI_PROTO_EFA
+provider: efa
+    fabric: efa
+    domain: rdmap47s0-rdm
+    version: 204.0
+    type: FI_EP_RDM
+    protocol: FI_PROTO_EFA
+provider: efa
+    fabric: efa
+    domain: rdmap47s0-dgrm
+    version: 204.0
+    type: FI_EP_DGRAM
+    protocol: FI_PROTO_EFA
+root@efa-test-pod:/# ls -la /sys/class/infiniband/
+total 0
+drwxr-xr-x.  2 root root 0 Jul 24 17:43 .
+drwxr-xr-x. 40 root root 0 Jul 24 17:43 ..
+lrwxrwxrwx.  1 root root 0 Jul 24 17:43 rdmap47s0 -> ../../devices/pci0000:24/0000:24:00.0/0000:25:00.0/0000:26:01.0/0000:2f:00.0/infiniband/rdmap47s0
+```
 
 ## 큐브플로우 Trainer 설치 ##
 ```
