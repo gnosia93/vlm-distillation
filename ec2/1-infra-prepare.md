@@ -574,6 +574,13 @@ fi_info -p efa
 ls -la /sys/class/infiniband/
 ```
 
+### 3. EFA 지원 GPU 인스턴스 조회 ###
+```
+aws ec2 describe-instance-types \
+    --filters Name=network-info.efa-supported,Values=true \
+    --query "InstanceTypes[?GpuInfo.Gpus!=null].InstanceType" \
+    --output text | sort
+```
 
 
 
