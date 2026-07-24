@@ -1,24 +1,19 @@
-로컬 PC 에서 워크샵을 다운로드 받는다.  
-```
-cd ~
-git clone https://github.com/gnosia93/get-started-eks.git
-cd ~/get-started-eks
-```
 
 ## vpc 생성 ##
+
 ```
 export AWS_REGION="ap-northeast-2"
-export KEYPAIR_NAME="aws-kp-2"
-cd ~/get-started-eks
+export KEYPAIR_NAME="no-key"
+
+cd ~
+git clone https://github.com/gnosia93/vlm-distillation.git
+cd ~/vlm-distillation
 pwd
 
 MY_IP="$(curl -s https://checkip.amazonaws.com)""/32"
 echo ${MY_IP}
-
 sed -i "" "s|\${MY_IP}|$MY_IP|g" $(pwd)/cf/eks-vpc.yaml
-```
-vpc 를 생성한다.
-```
+
 aws cloudformation create-stack \
   --region ${AWS_REGION} \
   --stack-name get-started-eks \
