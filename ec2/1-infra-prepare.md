@@ -91,11 +91,6 @@ helm version
 
 #### 4. k9s 설치 ####
 ```
-ARCH=amd64
-if [ "$(uname -m)" != 'aarch64' ]; then
-  ARCH="amd64"
-fi
-echo ${ARCH}" architecture detected .."
 curl --silent --location "https://github.com/derailed/k9s/releases/latest/download/k9s_Linux_${ARCH}.tar.gz" | tar xz -C /tmp
 sudo mv /tmp/k9s /usr/local/bin/
 k9s version
