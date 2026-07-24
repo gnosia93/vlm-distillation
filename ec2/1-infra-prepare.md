@@ -3,7 +3,7 @@
 
 ```
 export AWS_REGION="ap-northeast-2"
-export CF_STACK="vlm-distillation`date +"%Y-%m-%d-%H-%M-%S"`"
+export CF_STACK="vlm-distillation-`date +"%H-%M-%S"`"
 echo "CF_STACK: $CF_STACK"
 
 cd ~
