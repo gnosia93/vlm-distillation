@@ -9,26 +9,17 @@ Parameters:
 
   ClusterName:
     Type: String
-    Default: "get-started-eks"
+    Default: "vlm-distillation"
 
   VpcCidrBlock:
     Type: String
     Default: "10.0.0.0/16"
 
-  GravitonType:
-    Type: String
-    Default: "c7g.4xlarge"
-
   X86Type:
     Type: String
-    Default: "c6i.4xlarge"
+    Default: "c7i.4xlarge"
 
-  # 1. 최신 AL2023 ARM64 AMI (Graviton용)
-  LatestAmiIdArm64:
-    Type: 'AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>'
-    Default: '/aws/service/ami-amazon-linux-latest/al2023-ami-kernel-default-arm64'
-
-  # 2. 최신 AL2023 x86_64 AMI (x86용)
+  # 최신 AL2023 x86_64 AMI (x86용)
   LatestAmiIdX86:
     Type: 'AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>'
     Default: '/aws/service/ami-amazon-linux-latest/al2023-ami-kernel-default-x86_64'
@@ -66,7 +57,7 @@ Resources:
       MapPublicIpOnLaunch: true
       Tags:
         - Key: Name
-          Value: "GSE-pub-subnet-1"
+          Value: "vlm-pub-subnet-1"
         - Key: "kubernetes.io/role/elb"
           Value: "1"
         - Key: !Sub "kubernetes.io/cluster/${ClusterName}"
@@ -81,7 +72,7 @@ Resources:
       MapPublicIpOnLaunch: true
       Tags:
         - Key: Name
-          Value: "GSE-pub-subnet-2"
+          Value: "vlm-pub-subnet-2"
         - Key: "kubernetes.io/role/elb"
           Value: "1"
         - Key: !Sub "kubernetes.io/cluster/${ClusterName}"
@@ -95,7 +86,7 @@ Resources:
       AvailabilityZone: !Select [ 0, !GetAZs "" ]
       Tags:
         - Key: Name
-          Value: "GSE-priv-subnet-1"
+          Value: "vlm-priv-subnet-1"
         - Key: "karpenter.sh/discovery"
           Value: !Ref ClusterName
         - Key: "kubernetes.io/role/internal-elb"
@@ -109,7 +100,7 @@ Resources:
       AvailabilityZone: !Select [ 1, !GetAZs "" ]
       Tags:
         - Key: Name
-          Value: "GSE-priv-subnet-2"
+          Value: "vlm-priv-subnet-2"
         - Key: "karpenter.sh/discovery"
           Value: !Ref ClusterName
         - Key: "kubernetes.io/role/internal-elb"
@@ -285,7 +276,7 @@ Resources:
   EKSCreatorRole:
     Type: AWS::IAM::Role
     Properties:
-      RoleName: GetStartedEKS_Role
+      RoleName: VlmEKS_Role
       AssumeRolePolicyDocument:
         Version: '2012-10-17'
         Statement:
@@ -299,7 +290,7 @@ Resources:
   EKSCreatorProfile:
     Type: AWS::IAM::InstanceProfile
     Properties:
-      InstanceProfileName: GetStartedEKS_Profile
+      InstanceProfileName: VlmEKS_Profile
       Roles:
         - !Ref EKSCreatorRole
 
@@ -313,56 +304,10 @@ Resources:
           FromPort: 22
           ToPort: 22
           CidrIp: 0.0.0.0/0
-        - IpProtocol: tcp # VS Code Server (9090)
-          FromPort: 9090
-          ToPort: 9090
+        - IpProtocol: tcp # VS Code Server (8080)
+          FromPort: 8080
+          ToPort: 8080
           CidrIp: ${MY_IP}
-        - IpProtocol: tcp # Gitlab KAS
-          FromPort: 8150
-          ToPort: 8150
-          CidrIp: !GetAtt VPC.CidrBlock
-        - IpProtocol: tcp # Spring Web (8081-8090)
-          FromPort: 8081
-          ToPort: 8090
-          CidrIp: !GetAtt VPC.CidrBlock
-        - IpProtocol: tcp # HTTP (80)
-          FromPort: 80
-          ToPort: 80
-          CidrIp: ${MY_IP}
-        - IpProtocol: tcp # HTTPS/Gitlab (443)
-          FromPort: 443
-          ToPort: 443
-          CidrIp: ${MY_IP}
-
-  GravitonBox:
-    Type: AWS::EC2::Instance
-    Properties:
-      # SSM을 통해 최신 AL2023 ARM64 AMI 자동 참조
-      ImageId: !Ref LatestAmiIdArm64
-      InstanceType: !Ref GravitonType
-      KeyName: !Ref KeyPairName
-      SubnetId: !Ref PublicSubnet1 # VPC 템플릿의 서브넷 참조
-      SecurityGroupIds:
-        - !Ref InstanceSecurityGroup
-      IamInstanceProfile: GetStartedEKS_Profile
-      BlockDeviceMappings:
-        - DeviceName: /dev/xvda
-          Ebs:
-            VolumeSize: 30
-            VolumeType: gp3
-      UserData:
-        Fn::Base64: !Sub |
-          #!/bin/bash
-          sudo -u ec2-user -i <<'EC2_USER_SCRIPT'
-          curl -fsSL https://code-server.dev/install.sh | sh && sudo systemctl enable --now code-server@ec2-user
-          sleep 5
-          sed -i 's/127.0.0.1:8080/0.0.0.0:9090/g; s/^password: .*/password: code!@#c/g' /home/ec2-user/.config/code-server/config.yaml
-          EC2_USER_SCRIPT
-          echo 'export PS1="$(uname -m) \$ "' >> /home/ec2-user/.bashrc
-          sudo systemctl restart code-server@ec2-user
-      Tags:
-        - Key: Name
-          Value: gse-graviton-code
 
   X86Box:
     Type: AWS::EC2::Instance
@@ -374,11 +319,11 @@ Resources:
       SubnetId: !Ref PublicSubnet1
       SecurityGroupIds:
         - !Ref InstanceSecurityGroup
-      IamInstanceProfile: GetStartedEKS_Profile
+      IamInstanceProfile: VlmEKS_Profile
       BlockDeviceMappings:
         - DeviceName: /dev/xvda
           Ebs:
-            VolumeSize: 30
+            VolumeSize: 600
             VolumeType: gp3
       UserData:
         Fn::Base64: !Sub |
@@ -392,12 +337,9 @@ Resources:
           sudo systemctl restart code-server@ec2-user
       Tags:
         - Key: Name
-          Value: gse-x86-code
+          Value: vs-code
 
 Outputs:
-  GravitonVsCode:
-    Description: "배스천 호스트 접속용 퍼블릭 DNS"
-    Value: !Sub "http://${GravitonBox.PublicDnsName}:9090"
   X86VsCode:
     Description: "VS Code 서버 접속 URL"
-    Value: !Sub "http://${X86Box.PublicDnsName}:9090"
+    Value: !Sub "http://${X86Box.PublicDnsName}:8080"
