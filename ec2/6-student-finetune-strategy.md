@@ -85,7 +85,7 @@ The video concludes with a group of players celebrating on the field.
 화면에 프롬프트 4개(caption/temporal/action/sport)의 응답이 출력됩니다. 
 특히 temporal 응답을 teacher(78B)의 크리켓 설명과 비교해보면 1B의 시간 이해 수준을 파악할 수 있습니다.
 
-### s3_infer.py(teacher, 78B)를 실행해서 나온 결과와 비교 ###
+### s3_infer.py(teacher, 78B)의 응답과 비교 ###
 ```
 이 영상은 크리켓 경기의 한 장면을 보여줍니다. 파키스탄이 104/1로 경기를 진행 중이며, 목표점은 288점입니다. 투수는 라즈 아흐메드가 등판하고 있습니다.
 타자는 공을 치고 뛰기 시작하지만, 수비수들이 빠르게 반응하여 아웃을 성공합니다. 이후 다른 타자가 등장하여 공을 치지만, 또다시 아웃됩니다. 팀원들이
