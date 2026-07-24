@@ -226,27 +226,31 @@ aws s3 cp s3://$BUCKET/finevideo/sports/manifest.jsonl - | jq .
 
 ## 모델 가중치 S3 저장하기 ##
 
-허깅페이스 cli 로 OpenGVLab/InternVL3-78B 모델의 가중치를 다운로드 받고, S3 로 업로드 한다. 
 ```
-export PATH=$PATH:/home/ubuntu/.local/bin
-sudo mkdir -p /mnt/data
-sudo chown ubuntu:ubuntu /mnt/data
-
-# 캐시 구조(blobs/snapshots/refs)로 다운로드 — --local-dir 대신 HF_HOME 사용
-HF_HOME=/mnt/data/hf hf download OpenGVLab/InternVL3-78B
-
 sudo apt update && sudo apt install -y unzip
 curl "https://awscli.amazonaws.com/awscli-exe-linux-aarch64.zip" -o "awscliv2.zip"
 unzip awscliv2.zip
 sudo ./aws/install
 aws --version
+```
 
+hf 로 OpenGVLab/InternVL3-78B 모델의 가중치를 다운로드 받고, S3 로 업로드 한다. 
+> [!WARNING]
+> --local-dir 옵션을 사용하여 flat 구조로 다운로드 받는다. 
+```
+export PATH=$PATH:/home/ubuntu/.local/bin
+sudo mkdir -p /mnt/data
+sudo chown ubuntu:ubuntu /mnt/data
+
+# flat 구조로 다운로드
+hf download OpenGVLab/InternVL3-78B --local-dir /mnt/data/internvl3-78b
+
+# S3에 업로드 (flat 그대로)
 echo "model weight loading in $BUCKET"
-# hub/ 폴더째로, 심볼릭 링크는 실제 파일로 풀어서 업로드
-aws s3 sync /mnt/data/hf/hub/ s3://${BUCKET}/models/internvl3-78b/hub/ \
-  --follow-symlinks
+aws s3 sync /mnt/data/internvl3-78b/ s3://${BUCKET}/models/internvl3-78b/
 
-aws s3 ls s3://${BUCKET}/models/internvl3-78b/hub/
+# 확인
+aws s3 ls s3://${BUCKET}/models/internvl3-78b/
 ```
 
 
