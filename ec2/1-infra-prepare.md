@@ -117,7 +117,7 @@ go 컴파일 과정에서 다소 시간이 소요된다.
 ```
 export AWS_REGION=$(aws ec2 describe-availability-zones --query 'AvailabilityZones[0].RegionName' --output text)
 export AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
-export CLUSTER_NAME="get-started-eks"
+export CLUSTER_NAME="vlm-distillation"
 export K8S_VERSION="1.34"
 export KARPENTER_VERSION="1.8.1"
 export VPC_ID=$(aws ec2 describe-vpcs --filters Name=tag:Name,Values="${CLUSTER_NAME}" --query "Vpcs[].VpcId" --output text)
@@ -134,12 +134,12 @@ echo $VPC_ID
 클러스터의 데이터 플레인(워커노드 들)은 아래의 프라이빗 서브넷에 위치하게 된다. 
 ```
 aws ec2 describe-subnets \
-    --filters "Name=tag:Name,Values=GSE-priv-subnet-*" "Name=vpc-id,Values=${VPC_ID}" \
+    --filters "Name=tag:Name,Values=vlm-priv-subnet-*" "Name=vpc-id,Values=${VPC_ID}" \
     --query "Subnets[*].{ID:SubnetId, AZ:AvailabilityZone, Name:Tags[?Key=='Name']|[0].Value}" \
     --output table
 
 SUBNET_IDS=$(aws ec2 describe-subnets \
-    --filters "Name=tag:Name,Values=GSE-priv-subnet-*" "Name=vpc-id,Values=${VPC_ID}" \
+    --filters "Name=tag:Name,Values=vlm-priv-subnet-*" "Name=vpc-id,Values=${VPC_ID}" \
     --query "Subnets[*].{ID:SubnetId, AZ:AvailabilityZone}" \
     --output text)
 
@@ -190,17 +190,6 @@ addons:
   - name: aws-ebs-csi-driver                   
 
 managedNodeGroups:                           # 관리형 노드 그룹
-  - name: ng-arm
-    instanceType: c7g.2xlarge
-    minSize: 2
-    maxSize: 2
-    desiredCapacity: 2
-    amiFamily: AmazonLinux2023
-    privateNetworking: true                  # 이 노드 그룹이 PRIVATE 서브넷만 사용하도록 지정합니다.
-    iam:
-      withAddonPolicies:
-        ebs: true                     		 # EBS CSI 드라이버가 작동하기 위한 IAM 권한 부여
-
   - name: ng-x86
     instanceType: c6i.2xlarge
     minSize: 2
@@ -314,19 +303,7 @@ aws iam put-role-policy \
 ```
 
 
-## 클러스터 삭제 ##
-#### 1. 카펜터 인스턴스 프로파일 삭제 #### 
-```
-ROLE_NAME="eksctl-KarpenterNodeRole-${CLUSTER_NAME}"
-for p in $(aws iam list-attached-role-policies --role-name "$ROLE_NAME" --query 'AttachedPolicies[*].PolicyArn' --output text); do aws iam detach-role-policy --role-name "$ROLE_NAME" --policy-arn "$p"; done
-for p in $(aws iam list-role-policies --role-name "$ROLE_NAME" --query 'PolicyNames[*]' --output text); do aws iam delete-role-policy --role-name "$ROLE_NAME" --policy-name "$p"; done
-for i in $(aws iam list-instance-profiles-for-role --role-name "$ROLE_NAME" --query 'InstanceProfiles[*].InstanceProfileName' --output text); do aws iam remove-role-from-instance-profile --instance-profile-name "$i" --role-name "$ROLE_NAME"; aws iam delete-instance-profile --instance-profile-name "$i"; done
-aws iam delete-role --role-name "$ROLE_NAME"
-```
-#### 2. 클러스터 삭제 ####
-```
-eksctl delete cluster -f cluster.yaml
-```
+
 
 
 
