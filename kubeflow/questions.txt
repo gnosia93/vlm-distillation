@@ -1,0 +1,61 @@
+론부터: torchrun이 사라진 게 아니라, Kubeflow Trainer가 뒤에서 대신 실행해줍니다. YAML에 안 보일
+  뿐입니다.
+
+  무슨 일이 벌어지나
+
+  runtimeRef로 참조하는 ClusterTrainingRuntime: torch-distributed가 핵심입니다. 이 런타임 템플릿 안에 torchrun
+  launcher가 이미 정의돼 있습니다. 그래서:
+
+  numNodes: 2         →  torchrun --nnodes=2
+  numProcPerNode: "1" →  torchrun --nproc-per-node=1
+  command: [python train.py ...]  →  torchrun 이 실행하는 "대상"
+
+  즉 실제 각 파드에서 돌아가는 명령은 대략 이렇게 조립됩니다:
+
+  torchrun \
+    --nnodes=2 --nproc-per-node=1 \
+    --rdzv-backend=c10d --rdzv-endpoint=<rank0>:29400 \
+    --node-rank=<N> \
+    train.py --epochs=5 --batch-size=64
+
+  제 YAML의 command는 "torchrun을 부르는 명령"이 아니라 torchrun이 실행할 스크립트입니다. torchrun 자체와 --nnodes 등의
+  랑데부 인자는 런타임이 numNodes/numProcPerNode를 보고 채워 넣습니다.
+
+  그래서 train.py가 그대로 동작하는 이유
+
+  torchrun이 붙기 때문에 RANK, LOCAL_RANK, WORLD_SIZE, MASTER_ADDR가 각 프로세스에 주입됩니다. 제 train.py가 이
+  환경변수를 읽어 dist.init_process_group()만 호출하면 되는 것도 torchrun이 뒤에 있기 때문입니다. 님이 평소 직접
+  torchrun train.py로 하시던 것과 완전히 동일한 메커니즘이고, launcher 호출만 런타임이 감춰준 것입니다.
+
+  확인해보기
+
+  실제로 어떤 launcher를 쓰는지는 런타임 정의를 열어보면 보입니다:
+
+  kubectl get clustertrainingruntime torch-distributed -o yaml
+
+  여기 spec 안에 torchrun ... 또는 torch elastic 관련 설정이 들어 있을 겁니다.
+
+  왜 이렇게 감췄나 (V2의 의도)
+
+  ┌────────────────────────────────────────┬─────────────────────────┬─────────────────────────────────┐
+  │                                        │ 직접 torchrun (님 방식) │         V2 런타임 방식          │
+  ├────────────────────────────────────────┼─────────────────────────┼─────────────────────────────────┤
+  │ --nnodes, --node-rank, --rdzv-endpoint │ 사람이 직접 지정        │ 런타임이 numNodes로 자동        │
+  ├────────────────────────────────────────┼─────────────────────────┼─────────────────────────────────┤
+  │ 노드 간 주소/포트                      │ 수동 조율               │ Trainer가 rank 0 파드 주소 주입 │
+  ├────────────────────────────────────────┼─────────────────────────┼─────────────────────────────────┤
+  │ 확장                                   │ 인자 다시 계산          │ 숫자만 변경                     │
+  └────────────────────────────────────────┴─────────────────────────┴─────────────────────────────────┘
+
+  멀티노드에서 --node-rank나 --rdzv-endpoint를 노드마다 다르게 넣는 게 번거롭고 실수가 잦은데, V2는 그걸 numNodes 하나로
+  추상화한 겁니다. torchrun을 버린 게 아니라, torchrun의 성가신 클러스터 인자들을 선언적으로 대체한 것이라고 보시면
+  정확합니다.
+
+  직접 torchrun을 쓰고 싶다면
+
+  command에서 명시적으로 torchrun을 부를 수도 있습니다. 다만 이때는 numNodes/numProcPerNode가 주는 자동 랑데부와
+  중복·충돌할 수 있어 권장되진 않습니다. 커스텀 launcher가 꼭 필요하면 런타임을 커스터마이징하는 쪽이 V2의 정석입니다.
+
+  ---
+  원하시면 이 "torchrun은 런타임이 내부적으로 실행한다"는 설명을 워크샵 3.2나 3.5에 짧게 넣어드릴까요? 직접 torchrun
+  쓰던 분들이 흔히 갖는 의문이라 넣어두면 좋을 것 같습니다.
