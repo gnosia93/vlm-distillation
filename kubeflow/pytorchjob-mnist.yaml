@@ -1,0 +1,73 @@
+# MNIST DDP 훈련 — Master 1 + Worker 1 = 2노드.
+# Training Operator가 각 파드에 MASTER_ADDR/MASTER_PORT/WORLD_SIZE/RANK 를 주입.
+apiVersion: "kubeflow.org/v1"
+kind: PyTorchJob
+metadata:
+  name: mnist-ddp
+  namespace: kubeflow-user
+spec:
+  # 실패 시 재시도 정책 (선택)
+  runPolicy:
+    cleanPodPolicy: None      # 디버깅용으로 파드 로그 보존. 운영에선 Running 권장.
+  pytorchReplicaSpecs:
+    Master:
+      replicas: 1             # rank 0
+      restartPolicy: OnFailure
+      template:
+        spec:
+          containers:
+            - name: pytorch
+              image: YOUR_REGISTRY/mnist-ddp:latest   # 빌드/푸시한 이미지로 교체
+              imagePullPolicy: IfNotPresent
+              command:
+                - "python"
+                - "train.py"
+                - "--epochs=5"
+                - "--batch-size=64"
+              env:
+                - name: S3_BUCKET
+                  value: "my-datasets"
+                - name: S3_PREFIX
+                  value: "mnist/raw"
+              envFrom:
+                - secretRef:
+                    name: s3-credentials
+              resources:
+                requests:
+                  cpu: "2"
+                  memory: 4Gi
+                limits:
+                  cpu: "4"
+                  memory: 8Gi
+                  # GPU로 훈련하려면 아래 주석 해제 (백엔드는 코드가 nccl로 자동 전환)
+                  # nvidia.com/gpu: 1
+    Worker:
+      replicas: 1             # rank 1 (글로벌)
+      restartPolicy: OnFailure
+      template:
+        spec:
+          containers:
+            - name: pytorch
+              image: YOUR_REGISTRY/mnist-ddp:latest
+              imagePullPolicy: IfNotPresent
+              command:
+                - "python"
+                - "train.py"
+                - "--epochs=5"
+                - "--batch-size=64"
+              env:
+                - name: S3_BUCKET
+                  value: "my-datasets"
+                - name: S3_PREFIX
+                  value: "mnist/raw"
+              envFrom:
+                - secretRef:
+                    name: s3-credentials
+              resources:
+                requests:
+                  cpu: "2"
+                  memory: 4Gi
+                limits:
+                  cpu: "4"
+                  memory: 8Gi
+                  # nvidia.com/gpu: 1

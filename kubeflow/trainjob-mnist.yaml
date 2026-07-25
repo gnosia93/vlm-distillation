@@ -1,0 +1,49 @@
+# MNIST DDP 훈련 — Kubeflow Trainer (V2) 버전.
+#
+# V1 의 PyTorchJob(Master/Worker 역할) 과 달리, V2 는 역할 명칭 없이
+# numNodes(노드 수) 로만 규모를 지정한다. rank 0 는 별도 이름 없이 그냥 rank 0.
+#
+# ⚠️ V2(trainer.kubeflow.org) 는 발전 중인 API 라 필드명이 배포 버전마다
+#    다를 수 있다. 적용 전 반드시 아래로 스키마를 확인할 것:
+#        kubectl explain trainjob.spec.trainer
+#        kubectl get clustertrainingruntime      # 사용 가능한 런타임 목록
+#
+# 실행:  kubectl apply -f trainjob-mnist.yaml
+apiVersion: trainer.kubeflow.org/v1alpha1
+kind: TrainJob
+metadata:
+  name: mnist-ddp
+  namespace: kubeflow-user
+spec:
+  # 클러스터에 미리 설치된 분산 런타임 참조 (torch distributed).
+  # 이름은 배포판마다 다를 수 있음 -> `kubectl get clustertrainingruntime` 확인.
+  runtimeRef:
+    name: torch-distributed
+    apiGroup: trainer.kubeflow.org
+    kind: ClusterTrainingRuntime
+  trainer:
+    numNodes: 2                # ★ 역할 없이 노드 수만 지정 (V1 의 Master+Worker 대체)
+    numProcPerNode: "1"        # 노드당 프로세스(=GPU) 수. 단일노드 2GPU 면 numNodes:1 + 이 값 "2"
+    image: YOUR_REGISTRY/mnist-ddp:latest   # 빌드/푸시한 이미지로 교체
+    command:
+      - "python"
+      - "train.py"
+      - "--epochs=5"
+      - "--batch-size=64"
+    env:
+      - name: S3_BUCKET
+        value: "my-datasets"
+      - name: S3_PREFIX
+        value: "mnist/raw"
+    # S3 자격증명 Secret 주입. (SDK 대신 YAML 을 쓸 때의 방식)
+    envFrom:
+      - secretRef:
+          name: s3-credentials
+    resourcesPerNode:
+      requests:
+        cpu: "2"
+        memory: 4Gi
+      limits:
+        cpu: "4"
+        memory: 8Gi
+        nvidia.com/gpu: 1      # 노드당 GPU 1개 (numProcPerNode 와 맞춤)
