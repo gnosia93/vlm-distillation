@@ -25,7 +25,7 @@ teacher 모델로는 InternVL3-78B를, student 모델로는 같은 계열의 Int
 * [5. InternVL3-78B 기반 학습 데이터 생성 (영상 자동 라벨링)](https://github.com/gnosia93/vlm-on-eks/blob/main/ec2/5-vlm-infer.md)
 * [6. Student 모델 평가 및 파인튜닝 전략 (Full vs. LoRA)](https://github.com/gnosia93/vlm-distillation/blob/main/ec2/6-student-finetune-strategy.md)
 * [7. Student 모델 파인튜닝](https://github.com/gnosia93/vlm-on-aws/blob/main/ec2/6-student-finetune.md)
-* [8. 파인튜닝 모델 평가]
+* [8. 파인튜닝 모델 평가](https://github.com/gnosia93/vlm-distillation/blob/main/ec2/8-model-eval.md)
   
 ### ■ _Part 2. Advanced (EKS 병렬 스케일아웃)_ ###
 
