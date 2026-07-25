@@ -34,6 +34,7 @@ teacher 모델로는 InternVL3-78B를, student 모델로는 같은 계열의 Int
 * [3. PyTorch DDP 기반 Student 모델 학습]
 
 
+
 ### ■ _Wrap Up_ ###
 
 * [1. 리소스 정리](https://github.com/gnosia93/vlm-on-eks/blob/main/ec2/8-delete-resource.md)
