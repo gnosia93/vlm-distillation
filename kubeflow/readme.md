@@ -1,48 +1,7 @@
 
-# 3. PyTorch DDP 기반 MNIST 모델 학습 (Kubeflow Trainer / V2)
+## PyTorch DDP 기반 MNIST 모델 학습 (Kubeflow Trainer / V2) ##
 
-> **Part 2. Advanced (EKS 병렬 스케일아웃)** 의 세 번째 장.
-> 앞 장(2. K8s Job 기반 데이터 병렬 생성)에서 다룬 "독립 병렬"과 달리,
-> 이 장은 프로세스 간 **통신이 필요한 분산 학습(DDP)** 을 Kubeflow Trainer(V2)로 실행한다.
-
-**범례**: `[개념]` = 읽고 이해 · `[실습]` = 직접 실행 · `→ 확인` = 다음 단계로 넘어가기 전 검증
-
----
-
-## 3.1 [개념] Job vs DDP — 왜 여기선 DDP인가
-
-| | K8s Job (2장) | PyTorch DDP (이 장) |
-|---|---|---|
-| 병렬 방식 | 독립 병렬 (embarrassingly parallel) | 동기 병렬 (all-reduce) |
-| 프로세스 간 통신 | **없음** — 각자 다른 데이터 처리 | **있음** — 매 step 그래디언트 동기화 |
-| 실패 처리 | 하나 죽어도 나머지 진행 | 하나 죽으면 전체 재시작 필요 |
-| 도구 | K8s `Job` (completions/parallelism) | Kubeflow Trainer `TrainJob` |
-
-핵심: **데이터 생성**은 서로 몰라도 되니 Job으로 뿌리면 되지만, **모델 학습**은 모든
-노드가 같은 모델을 유지해야 하므로 매 step 그래디언트를 평균(all-reduce)한다.
-이 통신을 대신 처리해주는 것이 PyTorch DDP이고, 그 실행 인프라가 Kubeflow Trainer다.
-
----
-
-## 3.2 [개념] Kubeflow Trainer(V2) 한눈에
-
-V1(`PyTorchJob`)을 써봤다면 아래 차이만 알면 된다.
-
-| | V1 (PyTorchJob) | V2 (Kubeflow Trainer) |
-|---|---|---|
-| API | `kubeflow.org/v1` | `trainer.kubeflow.org/v1alpha1` |
-| CRD | `PyTorchJob` (프레임워크별) | `TrainJob` (통합) |
-| 노드 표현 | `Master` + `Worker` **역할** | `numNodes` **숫자만** |
-| rank 0 | "Master" 파드 | 이름 없음 — 그냥 rank 0 |
-| 주 인터페이스 | YAML | **Python SDK** (YAML도 가능) |
-| 런타임 | 매니페스트에 파드 spec 직접 작성 | `ClusterTrainingRuntime` 참조 |
-
-> **왜 역할이 사라졌나**: DDP는 모든 노드가 대칭으로 동작하는 all-reduce 구조라
-> "master가 지시한다"는 표현이 실제와 맞지 않았다. V2는 `numNodes` 숫자로만 규모를 선언한다.
-
----
-
-## 3.3 [실습] 사전 준비 — 클러스터 확인
+### 1. Kubeflow Trainer 설치 ###
 
 ```bash
 # Trainer(V2) 설치 확인 — 이 CRD 가 있어야 한다
@@ -63,27 +22,18 @@ kubectl get nodes -o json | grep nvidia.com/gpu
 
 > ⚠️ V2는 API가 안정화 전이다. 위에서 확인한 **런타임 이름·필드명을 이 실습 내내 그대로 사용**한다.
 
----
 
-## 3.4 [실습] MNIST 데이터 준비 — S3에 배치
+### 2. MNIST 데이터 준비 ###
 
-> 실무에선 2장에서 병렬 생성한 데이터가 입력이 되지만, 본 실습은 공개 MNIST를 사용한다.
-> 학습 파드가 인터넷을 타지 않도록 **미리 S3에 올려둔다.**
-
-로컬(또는 점프박스)에서 한 번만:
 ```bash
 pip install torch torchvision boto3
-export AWS_ACCESS_KEY_ID=...  AWS_SECRET_ACCESS_KEY=...  AWS_DEFAULT_REGION=ap-northeast-2
 python upload_mnist_to_s3.py --s3-bucket my-datasets --s3-prefix mnist/raw
-```
 
-**→ 확인**:
-```bash
 aws s3 ls s3://my-datasets/mnist/raw/
-# train-images-idx3-ubyte.gz 등 4개 파일이 보이면 통과
 ```
+train-images-idx3-ubyte.gz 등 4개 파일이 보이면 통과
 
----
+
 
 ## 3.5 [실습] 분산 학습 코드 확인 (train.py)
 
