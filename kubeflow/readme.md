@@ -78,13 +78,7 @@ kubectl get pods -n kubeflow-user            # numNodes 만큼 파드가 뜬다
 
 ---
 
-### 6. 스케일 조정 — 숫자만 바꿔 확장 ###
-
-| 목표 구성 | num_nodes | num_proc_per_node | gpus_per_node | WORLD_SIZE |
-|---|---|---|---|---|
-| 멀티노드 2대 × 1GPU | 2 | 1 | 1 | 2 |
-| 단일노드 1대 × 2GPU | **1** | **2** | **2** | 2 |
-| 멀티노드 2대 × 2GPU | 2 | 2 | 2 | 4 |
+### 6. 스케일 조정 ###
 
 SDK 예 (단일노드 2GPU로 다시 실행):
 ```bash
@@ -135,20 +129,3 @@ kubectl delete -f trainjob-mnist.yaml
 # SDK 로 만든 경우 (job_name 은 실행 시 출력됨)
 kubectl delete trainjob <job-name> -n kubeflow-user
 ```
-
-
-
-## 부록. V1(PyTorchJob) 과의 매핑
-
-기존 V1 자료를 참고하거나, 클러스터가 아직 V1일 때를 위한 대응표.
-
-| 개념 | V1 (`pytorchjob-mnist.yaml`) | V2 (`trainjob-mnist.yaml`) |
-|---|---|---|
-| 리소스 종류 | `kind: PyTorchJob` | `kind: TrainJob` |
-| 노드 2대 | `Master.replicas:1` + `Worker.replicas:1` | `numNodes: 2` |
-| 노드당 GPU | replica별 `resources.limits` | `resourcesPerNode.limits` / `numProcPerNode` |
-| 실행 확인 | `kubectl get pytorchjob` | `kubectl get trainjob` |
-| 실행 방법 | YAML `kubectl apply` | SDK `TrainerClient.train` (또는 YAML) |
-
-> `train.py`·`Dockerfile`·`upload_mnist_to_s3.py`·`s3-secret.yaml`은 V1/V2 공용이다.
-> 매니페스트/실행 방법만 다르다.
