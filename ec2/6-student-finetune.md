@@ -112,10 +112,24 @@ InternVL의 비전 인코더는 한 번에 448×448 크기의 정사각형 이�
 ## 파인 튜닝하기 ##
 
 ```
+# 1. 환경설정
+python3 -m venv ~/venv && source ~/venv/bin/activate
+pip install -r requirements.txt
 
+# 2. student 모델 받기
+export HF_HUB_ENABLE_HF_TRANSFER=1
+hf download OpenGVLab/InternVL3-1B --local-dir /models/internvl3-1b
 
+# 3. 데이터 로컬 sync
+export BUCKET=vlm-data-499514681453-ap-northeast-2
+export DATA_ROOT=/opt/dlami/nvme/hf-cache/data
+bash sync_data.sh
 
+# 4. 단일 GPU 학습
+python train_lora.py --model /models/internvl3-1b --data-root $DATA_ROOT
 
+# 5. 멀티 GPU 학습
+torchrun --nproc_per_node=4 train_lora.py --model /models/internvl3-1b --data-root $DATA_ROOT
 ```
 
 
