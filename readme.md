@@ -29,7 +29,7 @@ teacher 모델로는 InternVL3-78B를, student 모델로는 같은 계열의 Int
   
 ### ■ _Part 2. Advanced (EKS 병렬 스케일아웃)_ ###
 
-* [1. 워크플로우 컨테이너화 (Docker Image 빌드 & ECR 푸시)]
+* [1. 워크플로우 도커라이징]
 * [2. K8s Job 기반 증류 학습 데이터 병렬 생성 (VLM 대규모 배치 인퍼런스)](https://github.com/gnosia93/vlm-on-eks/blob/main/labs/5-vlm-infer.md) — 다수의 Job으로 VLM 배치 인퍼런스를 병렬 수행해 Student의 학습용 데이터를 생성.
 * [3. PyTorch DDP 기반 Student 모델 분산 학습]
 
