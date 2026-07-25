@@ -1,5 +1,5 @@
 
-## PyTorch DDP 기반 MNIST 모델 학습 (Kubeflow Trainer / V2) ##
+## Kubeflow로 MNIST 분산학습 (DDP) ##
 
 ### 1. Kubeflow Trainer 설치 ###
 
