@@ -29,10 +29,9 @@ teacher 모델로는 InternVL3-78B를, student 모델로는 같은 계열의 Int
   
 ### ■ _Part 2. Advanced (EKS 병렬 스케일아웃)_ ###
 
-* [1. 워크플로우 도커라이징]
-* [2. K8s Job 기반 학습 데이터 병렬 생성](https://github.com/gnosia93/vlm-on-eks/blob/main/labs/5-vlm-infer.md)
-* [3. PyTorch DDP 기반 Student 모델 학습]
-
+* 1. K8s Job 기반 학습 데이터 병렬 생성
+* 2. kubeflow DDP
+     
 
 
 ### ■ _Wrap Up_ ###
