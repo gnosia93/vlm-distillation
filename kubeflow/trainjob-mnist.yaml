@@ -1,19 +1,11 @@
 # MNIST DDP 훈련 — Kubeflow Trainer (V2) 버전.
 #
-# V1 의 PyTorchJob(Master/Worker 역할) 과 달리, V2 는 역할 명칭 없이
-# numNodes(노드 수) 로만 규모를 지정한다. rank 0 는 별도 이름 없이 그냥 rank 0.
-#
-# ⚠️ V2(trainer.kubeflow.org) 는 발전 중인 API 라 필드명이 배포 버전마다
-#    다를 수 있다. 적용 전 반드시 아래로 스키마를 확인할 것:
-#        kubectl explain trainjob.spec.trainer
-#        kubectl get clustertrainingruntime      # 사용 가능한 런타임 목록
-#
 # 실행:  kubectl apply -f trainjob-mnist.yaml
 apiVersion: trainer.kubeflow.org/v1alpha1
 kind: TrainJob
 metadata:
   name: mnist-ddp
-  namespace: kubeflow-user
+  namespace: kubeflow
 spec:
   # 클러스터에 미리 설치된 분산 런타임 참조 (torch distributed).
   # 이름은 배포판마다 다를 수 있음 -> `kubectl get clustertrainingruntime` 확인.
