@@ -30,7 +30,7 @@ teacher 모델로는 InternVL3-78B를, student 모델로는 같은 계열의 Int
 ### ■ _Part 2. Advanced (EKS 병렬 스케일아웃)_ ###
 
 * [1. K8s Job 기반 학습 데이터 병렬 생성]
-* [2. PyTorch DDP 기반 MNIST 모델 학습(Kubeflow Trainer / V2)](https://github.com/gnosia93/vlm-distillation/tree/main/kubeflow)
+* [2. Kubeflow로 MNIST 분산학습 (DDP)](https://github.com/gnosia93/vlm-distillation/tree/main/kubeflow)
   
      
 
