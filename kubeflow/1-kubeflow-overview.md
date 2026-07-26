@@ -33,7 +33,7 @@ Trainer는 두 세대가 있다.
 
 Trainer는 학습 코드를 대체하지 않는다. 모델 학습 로직은 여전히 우리가 짠 PyTorch DDP 코드(train.py) 이고, Trainer는 그 코드를 여러 파드에 걸쳐 띄우고 연결해주는 실행 인프라일 뿐이다. 즉 train.py는 어디서든 그대로 두고, 실행만 Trainer에게 맡기는 구조다.
 
-### 3/ 분산 학습의 3계층 ###
+### 3. 분산 학습의 3계층 ###
 
 분산 학습은 세 개의 층으로 나뉘어서 동작한다.
 
@@ -52,6 +52,97 @@ torchrun이 뒤에 있기 때문이다.
 torchrun train.py를 조립해 실행하고 노드 간 주소 연결까지 자동으로 처리.
 
 즉 Kubeflow가 torchrun을 대체하는 것이 아니라, torchrun을 여러 파드에 걸쳐 자동으로 세팅·실행해주는 상위 오케스트레이터다. 같은 torchrun이 도는데, "누가 그것을 띄우느냐"만 다르다.
+
+
+## 4. Kubeflow Trainer 설치 ##
+
+* https://github.com/kubeflow/trainer/releases
+```
+sudo dnf install git -y
+export VERSION=v2.2.1
+kubectl apply --server-side -k "https://github.com/kubeflow/trainer.git/manifests/overlays/manager?ref=${VERSION}"
+```
+30 초 정도 지난 후에 클러스터 트레이닝런타임을 설치한다. 
+```
+kubectl apply --server-side -k "https://github.com/kubeflow/trainer.git/manifests/overlays/runtimes?ref=${VERSION}"
+kubectl get clustertrainingruntimes
+```
+[결과]
+```
+NAME                     AGE
+deepspeed-distributed    9s
+mlx-distributed          9s
+torch-distributed        9s
+torchtune-llama3.2-1b    9s
+torchtune-llama3.2-3b    9s
+torchtune-qwen2.5-1.5b   9s
+```
+
+**_(Optional)_** torch-distributed 런타임을 아래와 같이 수정한다. 
+```
+kubectl edit clustertrainingruntime torch-distributed 
+```
+```
+apiVersion: trainer.kubeflow.org/v1alpha1
+kind: ClusterTrainingRuntime
+metadata:
+  name: torch-distributed
+spec:
+  template:
+    spec:
+      # ❌ shareProcessNamespace: true   → 제거 (사이드카/디버깅용, 학습엔 불필요)
+      # ❌ hostIPC: true                 → 제거 (아래 /dev/shm emptyDir로 대체)
+      containers:
+        - name: node
+          securityContext:
+            # ❌ privileged: true        → 제거 (EFA device plugin으로 대체)
+            capabilities:
+              add: ["IPC_LOCK"]          # ✅ 유지 - RDMA 메모리 핀(필수)
+          resources:
+            limits:
+              vpc.amazonaws.com/efa: 1   # ✅ EFA 디바이스를 플러그인으로 노출
+              nvidia.com/gpu: 8          # 인스턴스 GPU 수에 맞게
+            requests:
+              vpc.amazonaws.com/efa: 1
+              nvidia.com/gpu: 8
+          volumeMounts:
+            - name: dshm
+              mountPath: /dev/shm        # ✅ NCCL 공유메모리
+      volumes:
+        - name: dshm
+          emptyDir:
+            medium: Memory               # 호스트 IPC 대신 메모리 볼륨
+            sizeLimit: 16Gi              # 모델/배치에 맞게 조정
+```
+* ClusterTrainingRuntime은 플랫폼 관리자가 관리하는 공용 템플릿이고, 실제 학습을 실행하는 TrainJob에서 필요한 부분만 덮어씁니다. 이때 덮어쓰는 방법이 필드의 성격에 따라 두 갈래로 나뉩니다. 학습의 핵심 파라미터는 안정적으로 관리되어야 하는 반면, 파드 배치나 스토리지 같은 인프라 설정은 유연하게 바뀔 수 있어야 하기 때문입니다
+```
+① spec.trainer (Trainer API) — node(trainer) 컨테이너의 핵심 값
+image, command, args, resources(GPU/EFA 개수), numNodes, env
+이건 반드시 Trainer API로만 덮어써야 함
+
+② spec.runtimePatches (RuntimePatches API) — 그 외 파드/컨테이너 스펙
+volumes, volumeMounts, nodeSelector, tolerations, serviceAccount, securityContext, labels, annotations
+이 API는 예전의 podTemplateOverrides를 대체한 것으로, 여러 주체(사용자·Kueue·admission webhook)가 각자 이름(manager) 아래 패치를 기여하고 이를 병합하는 다중 소유(multi-owner) 모델을 씁니다. 설치된 Trainer 버전에 따라 runtimePatches(신규)일 수도, podTemplateOverrides(구)일 수도 있습니다.
+```
+* privileged: true 는 호스트 시스템의 모든 리소스(디바이스)와 커널 기능에 대한 완전한 접근 권한을 부여하는 설정이다.(보안상 이 설정은 하지 말아야 한다)
+
+    
+> [!NOTE]
+> _멀티 노드 분산 학습이 아닌 싱글 노드 분산 학습(예: 하나의 노드 안에서 GPU 1~8장으로 훈련)의 경우, 노드 간 조율이 필요 없으므로 Kubeflow Trainer를 설치할 필요가 없다. 이때는 하나의 노드안에서 torchrun --nproc_per_node=<GPU 수>만으로 노드 내 프로세스를 띄우고 NCCL이 GPU 간 통신을 처리하면 충분하다._ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ### 4. Kubeflow Trainer 설치 ###
 
