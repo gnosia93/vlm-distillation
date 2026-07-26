@@ -63,7 +63,7 @@ https://docs.docker.com/engine/reference/commandline/login/#credentials-store
 
 Login Succeeded
 ```
-도커 이미지를 빌드한다. 
+도커 이미지를 빌드하여 ecr 에 푸시한다.
 ```
 docker build --platform linux/amd64 -t $ECR/mnist-ddp:latest .
 docker push $ECR/mnist-ddp:latest
@@ -81,7 +81,7 @@ a63da41ef05f: Pushed
 0b9c994b0484: Pushed 
 ```
 
-ecr 에 푸시한다. 
+ecr 에 푸시된 이미지를 확인한다.
 ```
 aws ecr describe-images --repository-name mnist-ddp --region $AWS_REGION
 ```
