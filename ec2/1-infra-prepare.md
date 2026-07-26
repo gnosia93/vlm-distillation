@@ -504,7 +504,7 @@ spec:
 EOF
 ```
 
-파드를 생성하고 nvidia-smi 가 동작하는지 확인한다.  
+파드를 생성하고 nvidia-smi 가 동작하는지 확인한다. 파드의 상태는 Pending -> Container Creating -> Running 상태로 바뀐다.
 ```
 kubectl get pods
 ```
