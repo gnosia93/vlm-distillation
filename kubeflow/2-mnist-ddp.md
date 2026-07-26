@@ -133,7 +133,7 @@ aws ecr describe-images --repository-name mnist-ddp --region $AWS_REGION
 }
 ```
 > [!WARNING]
-> 이미지 태그 관리  
+> **이미지 태그 관리**  
 > 훈련 소스 코드가 변경되면 Docker 빌드 시 태그를 증가시켜야 한다 ($ECR/mnist-ddp:v1.0.0 → $ECR/mnist-ddp:v1.0.1).
 > 같은 태그로 덮어쓰면, ECR의 이미지는 갱신되지만 노드에 캐시된 기존 이미지가 재사용되어 변경 사항이 반영되지 않은 채 실행된다.
 > 이는 고정 태그(latest가 아닌)의 기본 imagePullPolicy가 IfNotPresent이기 때문이다.
