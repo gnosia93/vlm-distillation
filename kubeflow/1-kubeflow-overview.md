@@ -131,21 +131,7 @@ volumes, volumeMounts, nodeSelector, tolerations, serviceAccount, securityContex
 > _멀티 노드 분산 학습이 아닌 싱글 노드 분산 학습(예: 하나의 노드 안에서 GPU 1~8장으로 훈련)의 경우, 노드 간 조율이 필요 없으므로 Kubeflow Trainer를 설치할 필요가 없다. 이때는 하나의 노드안에서 torchrun --nproc_per_node=<GPU 수>만으로 노드 내 프로세스를 띄우고 NCCL이 GPU 간 통신을 처리하면 충분하다._ 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-### 4. Kubeflow Trainer 설치 ###
-
+아래 명령어로 설치 여부를 확인한다. 
 ```bash
 # Trainer(V2) 설치 확인 — 이 CRD 가 있어야 한다
 kubectl get crd trainjobs.trainer.kubeflow.org
@@ -160,11 +146,3 @@ kubectl explain trainjob.spec.trainer
 kubectl get nodes -o json | grep nvidia.com/gpu
 ```
 
-**→ 확인**: `trainjobs.trainer.kubeflow.org` CRD가 존재하고, `clustertrainingruntime`
-목록에 torch 계열 런타임(예: `torch-distributed`)이 하나 이상 보이면 통과.
-
-> ⚠️ V2는 API가 안정화 전이다. 위에서 확인한 **런타임 이름·필드명을 이 실습 내내 그대로 사용**한다.
-
-
-kubectl delete trainjob <job-name> -n kubeflow-user
-```
