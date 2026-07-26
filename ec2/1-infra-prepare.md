@@ -694,7 +694,9 @@ kubectl apply -k "https://github.com/kubernetes-csi/external-snapshotter/deploy/
 
 ## S3 버킷 생성 ##
 ```
-export AWS_REGION=ap-northeast-2
+TOKEN=$(curl -s -X PUT "http://169.254.169.254/latest/api/token" -H "X-aws-ec2-metadata-token-ttl-seconds: 21600")
+
+export AWS_REGION=$(curl -s -H "X-aws-ec2-metadata-token: $TOKEN" http://169.254.169.254/latest/meta-data/placement/region)
 export ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
 export BUCKET=vlm-data-${ACCOUNT_ID}-${AWS_REGION}
 
