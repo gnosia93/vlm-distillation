@@ -628,4 +628,12 @@ drwxr-xr-x. 40 root root 0 Jul 24 17:43 ..
 lrwxrwxrwx.  1 root root 0 Jul 24 17:43 rdmap47s0 -> ../../devices/pci0000:24/0000:24:00.0/0000:25:00.0/0000:26:01.0/0000:2f:00.0/infiniband/rdmap47s0
 ```
 
+## CloudWatch Container Insight ##
 
+```
+kubectl get pods -n amazon-cloudwatch
+# cloudwatch-agent-*, fluent-bit-* (노드마다 하나씩) Running 이면 정상
+
+aws logs tail "/aws/containerinsights/${CLUSTER_NAME}/application" \
+  --region "${AWS_REGION}" --follow
+```
