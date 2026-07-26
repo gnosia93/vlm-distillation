@@ -26,22 +26,6 @@ kubectl patch ec2nodeclass gpu --type=merge -p '{"metadata":{"finalizers":[]}}'
 eksctl delete cluster --name $CLUSTER_NAME --region $AWS_REGION --wait
 ```
 
-* 잔재 확인..이건 tag 로 좀더 세부적으로 찾아야 할듯.
-```
-# 고아 EC2 (카펜터 노드 잔재)
-aws elbv2 describe-load-balancers --region $AWS_REGION \
-  --query "LoadBalancers[].[LoadBalancerName,Type]" --output table
-
-aws ec2 describe-instances --region $AWS_REGION \
-  --filters "Name=instance-state-name,Values=running" \
-  --query "Reservations[].Instances[].[InstanceId,Tags[?Key=='karpenter.sh/nodepool']|[0].Value]" --output table
-
-# 안 붙은 EBS 볼륨
-aws ec2 describe-volumes --region $AWS_REGION \
-  --filters Name=status,Values=available --query "Volumes[].VolumeId" --output text
-```
-
-
 
 
 
