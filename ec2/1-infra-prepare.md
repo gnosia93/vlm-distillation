@@ -166,6 +166,12 @@ addons:
   - name: kube-proxy
   - name: coredns
   - name: aws-ebs-csi-driver                   
+  - name: amazon-cloudwatch-observability     # 파드 로그/메트릭 수집 (Container Insights)
+    podIdentityAssociations:
+      - serviceAccountName: cloudwatch-agent
+        namespace: amazon-cloudwatch
+        permissionPolicyARNs:
+          - arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy
 
 managedNodeGroups:                           # 관리형 노드 그룹
   - name: ng-x86
