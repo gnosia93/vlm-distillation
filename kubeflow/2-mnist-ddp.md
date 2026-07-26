@@ -337,4 +337,6 @@ mnist-ddp-2gpu-node-0-0:59:80 [1] NCCL INFO Channel 01 : 1[1] -> 0[0] via SHM/di
 ...
 ```
 
-### 8. EFA 사용하기 ###
+## 레퍼런스 ##
+
+* [Deep Learning Containers](https://aws.github.io/deep-learning-containers/reference/available_images/)
