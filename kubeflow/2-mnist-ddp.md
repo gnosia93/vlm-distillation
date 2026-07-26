@@ -45,7 +45,7 @@ sudo usermod -aG docker $USER
 newgrp docker
 ```
 
-ecr 레포지토리를 생성하고 mnist-ddp 도커 이미지를 푸시한다. 
+ecr 레포지토리를 생성하고 로그인 한다. 
 ```bash
 cd ddp
 
@@ -54,7 +54,17 @@ echo "ECR: $ECR"
 
 aws ecr create-repository --repository-name mnist-ddp --region $AWS_REGION
 aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR
+```
+[결과]
+```
+WARNING! Your password will be stored unencrypted in /home/ec2-user/.docker/config.json.
+Configure a credential helper to remove this warning. See
+https://docs.docker.com/engine/reference/commandline/login/#credentials-store
 
+Login Succeeded
+```
+도커 이미지를 만들어서 ecr 에 푸시한다.
+```
 docker build --platform linux/amd64 -t $ECR/mnist-ddp:latest .
 docker push $ECR/mnist-ddp:latest
 
