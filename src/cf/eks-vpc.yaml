@@ -254,6 +254,7 @@ Resources:
               - "ssm:GetCommandInvocation"
               - "ssm:GetConnectionStatus"
               - "ssm:ListCommandInvocations"
+              - "pricing:GetProducts"
             Resource: "*"
           - Sid: KarpenterInfrastructure
             Effect: Allow
