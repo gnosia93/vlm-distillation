@@ -20,6 +20,7 @@ kubectl delete pvc --all --all-namespaces
 # 2) 카펜터 노드 스스로 정리시키기 (있다면)
 kubectl delete nodepool --all
 kubectl delete ec2nodeclass --all
+kubectl patch ec2nodeclass gpu --type=merge -p '{"metadata":{"finalizers":[]}}'
 
 # 3) 클러스터 삭제
 eksctl delete cluster --name $CLUSTER_NAME --region $AWS_REGION --wait
