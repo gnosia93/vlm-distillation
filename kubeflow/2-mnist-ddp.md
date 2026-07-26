@@ -198,6 +198,15 @@ envsubst '$IMAGE_URI $BUCKET' < trainjob-mnist.yaml | kubectl apply -f -
 kubectl get trainjob -n mnist
 kubectl get pods -n mnist            
 ```
+[결과]
+```
+NAME        STATE   AGE
+mnist-ddp           3m12s
+
+NAME                       READY   STATUS              RESTARTS   AGE
+mnist-ddp-node-0-0-sbqmz   0/1     ContainerCreating   0          2m7s
+mnist-ddp-node-0-1-zzsrt   0/1     ContainerCreating   0          2m7s
+```
 
 ### 5. 스케일 조정 ###
 
