@@ -37,12 +37,12 @@ spec:
         nvidia.com/gpu: 1            # 노드당 GPU 1개 (numProcPerNode 와 맞춤), limits 에만 명시해도 request 시 반영됨
   # ★ 여기부터 추가 — 서비스 어카운트 지정
   runtimePatches:
-    - manager: "mnist-irsa"          # 소유자 식별용 임의 문자열 (비어있으면 안 됨)
+    - manager: "example.com/mnist-irsa"          # 소유자 식별용 임의 문자열 (비어있으면 안 됨, 도메인 형식)
       trainingRuntimeSpec:
         template:
           spec:
             replicatedJobs:
-              - name: node           # torch-distributed 런타임의 replicatedJob 이름
+              - name: node                       # torch-distributed 런타임의 replicatedJob 이름
                 template:
                   spec:
                     template:
