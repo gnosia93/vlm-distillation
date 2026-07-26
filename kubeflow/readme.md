@@ -31,8 +31,6 @@ Trainer는 두 세대가 있다.
 - V1 (Training Operator): 프레임워크마다 별도 리소스(PyTorchJob, TFJob…)를 쓰고, 노드를 Master/Worker 역할로 나눠 지정한다.
 - V2 (Kubeflow Trainer): 프레임워크와 무관하게 TrainJob 하나로 통합했고, 역할 개념 없이 numNodes 숫자만으로 규모를 선언한다. Python SDK가 주 인터페이스이며, 공통 설정은 ClusterTrainingRuntime 으로 재사용한다.
 
-**이 실습은 V2 기준으로 진행한다.**
-
 Trainer는 학습 코드를 대체하지 않는다. 모델 학습 로직은 여전히 우리가 짠 PyTorch DDP 코드(train.py) 이고, Trainer는 그 코드를 여러 파드에 걸쳐 띄우고 연결해주는 실행 인프라일 뿐이다. 즉 train.py는 어디서든 그대로 두고, 실행만 Trainer에게 맡기는 구조다.
 
 ### 분산 학습의 3계층 ###
