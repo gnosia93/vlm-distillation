@@ -42,7 +42,7 @@ cd ddp
 export ECR=$ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
 echo "ECR: $ECR"
 
-aws ecr create-repository --repository-name mnist-ddp --region $AWS_REGION || true
+aws ecr create-repository --repository-name mnist-ddp --region $AWS_REGION
 aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR
 
 docker build --platform linux/amd64 -t $ECR/mnist-ddp:latest .
