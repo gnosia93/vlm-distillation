@@ -287,19 +287,24 @@ kubectl delete trainjob mnist-ddp -n mnist     # 이전 작업 삭제 후
 envsubst '$IMAGE_URI $BUCKET' < trainjob-mnist.yaml | kubectl apply -f -      # 재실행
 ```
 
-### 7. 싱글 노드로 실행하기 ###
+### 7. 싱글 노드 멀티 GPU로 실행하기 ###
 
-AWS G/P 타입 인스턴스는 노드당 최대 8개의 GPU를 제공한다. 2-GPU 규모의 분산 훈련이라면, 2개 노드에 1 GPU씩 두는 대신 한 노드에서 2 GPU로 실행하는 편이 유리할 수 있다. GPU 간 통신이 노드 간 네트워크(TCP)를 타지 않고 노드 내부의 NVLink/PCIe(또는 GPUDirect P2P) 로 이뤄져 통신 오버헤드가 크게 줄기 때문이다.
-
-GPU가 2개인 인스턴스(예: Blackwell 기반 g7e.12xlarge)의 경우, 아래처럼 2개만 요청해 사용하면 된다. g7e는 GPUDirect P2P를 지원해 노드 내 멀티-GPU 성능에 특히 유리하다.
-```yaml
-  trainer:
-    numNodes: 1
-    numProcPerNode: "2"
-    resourcesPerNode:
-      limits:
-        nvidia.com/gpu: 2
+분산 훈련의 성능은 GPU 간 통신(allreduce) 경로에 크게 좌우된다. 같은 GPU 수라도 이 통신이 어디를 거치느냐에 따라 속도가 달라진다. 경로를 빠른 순서로 보면 다음과 같다.
 ```
+구성	통신 경로	상대 속도
+싱글 노드 멀티 GPU	노드 내부 (NVLink / PCIe P2P, 미지원 시 SHM)	가장 빠름
+멀티 노드 + EFA	노드 간 고속 RDMA 네트워크	빠름
+멀티 노드 + 일반 네트워크	노드 간 TCP/Socket (이더넷)	가장 느림
+```
+
+즉 필요한 GPU 수가 한 노드 안에 들어간다면(대개 ≤8개), 여러 노드에 나눠 배치하는 것보다 한 노드에 몰아넣는 편이 대체로 빠르다. 노드 내부 통신(NVLink/PCIe/공유 메모리)은 노드 간 네트워크보다 지연이 훨씬 낮고, 잘 튜닝된 EFA조차 노드 내부 경로를 넘어서기는 어렵기 때문이다. 반대로 일반 네트워크(TCP)로 노드를 나누면 통신이 병목이 되어, GPU를 늘려도 기대만큼 빨라지지 않는 경우가 많다.
+
+따라서 스케일링 전략은 이렇게 정리할 수 있다.
+* 한 노드로 충분한 규모 → 싱글 노드 멀티 GPU (노드 내부 통신, 가장 유리)
+* 한 노드 용량(최대 8 GPU)을 초과 → 멀티 노드로 확장하되, 이때는 반드시 EFA를 사용해 노드 간 통신 페널티를 최소화 (일반 TCP는 지양)
+GPU가 여러 개인 인스턴스(예: Blackwell 기반 g7e 계열의 멀티-GPU 크기)에서 필요한 수만큼만 요청해 사용하면 된다. 반드시 GPU 수가 딱 맞는 인스턴스일 필요는 없고, GPU가 그 이상인 노드에서 원하는 개수만 요청하면 된다. 특히 g7e는 GPUDirect P2P를 지원해 노드 내 멀티-GPU 성능에 유리하다.
+참고로 g7e 는 노드당 1, 2, 4, 8 갯수의 GPU 를 지원한다. 
+
 
 ```
 kubectl delete trainjob mnist-ddp -n mnist     # 이전 작업 삭제 후 
