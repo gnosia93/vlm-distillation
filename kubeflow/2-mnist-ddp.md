@@ -132,6 +132,11 @@ aws ecr describe-images --repository-name mnist-ddp --region $AWS_REGION
     ]
 }
 ```
+> [!WARNING]
+> 훈련 소스 코드에 변경이 발생하는 경우 docker 빌드시 태그값을 증가 시켜줘야 한다.
+> $ECR/mnist-ddp:v1.0.0 -> $ECR/mnist-ddp:v1.0.1
+> 이렇게 하지 않으면, ecr 이미지는 업데이트 되나, 실행시 기존 이미지로 실행이 된다.  
+
 
 ### 3. S3 접근 설정 (IRSA) ###
 
