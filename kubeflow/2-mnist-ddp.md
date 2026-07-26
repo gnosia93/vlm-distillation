@@ -211,11 +211,42 @@ NAME                       READY   STATUS              RESTARTS   AGE
 mnist-ddp-node-0-0-sbqmz   0/1     ContainerCreating   0          2m7s
 mnist-ddp-node-0-1-zzsrt   0/1     ContainerCreating   0          2m7s
 ```
-eks-node-viewer 로 프로비저닝된 GPU 노드를 확인한다. 
+
+### 5. 모니터링 & 결과 검증 ###
+
+* eks-node-viewer - GPU 노드를 확인. 
 ![](https://github.com/gnosia93/vlm-distillation/blob/main/images/eks-nodeviewer.png)
 
+* k9s - 파드 정보 확인
 
-### 5. 스케일 조정 ###
+
+* rank 0 파드 로그 스트리밍 (파드 이름은 kubectl get pods 로 확인)
+```bash
+kubectl logs -n mnist mnist-ddp-node-0-0-sbqmz -f
+```
+
+* s3 체크 포인트 확인
+```
+
+```
+
+
+### 7. Job 정리 및 재실행 ###
+
+TrainJob 은 이름으로 구분되므로, 다시 돌리려면 삭제후 재 실행해야 한다.
+
+```bash
+kubectl delete -f trainjob-mnist.yaml
+```
+
+> [!NOTE]
+> trainjob 명령어
+> * 잡 확인 - kubectl get trainjob                       
+> * 잡 삭제 - kubectl delete trainjob llama-3-8b        
+> * 잡 상세 - kubectl describe trainjob llama-3-8b
+
+
+### 7. 스케일 조정 ###
 
 SDK 예 (단일노드 2GPU로 다시 실행):
 ```bash
@@ -231,39 +262,3 @@ YAML이라면 `trainjob-mnist.yaml`에서:
       limits:
         nvidia.com/gpu: 2
 ```
-
-### 6. 모니터링 & 결과 검증 ###
-
-```bash
-# rank 0 파드 로그 스트리밍 (파드 이름은 kubectl get pods 로 확인)
-kubectl logs -n kubeflow-user <rank0-pod> -f
-```
-정상 로그 예:
-```
-start: rank=0/2 local_rank=0 backend=nccl device=cuda:0
-[rank 0] epoch 1 [0/60000] loss=2.3011
-...
-모델 저장 완료: /data/mnist_ddp.pt
-체크포인트 업로드: s3://my-datasets/checkpoints/mnist_ddp.pt
-```
-
-**→ 확인**:
-- 로그에서 loss가 epoch마다 감소
-- 체크포인트 업로드 확인:
-  ```bash
-  aws s3 ls s3://my-datasets/checkpoints/
-  ```
-
-### 7. Job 정리 및 재실행 ###
-
-TrainJob 은 이름으로 구분되므로, 다시 돌리려면 삭제후 재 실행해야 한다.
-
-```bash
-kubectl delete -f trainjob-mnist.yaml
-```
-
-> [!NOTE]
-> trainjob 명령어
-> * 잡 확인 - kubectl get trainjob                       
-> * 잡 삭제 - kubectl delete trainjob llama-3-8b        
-> * 잡 상세 - kubectl describe trainjob llama-3-8b
