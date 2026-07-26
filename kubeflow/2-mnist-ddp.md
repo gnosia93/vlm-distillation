@@ -266,7 +266,7 @@ mnist-ddp-node-0-0:52:68 [0] NCCL INFO 2 coll channels, 0 collnet channels, 0 nv
 mnist-ddp-node-0-0:52:68 [0] NCCL INFO comm 0xf2d1110 rank 0 nranks 2 cudaDev 0 nvmlDev 0 busId 3e000 commId 0x9027aa087e96735b - Init COMPLETE
 ```
 > [!WARNING]
-> 노드간의 통신은 TCP Socket 통신이다. EFA 로 바꿔줘야 한다..
+> 노드간의 통신은 TCP Socket 통신(via NET/Socket/0) 이다. EFA 로 바꿔줘야 한다..
 
 ### 6. Job 정리 / 재실행 ###
 
