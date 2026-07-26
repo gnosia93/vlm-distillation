@@ -713,6 +713,7 @@ cat > s3-policy.json <<EOF
       "Sid": "VlmDataBucketRW",
       "Effect": "Allow",
       "Action": [
+		"s3:CreateBucket",
         "s3:GetObject",
         "s3:PutObject",
         "s3:DeleteObject",
