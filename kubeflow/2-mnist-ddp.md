@@ -21,7 +21,7 @@ git clone https://github.com/gnosia93/vlm-distillation.git
 cd ~/vlm-distillation/kubeflow/src
 
 pip install torch torchvision boto3
-python upload_mnist_to_s3.py --s3-bucket $BUCKET --s3-prefix mnist/raw
+python3 upload_mnist_to_s3.py --s3-bucket $BUCKET --s3-prefix mnist/raw
 
 aws s3 ls s3://my-datasets/mnist/raw/
 ```
