@@ -6,6 +6,7 @@
 TOKEN=$(curl -s -X PUT "http://169.254.169.254/latest/api/token" -H "X-aws-ec2-metadata-token-ttl-seconds: 21600")
 
 export REGION=$(curl -s -H "X-aws-ec2-metadata-token: $TOKEN" http://169.254.169.254/latest/meta-data/placement/region)
+export AWS_RESION=$REGION
 export ACCOUNT_ID=$(aws sts get-caller-identity --query 'Account' --output text)
 export BUCKET=vlm-data-${ACCOUNT_ID}-${REGION}
 
@@ -36,8 +37,6 @@ aws s3 ls s3://$BUCKET/mnist/raw/
 ### 2. 학습 코드 도커라이징 ###
 
 ```bash
-export AWS_REGION=ap-northeast-2
-export ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
 export ECR=$ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
 
 aws ecr create-repository --repository-name mnist-ddp --region $AWS_REGION || true
