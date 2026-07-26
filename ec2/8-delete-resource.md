@@ -14,6 +14,7 @@ aws s3api delete-bucket --bucket $BUCKET --region $REGION  # 그다음 버킷 �
 
 ```
 # 1) LB/PVC 먼저 (안 지우면 나중에 VPC 삭제가 막힘)
+kubectl delete ingress --all --all-namespaces   
 kubectl delete svc --all --all-namespaces
 kubectl delete pvc --all --all-namespaces
 
@@ -28,6 +29,9 @@ eksctl delete cluster --name $CLUSTER_NAME --region $AWS_REGION --wait
 * 잔재 확인..이건 tag 로 좀더 세부적으로 찾아야 할듯.
 ```
 # 고아 EC2 (카펜터 노드 잔재)
+aws elbv2 describe-load-balancers --region $AWS_REGION \
+  --query "LoadBalancers[].[LoadBalancerName,Type]" --output table
+
 aws ec2 describe-instances --region $AWS_REGION \
   --filters "Name=instance-state-name,Values=running" \
   --query "Reservations[].Instances[].[InstanceId,Tags[?Key=='karpenter.sh/nodepool']|[0].Value]" --output table
