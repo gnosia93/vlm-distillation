@@ -85,6 +85,26 @@ ecr 에 푸시한다.
 ```
 aws ecr describe-images --repository-name mnist-ddp --region $AWS_REGION
 ```
+[결과]
+```
+{
+    "imageDetails": [
+        {
+            "registryId": "499514681453",
+            "repositoryName": "mnist-ddp",
+            "imageDigest": "sha256:cfc1c18db69546240237381ef3d854e4bdbd725f6239e9eb466207d7f1ac92c5",
+            "imageTags": [
+                "latest"
+            ],
+            "imageSizeInBytes": 3737181538,
+            "imagePushedAt": "2026-07-26T02:31:51.462000+00:00",
+            "imageManifestMediaType": "application/vnd.docker.distribution.manifest.v2+json",
+            "artifactMediaType": "application/vnd.docker.container.image.v1+json",
+            "imageStatus": "ACTIVE"
+        }
+    ]
+}
+```
 
 ### 3. S3 접근 설정 ###
 
