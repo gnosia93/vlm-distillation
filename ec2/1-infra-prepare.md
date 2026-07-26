@@ -4,7 +4,7 @@
 cloudformation 으로 vpc 를 생성하고, CF_STACK 파일에 스택이름을 저장한다.
 ```
 export AWS_REGION="ap-northeast-2"
-export CF_STACK="vlm-distillation-`date +"%m%d_%H%M%S"`"
+export CF_STACK="vlm-distillation-`date +"%m%d-%H%M%S"`"
 echo "CF_STACK: $CF_STACK" | tee CF_STACK	
 
 cd ~
