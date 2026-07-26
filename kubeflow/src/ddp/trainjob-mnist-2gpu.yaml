@@ -47,3 +47,5 @@ spec:
                     template:
                       spec:
                         serviceAccountName: mnist-sa
+                        nodeSelector:
+                          node.kubernetes.io/instance-type: g7e.12xlarge   # ★ 인스턴스 타입 지정
