@@ -228,6 +228,45 @@ mnist-ddp-node-0-1-zzsrt   0/1     ContainerCreating   0          2m7s
 ```bash
 kubectl logs -n mnist mnist-ddp-node-0-0-sbqmz -f
 ```
+[결과]
+```
+[diag] cuda.is_available=True device_count=1 torch=2.3.1 backend=nccl
+start: rank=0/2 local_rank=0 backend=nccl device=cuda:0
+S3 다운로드: s3://vlm-data-499514681453-ap-northeast-2/mnist/raw/train-images-idx3-ubyte.gz -> /data/MNIST/raw/train-images-idx3-ubyte.gz
+압축 해제 완료: /data/MNIST/raw/train-images-idx3-ubyte.gz
+S3 다운로드: s3://vlm-data-499514681453-ap-northeast-2/mnist/raw/train-labels-idx1-ubyte.gz -> /data/MNIST/raw/train-labels-idx1-ubyte.gz
+압축 해제 완료: /data/MNIST/raw/train-labels-idx1-ubyte.gz
+S3 다운로드: s3://vlm-data-499514681453-ap-northeast-2/mnist/raw/t10k-images-idx3-ubyte.gz -> /data/MNIST/raw/t10k-images-idx3-ubyte.gz
+압축 해제 완료: /data/MNIST/raw/t10k-images-idx3-ubyte.gz
+S3 다운로드: s3://vlm-data-499514681453-ap-northeast-2/mnist/raw/t10k-labels-idx1-ubyte.gz -> /data/MNIST/raw/t10k-labels-idx1-ubyte.gz
+압축 해제 완료: /data/MNIST/raw/t10k-labels-idx1-ubyte.gz
+mnist-ddp-node-0-0:52:52 [0] NCCL INFO Bootstrap : Using eth0:10.0.10.19<0>
+mnist-ddp-node-0-0:52:52 [0] NCCL INFO NET/Plugin : dlerror=libnccl-net.so: cannot open shared object file: No such file or directory No plugin found (libnccl-net.so), using internal implementation
+mnist-ddp-node-0-0:52:52 [0] NCCL INFO cudaDriverVersion 13000
+NCCL version 2.20.5+cuda12.1
+mnist-ddp-node-0-0:52:68 [0] NCCL INFO Failed to open libibverbs.so[.1]
+mnist-ddp-node-0-0:52:68 [0] NCCL INFO NET/Socket : Using [0]eth0:10.0.10.19<0>
+mnist-ddp-node-0-0:52:68 [0] NCCL INFO Using non-device net plugin version 0
+mnist-ddp-node-0-0:52:68 [0] NCCL INFO Using network Socket
+mnist-ddp-node-0-0:52:68 [0] NCCL INFO comm 0xf2d1110 rank 0 nranks 2 cudaDev 0 nvmlDev 0 busId 3e000 commId 0x9027aa087e96735b - Init START
+mnist-ddp-node-0-0:52:68 [0] NCCL INFO Setting affinity for GPU 0 to ffff,ffffffff
+mnist-ddp-node-0-0:52:68 [0] NCCL INFO comm 0xf2d1110 rank 0 nRanks 2 nNodes 2 localRanks 1 localRank 0 MNNVL 0
+mnist-ddp-node-0-0:52:68 [0] NCCL INFO Channel 00/02 :    0   1
+mnist-ddp-node-0-0:52:68 [0] NCCL INFO Channel 01/02 :    0   1
+mnist-ddp-node-0-0:52:68 [0] NCCL INFO Trees [0] 1/-1/-1->0->-1 [1] -1/-1/-1->0->1
+mnist-ddp-node-0-0:52:68 [0] NCCL INFO P2P Chunksize set to 131072
+mnist-ddp-node-0-0:52:68 [0] NCCL INFO Channel 00/0 : 1[0] -> 0[0] [receive] via NET/Socket/0
+mnist-ddp-node-0-0:52:68 [0] NCCL INFO Channel 01/0 : 1[0] -> 0[0] [receive] via NET/Socket/0
+mnist-ddp-node-0-0:52:68 [0] NCCL INFO Channel 00/0 : 0[0] -> 1[0] [send] via NET/Socket/0
+mnist-ddp-node-0-0:52:68 [0] NCCL INFO Channel 01/0 : 0[0] -> 1[0] [send] via NET/Socket/0
+mnist-ddp-node-0-0:52:68 [0] NCCL INFO Connected all rings
+mnist-ddp-node-0-0:52:68 [0] NCCL INFO Connected all trees
+mnist-ddp-node-0-0:52:68 [0] NCCL INFO threadThresholds 8/8/64 | 16/8/64 | 512 | 512
+mnist-ddp-node-0-0:52:68 [0] NCCL INFO 2 coll channels, 0 collnet channels, 0 nvls channels, 2 p2p channels, 2 p2p channels per peer
+mnist-ddp-node-0-0:52:68 [0] NCCL INFO comm 0xf2d1110 rank 0 nranks 2 cudaDev 0 nvmlDev 0 busId 3e000 commId 0x9027aa087e96735b - Init COMPLETE
+```
+> [!WARNING]
+> 노드간의 통신은 TCP Socket 통신이다. EFA 로 바꿔줘야 한다..
 
 ### 6. Job 정리 / 재실행 ###
 
