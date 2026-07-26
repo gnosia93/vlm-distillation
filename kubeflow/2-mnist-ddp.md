@@ -3,20 +3,26 @@
 ### 1. MNIST 데이터 준비 ###
 
 ```
-export AWS_REGION=$(aws ec2 describe-availability-zones --query 'AvailabilityZones[0].RegionName' --output text)
-export AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
-export CLUSTER_NAME="vlm-distillation"
-export K8S_VERSION="1.34"
-export KARPENTER_VERSION="1.8.1"
-export VPC_ID=$(aws ec2 describe-vpcs --filters Name=tag:Name,Values="${CLUSTER_NAME}" --query "Vpcs[].VpcId" --output text)
+TOKEN=$(curl -s -X PUT "http://169.254.169.254/latest/api/token" -H "X-aws-ec2-metadata-token-ttl-seconds: 21600")
 
-echo -e "\n------------------------------------------"
-echo "AWS_REGION: $AWS_REGION"
-echo "AWS_ACCOUNT_ID: $AWS_ACCOUNT_ID"
-echo "CLUSTER_NAME: $CLUSTER_NAME"
-echo "K8S_VERSION: $K8S_VERSION"
-echo "KARPENTER_VERSION: $KARPENTER_VERSION"
-echo "VPC_ID: $VPC_ID"
+export REGION=$(curl -s -H "X-aws-ec2-metadata-token: $TOKEN" http://169.254.169.254/latest/meta-data/placement/region)
+export ACCOUNT_ID=$(aws sts get-caller-identity --query 'Account' --output text)
+export SG_ID=$(aws ec2 describe-security-groups --region $REGION \
+  --filters "Name=group-name,Values=vlm-sg" \
+  --query "SecurityGroups[].GroupId" \
+  --output text)
+export SUBNET_ID=$(aws ec2 describe-subnets --region $REGION \
+  --filters "Name=tag:Name,Values=vlm-pub-subnet-2" \
+  --query "Subnets[0].SubnetId" \
+  --output text)
+export BUCKET=vlm-data-${ACCOUNT_ID}-${REGION}
+
+echo -e "\n-------------------------------------"
+echo "REGION: $REGION"
+echo "ACCOUNT_ID: $ACCOUNT_ID"
+echo "SG_ID: $SG_ID"
+echo "SUBNET_ID(2nd): $SUBNET_ID"
+echo "BUCKET: $BUCKET"
 ```
 MNIST 데이터를 다운로드 받아서 S3 에 업로드 한다. 
 ```bash
