@@ -533,6 +533,10 @@ Wed Dec 10 06:44:46 2025
 +-----------------------------------------------------------------------------------------+
 ```
 
+vs-code 웹 터미널을 하나 열어서 eks-node-viwer 를 실행한다. 
+![](https://github.com/gnosia93/vlm-distillation/blob/main/images/eks-node-view-nvidia-smi.png)
+
+
 ## EFA 활성화 ##
 
 EFA(Elastic Fabric Adapter)는 AWS가 제공하는 고성능 네트워크 인터페이스로, 여러 노드에 걸친 분산 학습처럼 노드 간에 대량의 데이터를 빠르게 주고받아야 하는 워크로드를 위해 설계되었습니다. 일반적인 네트워크는 운영체제 커널을 거쳐 통신하지만, EFA는 OS 커널을 우회해 애플리케이션이 네트워크 하드웨어와 직접 통신하는 OS-bypass 방식을 사용합니다. 덕분에 지연 시간이 크게 줄고 대역폭이 높아져, NCCL 기반의 GPU 간 집합 통신(collective communication)처럼 노드 간 동기화가 빈번한 대규모 학습에서 통신 병목을 완화해 줍니다.
