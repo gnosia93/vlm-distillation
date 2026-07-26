@@ -9,13 +9,12 @@ Kubeflow는 쿠버네티스 위에서 머신러닝 워크플로를 실행하기 
 
 Kubeflow는 하나의 프로그램이 아니라 여러 컴포넌트의 묶음이다. 대표적으로:
 
-* Kubeflow Pipelines ; ML 워크플로를 DAG로 정의·실행    
-* Katib ; 하이퍼파라미터 튜닝 / AutoML
-* KServe ; 학습된 모델 서빙     
-* Kubeflow Trainer (구 Training Operator) ; 분산 학습 실행 (이 실습에서 사용)
+* Kubeflow Pipelines - ML 워크플로를 DAG로 정의·실행    
+* Katib ; 하이퍼파라미터 튜닝 - AutoML
+* KServe - 학습된 모델 서빙     
+* Kubeflow Trainer (구 Training Operator) - 분산 학습 실행 (이 실습에서 사용)
   
 즉 우리가 이 실습에서 쓰는 것은 Kubeflow 전체가 아니라, 그중 분산 학습을 담당하는 Trainer 컴포넌트다.
-
 
 ### Kubeflow Trainer 란? ###
 
@@ -29,19 +28,12 @@ Trainer가 하는 일을 한 문장으로 요약하면 이렇다 :
 
 Trainer는 두 세대가 있다.
 
-- V1 (Training Operator): 프레임워크마다 별도 리소스(PyTorchJob, TFJob…)를 쓰고, 노드를 Master/Worker 역할로 나눠
-  지정한다.
-- V2 (Kubeflow Trainer): 프레임워크와 무관하게 TrainJob 하나로 통합했고, 역할 개념 없이 numNodes 숫자만으로 규모를
-  선언한다. Python SDK가 주 인터페이스이며, 공통 설정은 ClusterTrainingRuntime으로 재사용한다.
+- V1 (Training Operator): 프레임워크마다 별도 리소스(PyTorchJob, TFJob…)를 쓰고, 노드를 Master/Worker 역할로 나눠 지정한다.
+- V2 (Kubeflow Trainer): 프레임워크와 무관하게 TrainJob 하나로 통합했고, 역할 개념 없이 numNodes 숫자만으로 규모를 선언한다. Python SDK가 주 인터페이스이며, 공통 설정은 ClusterTrainingRuntime 으로 재사용한다.
 
-  이 실습은 V2 기준으로 진행한다.
+**이 실습은 V2 기준으로 진행한다.**
 
-  그래서 우리 코드와의 관계
-
-  Trainer는 학습 코드를 대체하지 않는다. 모델 학습 로직은 여전히 우리가 짠 PyTorch DDP 코드(train.py) 이고, Trainer는 그
-  코드를 여러 파드에 걸쳐 띄우고 연결해주는 실행 인프라일 뿐이다. 즉 train.py는 어디서든 그대로 두고, 실행만
-  Trainer에게 맡기는 구조다.
-
+Trainer는 학습 코드를 대체하지 않는다. 모델 학습 로직은 여전히 우리가 짠 PyTorch DDP 코드(train.py) 이고, Trainer는 그 코드를 여러 파드에 걸쳐 띄우고 연결해주는 실행 인프라일 뿐이다. 즉 train.py는 어디서든 그대로 두고, 실행만 Trainer에게 맡기는 구조다.
 
 ### 분산 학습의 3계층: 코드 · 런처 · 오케스트레이션 ###
 
