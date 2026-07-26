@@ -24,7 +24,7 @@ spec:
       - "--batch-size=64"
     env:
       - name: S3_BUCKET
-        value: "${IMAGE_URI}"
+        value: "${BUCKET}"
       - name: S3_PREFIX
         value: "mnist/raw"
     resourcesPerNode:
