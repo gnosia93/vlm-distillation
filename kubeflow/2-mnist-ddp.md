@@ -215,16 +215,16 @@ mnist-ddp-node-0-1-zzsrt   0/1     ContainerCreating   0          2m7s
 ### 5. 모니터링 & 결과 검증 ###
 
 * eks-node-viewer - GPU 노드를 확인    
-`vs-code 에서 새로운 터미널을 하나 열고 eks-node-viewer 실행`
+`vs-code 에서 새로운 터미널을 하나 열고 eks-node-viewer 실행`    
 ![](https://github.com/gnosia93/vlm-distillation/blob/main/images/eks-nodeviewer.png)
 
 
-* k9s - 파드 정보 확인 
-`vs-code 에서 새로운 터미널을 하나 열고 k9s 실행 -> 숫자키 '1' 을 누름`
+* k9s - 파드 정보 확인      
+`vs-code 에서 새로운 터미널을 하나 열고 k9s 실행 -> 숫자키 '1' 을 누름`    
 ![](https://github.com/gnosia93/vlm-distillation/blob/main/images/k9s-1.png)
 
 * rank 0 파드 로그 스트리밍   
-`파드 이름은 kubectl get pods 로 확인`
+`파드 이름은 kubectl get pods 로 확인`    
 ```bash
 kubectl logs -n mnist mnist-ddp-node-0-0-sbqmz -f
 ```
