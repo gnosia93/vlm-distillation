@@ -207,7 +207,7 @@ NAME                       READY   STATUS              RESTARTS   AGE
 mnist-ddp-node-0-0-sbqmz   0/1     ContainerCreating   0          2m7s
 mnist-ddp-node-0-1-zzsrt   0/1     ContainerCreating   0          2m7s
 ```
-eks-nodeviewer 로 프로비저닝된 GPU 노드를 확인한다. 
+eks-node-viewer 로 프로비저닝된 GPU 노드를 확인한다. 
 ![](https://github.com/gnosia93/vlm-distillation/blob/main/images/eks-nodeviewer.png)
 
 
