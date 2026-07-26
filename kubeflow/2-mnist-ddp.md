@@ -182,33 +182,23 @@ EOF
 
 
 
-확인 — 서비스어카운트에 IAM Role이 연결됐는지:
+서비스어카운트에 IAM Role이 연결됐는지 확인한다. 
 ```
-kubectl get sa $SA_NAME -n $NAMESPACE -o yaml | grep role-arn
-# eks.amazonaws.com/role-arn: arn:aws:iam::<계정ID>:role/... 이 보이면 성공
+kubectl get sa mnist-sa -n mnist -o yaml | grep role-arn
 ```
-
-IRSA는 서비스 어카운트를 만들어 놓은 것일 뿐이고, TrainJob 파드가 그 서비스어카운트(mnist-trainer)를 실제로 쓰도록 지정해야 적용됩니다. 
-
-- YAML (trainjob-mnist.yaml): 파드 템플릿에 serviceAccountName: mnist-trainer 추가
-- SDK (run_trainjob_sdk.py): TrainJob이 이 SA를 쓰도록 지정 (필드명은 설치 버전의 스키마 확인 필요)
-
-> [!NOTE]
-> 동작원리 
-> 파드 안의 boto3가 서비스어카운트에 붙은 토큰으로 IAM Role을 assume 하여 임시 자격증명 획득하므로,
-> 코드/매니페스트에 AWS 키를 넣지 않아도 된다. 
+[결과]
+```
+eks.amazonaws.com/role-arn: arn:aws:iam::499514681453:role/eksctl-vlm-distillation-addon-iamserviceaccou-Role1-02ETyaUCb8Aj
+```
 
 ### 4. TrainJob 실행 ###
 
 ```bash
 export IMAGE_URI=$ECR/mnist-ddp:v1.0.0
 envsubst '${IMAGE_URI}' < trainjob-mnist.yaml | kubectl apply -f -
-```
 
-아래 명령으로 실행 여부를 확인한다. 
-```bash
-kubectl get trainjob -n kubeflow-user
-kubectl get pods -n kubeflow-user            # numNodes 만큼 파드가 뜬다
+kubectl get trainjob -n mnist
+kubectl get pods -n mnist            
 ```
 
 ### 5. 스케일 조정 ###
