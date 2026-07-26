@@ -25,8 +25,13 @@ python3 upload_mnist_to_s3.py --s3-bucket $BUCKET --s3-prefix mnist/raw
 
 aws s3 ls s3://$BUCKET/mnist/raw/
 ```
-train-images-idx3-ubyte.gz 등 4개 파일이 보이면 통과
-
+[결과]
+```
+2026-07-26 01:59:03    1648877 t10k-images-idx3-ubyte.gz
+2026-07-26 01:59:03       4542 t10k-labels-idx1-ubyte.gz
+2026-07-26 01:59:03    9912422 train-images-idx3-ubyte.gz
+2026-07-26 01:59:03      28881 train-labels-idx1-ubyte.gz
+```
 
 ### 2. 학습 코드 도커라이징 ###
 
