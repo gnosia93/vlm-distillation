@@ -341,3 +341,5 @@ mnist-ddp-2gpu-node-0-0:59:80 [1] NCCL INFO Channel 01 : 1[1] -> 0[0] via SHM/di
 
 * [Deep Learning Containers](https://aws.github.io/deep-learning-containers/reference/available_images/)
  - public.ecr.aws/deep-learning-containers/pytorch-training:2.8.0-gpu-py312-cu129-ubuntu22.04-ec2-v1.0
+ - ```crane ls public.ecr.aws/deep-learning-containers/pytorch-training \
+  | grep "2.8.0-gpu-py312-cu129"``
