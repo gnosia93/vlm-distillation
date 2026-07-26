@@ -38,7 +38,11 @@ aws s3 ls s3://$BUCKET/mnist/raw/
 
 도커 데몬을 설치한다.
 ```
-
+sudo dnf install -y docker
+sudo systemctl start docker
+sudo systemctl enable docker
+sudo usermod -aG docker $USER
+newgrp docker
 ```
 
 ecr 레포지토리를 생성하고 mnist-ddp 도커 이미지를 푸시한다. 
