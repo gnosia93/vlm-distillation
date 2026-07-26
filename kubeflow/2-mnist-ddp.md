@@ -145,5 +145,10 @@ TrainJob 은 이름으로 구분되므로, 다시 돌리려면 삭제후 재 실
 
 ```bash
 kubectl delete -f trainjob-mnist.yaml
-
 ```
+
+> [!NOTE]
+> trainjob 명령어
+> * 잡 확인 - kubectl get trainjob                       
+> * 잡 삭제 - kubectl delete trainjob llama-3-8b        
+> * 잡 상세 - kubectl describe trainjob llama-3-8b
