@@ -22,7 +22,7 @@ from torch.nn.parallel import DistributedDataParallel as DDP
 from torch.utils.data import DataLoader
 from torch.utils.data.distributed import DistributedSampler
 from torchvision import datasets, transforms
-
+from torchvision.datasets.utils import extract_archive
 
 class Net(nn.Module):
     def __init__(self):
@@ -74,6 +74,8 @@ def download_from_s3(bucket, prefix, data_dir):
         dest = os.path.join(raw_dir, fname)
         print(f"S3 다운로드: s3://{bucket}/{key} -> {dest}", flush=True)
         s3.download_file(bucket, key, dest)
+        extract_archive(dest, raw_dir)          # ★ .gz 압축 해제
+        print(f"압축 해제 완료: {dest}", flush=True)
 
 
 def setup(backend):
