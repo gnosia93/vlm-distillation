@@ -180,8 +180,6 @@ EOF
 지정한 정책(mnist-s3-access)을 붙인 IAM Role을 eksctl이 새로 생성하고, 그 Role ARN을 mnist-sa 서비스어카운트에 자동으로 연결한다. 이때 mnist 네임스페이스가 없으면 함께 생성되며, 이 서비스어카운트의 스코프는 mnist 네임스페이스로 한정된다.
 따라서 이 SA의 S3 권한을 사용하려는 파드(즉 TrainJob)도 반드시 mnist 네임스페이스에 있어야 하며, 파드 스펙에 serviceAccountName: mnist-sa를 지정해야 실제로 권한이 적용된다.
 
-
-
 서비스어카운트에 IAM Role이 연결됐는지 확인한다. 
 ```
 kubectl get sa mnist-sa -n mnist -o yaml | grep role-arn
@@ -195,7 +193,7 @@ eks.amazonaws.com/role-arn: arn:aws:iam::499514681453:role/eksctl-vlm-distillati
 
 ```bash
 export IMAGE_URI=$ECR/mnist-ddp:v1.0.0
-envsubst '${IMAGE_URI}' < trainjob-mnist.yaml | kubectl apply -f -
+envsubst '$IMAGE_URI $BUCKET' < trainjob-mnist.yaml | kubectl apply -f -
 
 kubectl get trainjob -n mnist
 kubectl get pods -n mnist            
