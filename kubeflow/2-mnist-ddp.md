@@ -2,6 +2,23 @@
 
 ### 1. MNIST 데이터 준비 ###
 
+```
+export AWS_REGION=$(aws ec2 describe-availability-zones --query 'AvailabilityZones[0].RegionName' --output text)
+export AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
+export CLUSTER_NAME="vlm-distillation"
+export K8S_VERSION="1.34"
+export KARPENTER_VERSION="1.8.1"
+export VPC_ID=$(aws ec2 describe-vpcs --filters Name=tag:Name,Values="${CLUSTER_NAME}" --query "Vpcs[].VpcId" --output text)
+
+echo -e "\n------------------------------------------"
+echo "AWS_REGION: $AWS_REGION"
+echo "AWS_ACCOUNT_ID: $AWS_ACCOUNT_ID"
+echo "CLUSTER_NAME: $CLUSTER_NAME"
+echo "K8S_VERSION: $K8S_VERSION"
+echo "KARPENTER_VERSION: $KARPENTER_VERSION"
+echo "VPC_ID: $VPC_ID"
+```
+MNIST 데이터를 다운로드 받아서 S3 에 업로드 한다. 
 ```bash
 cd 
 git clone https://github.com/gnosia93/vlm-distillation.git
