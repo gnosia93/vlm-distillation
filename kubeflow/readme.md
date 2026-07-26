@@ -107,8 +107,63 @@ aws ecr describe-images --repository-name mnist-ddp --region $AWS_REGION
 ```
 
 ### 4. S3 접근 IRSA 생성 ###
-;; pod 가 s3 접근이 가능하다록 한다.
 
+```
+export CLUSTER=my-eks-cluster
+export AWS_REGION=ap-northeast-2
+export ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
+export NAMESPACE=kubeflow-user
+export SA_NAME=mnist-trainer
+export BUCKET=my-datasets
+
+# 1. 클러스터에 OIDC 공급자 연결 (최초 1회)
+eksctl utils associate-iam-oidc-provider --cluster $CLUSTER --region $AWS_REGION --approve
+
+# 2. S3 접근 IAM 정책 생성 (버킷 읽기 + 체크포인트 쓰기)
+cat > s3-policy.json <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": ["s3:GetObject", "s3:PutObject", "s3:ListBucket"],
+      "Resource": [
+        "arn:aws:s3:::$BUCKET",
+        "arn:aws:s3:::$BUCKET/*"
+      ]
+    }
+  ]
+}
+EOF
+
+aws iam create-policy \
+  --policy-name mnist-s3-access \
+  --policy-document file://s3-policy.json
+
+# 3. IAM Role 생성 + 서비스어카운트에 연결 (role-arn annotation 자동 부여)
+eksctl create iamserviceaccount \
+  --cluster $CLUSTER --region $AWS_REGION \
+  --namespace $NAMESPACE \
+  --name $SA_NAME \
+  --attach-policy-arn arn:aws:iam::$ACCOUNT_ID:policy/mnist-s3-access \
+  --approve
+```
+
+확인 — 서비스어카운트에 IAM Role이 연결됐는지:
+```
+kubectl get sa $SA_NAME -n $NAMESPACE -o yaml | grep role-arn
+# eks.amazonaws.com/role-arn: arn:aws:iam::<계정ID>:role/... 이 보이면 성공
+```
+
+IRSA는 서비스 어카운트를 만들어 놓은 것일 뿐이고, TrainJob 파드가 그 서비스어카운트(mnist-trainer)를 실제로 쓰도록 지정해야 적용됩니다. 
+
+- YAML (trainjob-mnist.yaml): 파드 템플릿에 serviceAccountName: mnist-trainer 추가
+- SDK (run_trainjob_sdk.py): TrainJob이 이 SA를 쓰도록 지정 (필드명은 설치 버전의 스키마 확인 필요)
+
+> [!NOTE]
+> 동작원리 
+> 파드 안의 boto3가 서비스어카운트에 붙은 토큰으로 IAM Role을 assume 하여 임시 자격증명 획득하므로,
+> 코드/매니페스트에 AWS 키를 넣지 않아도 된다. 
 
 ### 5. TrainJob 실행 ###
 
