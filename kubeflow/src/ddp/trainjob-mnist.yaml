@@ -5,7 +5,7 @@ apiVersion: trainer.kubeflow.org/v1alpha1
 kind: TrainJob
 metadata:
   name: mnist-ddp
-  namespace: kubeflow
+  namespace: mnist
 spec:
   # 클러스터에 미리 설치된 분산 런타임 참조 (torch distributed).
   # 이름은 배포판마다 다를 수 있음 -> `kubectl get clustertrainingruntime` 확인.
@@ -24,7 +24,7 @@ spec:
       - "--batch-size=64"
     env:
       - name: S3_BUCKET
-        value: "my-datasets"
+        value: "${IMAGE_URI}"
       - name: S3_PREFIX
         value: "mnist/raw"
     resourcesPerNode:
