@@ -143,7 +143,5 @@ volumes, volumeMounts, nodeSelector, tolerations, serviceAccount, securityContex
 > [!NOTE]
 > _멀티 노드 분산 학습이 아닌 싱글 노드 분산 학습(예: 하나의 노드 안에서 GPU 1~8장으로 훈련)의 경우, 노드 간 조율이 필요 없으므로 Kubeflow Trainer를 설치할 필요가 없다. 이때는 하나의 노드안에서 torchrun --nproc_per_node=<GPU 수>만으로 노드 내 프로세스를 띄우고 NCCL이 GPU 간 통신을 처리하면 충분하다._ 
 
-> [!NOTE]
-> SDK 필드명은 버전마다 다를 수 있으니 스키마 확인
-> kubectl explain trainjob.spec.trainer
+
 
