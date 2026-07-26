@@ -10,7 +10,7 @@ Kubeflow는 쿠버네티스 위에서 머신러닝 워크플로를 실행하기 
 Kubeflow는 하나의 프로그램이 아니라 여러 컴포넌트의 묶음이다. 대표적으로:
 
 * Kubeflow Pipelines - ML 워크플로를 DAG로 정의·실행    
-* Katib ; 하이퍼파라미터 튜닝 - AutoML
+* Katib - 하이퍼파라미터 튜닝 - AutoML
 * KServe - 학습된 모델 서빙     
 * Kubeflow Trainer (구 Training Operator) - 분산 학습 실행 (이 실습에서 사용)
   
