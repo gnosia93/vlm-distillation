@@ -64,14 +64,15 @@ sudo dnf install git -y
 export VERSION=v2.2.1
 kubectl apply --server-side -k "https://github.com/kubeflow/trainer.git/manifests/overlays/manager?ref=${VERSION}"
 ```
-trainjobs CRD 설치 여부를 확인한다.
+CRD 설치 여부를 확인한다.
 ```
-kubectl get crd trainjobs.trainer.kubeflow.org
+kubectl get crd | grep trainer.kubeflow.org
 ```
 [결과]
 ```
-NAME                             CREATED AT
-trainjobs.trainer.kubeflow.org   2026-07-24T19:05:55Z
+clustertrainingruntimes.trainer.kubeflow.org       2026-07-26T08:45:34Z
+trainingruntimes.trainer.kubeflow.org              2026-07-26T08:45:34Z
+trainjobs.trainer.kubeflow.org                     2026-07-26T08:45:35Z
 ```
 
 30 초 정도 지난 후에 클러스터 트레이닝 런타임을 설치한다. 
