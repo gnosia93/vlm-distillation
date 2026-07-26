@@ -2,7 +2,6 @@
 ```
 export ACCOUNT_ID=$(aws sts get-caller-identity --query 'Account' --output text)
 export REGION=ap-northeast-2
-export AZ=ap-northeast-2b
 export BUCKET=vlm-data-${ACCOUNT_ID}-${REGION}
 ```
 ```
