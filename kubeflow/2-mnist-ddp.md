@@ -89,8 +89,8 @@ ENTRYPOINT ["python", "train.py"]
 
 도커 이미지를 빌드하여 ecr 에 푸시한다.
 ```
-docker build --platform linux/amd64 -t $ECR/mnist-ddp:v.1.0.0 .
-docker push $ECR/mnist-ddp:latest
+docker build --platform linux/amd64 -t $ECR/mnist-ddp:v1.0.0 .
+docker push $ECR/mnist-ddp:v1.0.0
 ```
 [결과]
 ```
