@@ -88,6 +88,7 @@ go install github.com/awslabs/eks-node-viewer/cmd/eks-node-viewer@latest
 echo 'export PATH=$PATH:$(go env GOPATH)/bin' >> ~/.bashrc
 source ~/.bashrc
 
+sudo dnf install -y python3-pip
 
 kubectl version --client
 eksctl version
