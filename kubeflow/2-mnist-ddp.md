@@ -35,11 +35,7 @@ aws s3 ls s3://$BUCKET/mnist/raw/
 2026-07-26 01:59:03      28881 train-labels-idx1-ubyte.gz
 ```
 
-> [!NOTE]
-> s3:ListBucket 오류가 발생하는 경우
-> ```
->
-> ``` 
+
 
 ### 2. 학습 코드 도커라이징 & 푸시 ###
 
