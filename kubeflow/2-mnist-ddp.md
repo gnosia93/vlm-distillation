@@ -7,21 +7,11 @@ TOKEN=$(curl -s -X PUT "http://169.254.169.254/latest/api/token" -H "X-aws-ec2-m
 
 export REGION=$(curl -s -H "X-aws-ec2-metadata-token: $TOKEN" http://169.254.169.254/latest/meta-data/placement/region)
 export ACCOUNT_ID=$(aws sts get-caller-identity --query 'Account' --output text)
-export SG_ID=$(aws ec2 describe-security-groups --region $REGION \
-  --filters "Name=group-name,Values=vlm-sg" \
-  --query "SecurityGroups[].GroupId" \
-  --output text)
-export SUBNET_ID=$(aws ec2 describe-subnets --region $REGION \
-  --filters "Name=tag:Name,Values=vlm-pub-subnet-2" \
-  --query "Subnets[0].SubnetId" \
-  --output text)
 export BUCKET=vlm-data-${ACCOUNT_ID}-${REGION}
 
 echo -e "\n-------------------------------------"
 echo "REGION: $REGION"
 echo "ACCOUNT_ID: $ACCOUNT_ID"
-echo "SG_ID: $SG_ID"
-echo "SUBNET_ID(2nd): $SUBNET_ID"
 echo "BUCKET: $BUCKET"
 ```
 MNIST 데이터를 다운로드 받아서 S3 에 업로드 한다. 
