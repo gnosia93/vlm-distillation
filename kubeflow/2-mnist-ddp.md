@@ -135,6 +135,7 @@ aws ecr describe-images --repository-name mnist-ddp --region $AWS_REGION
 
 Training job은 MNIST 데이터를 S3에서 읽어오고, 훈련 중 생성되는 체크포인트를 다시 S3에 저장한다. 그런데 Kubernetes 파드는 기본적으로 S3에 접근할 권한이 없다. 이 읽기/쓰기 권한을 부여하기 위해 IAM Roles for Service Accounts(IRSA)를 설정한다.
 
+_아래 블록 전체를 복사하여 실행한다._
 ```
 (
   set -euo pipefail
