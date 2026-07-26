@@ -255,6 +255,10 @@ Resources:
               - "ssm:GetConnectionStatus"
               - "ssm:ListCommandInvocations"
               - "pricing:GetProducts"
+              - "logs:GetLogEvents"
+              - "logs:FilterLogEvents"
+              - "logs:DescribeLogGroups"
+              - "logs:DescribeLogStreams"          
             Resource: "*"
           - Sid: KarpenterInfrastructure
             Effect: Allow
