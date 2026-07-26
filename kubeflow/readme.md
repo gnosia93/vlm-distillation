@@ -1,6 +1,44 @@
 
 ## Kubeflow로 MNIST 분산학습 (DDP) ##
 
+
+
+
+
+### 실행 계층 이해하기 — 코드는 그대로, 실행 방법만 다르다 ###
+
+분산 학습은 세 개의 층으로 나눠 생각하면 명확하다.
+
+① 코드 계층 (PyTorch DDP) — 모델을 어떻게 여러 프로세스가 나눠 학습하고 그래디언트를 동기화할지는 PyTorch DDP로
+구현한다. 이 train.py는 어디서 돌리든 바뀌지 않는다. EC2에서 돌리든 쿠버네티스에서 돌리든 동일한 코드다.
+
+② 런처 계층 (torchrun) — DDP 프로세스를 실제로 띄우고 각 프로세스에 RANK·WORLD_SIZE·MASTER_ADDR 같은 환경변수를
+주입하는 역할은 torchrun이 담당한다. train.py가 이 값들을 읽어 dist.init_process_group()만 호출하면 되는 것도
+torchrun이 뒤에 있기 때문이다.
+
+③ 오케스트레이션 계층 — torchrun을 "누가, 몇 개의 노드에, 어떻게 연결해서" 실행하느냐가 여기서 갈린다. 그리고 EC2와
+쿠버네티스의 차이는 바로 이 층에만 있다.
+
+- EC2: 사용자가 각 노드에 직접 torchrun train.py를 실행한다. 이때 --nnodes, --node-rank, --rdzv-endpoint 같은 노드별
+인자도 직접 지정해야 한다.
+- 쿠버네티스 + Kubeflow: Kubeflow Trainer가 이 일을 대신한다. numNodes 숫자만 알려주면, 내부적으로 각 파드에서
+torchrun train.py를 조립해 실행하고 노드 간 주소 연결까지 자동으로 처리한다.
+
+▎ 즉 Kubeflow가 torchrun을 대체하는 것이 아니라, torchrun을 여러 파드에 걸쳐 자동으로 세팅·실행해주는 상위
+▎ 오케스트레이터다. 같은 torchrun이 도는데, "누가 그것을 띄우느냐"만 다르다.
+
+
+
+
+
+
+
+
+
+
+
+
+
 ### 1. Kubeflow Trainer 설치 ###
 
 ```bash
