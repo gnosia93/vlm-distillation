@@ -642,40 +642,6 @@ drwxr-xr-x. 40 root root 0 Jul 24 17:43 ..
 lrwxrwxrwx.  1 root root 0 Jul 24 17:43 rdmap47s0 -> ../../devices/pci0000:24/0000:24:00.0/0000:25:00.0/0000:26:01.0/0000:2f:00.0/infiniband/rdmap47s0
 ```
 
-## S3 ##
-```
-cat > s3-policy.json <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Sid": "VlmDataBucketRW",
-      "Effect": "Allow",
-      "Action": [
-        "s3:GetObject",
-        "s3:PutObject",
-        "s3:DeleteObject"
-      ],
-      "Resource": "arn:aws:s3:::${BUCKET}/*"
-    },
-    {
-      "Sid": "VlmDataBucketList",
-      "Effect": "Allow",
-      "Action": "s3:ListBucket",
-      "Resource": "arn:aws:s3:::${BUCKET}"
-    }
-  ]
-}
-EOF
-
-aws iam put-role-policy \
-  --role-name VlmEKS_Role \
-  --policy-name VlmDataS3Access \
-  --policy-document file://s3-policy.json
-```
-
-
-
 ## CloudWatch Container Insight ##
 
 cloudwatch 파드를 조회한다. 
@@ -712,7 +678,7 @@ aws logs tail "/aws/containerinsights/${CLUSTER_NAME}/application" \
 > --policy-arn arn:aws:iam::aws:policy/CloudWatchLogsReadOnlyAccess
 > ```
 
-## (Optional) 볼륨 스냅샷 CSI 드라이버 설치 ##
+## _(Optional)_ 볼륨 스냅샷 CSI 드라이버 설치 ##
 
 볼륨 스냅샷은 CSI(Container Storage Interface) 표준으로 PVC(영구 볼륨)의 특정 시점 상태를 스냅샷으로 떠서 나중에 복원하거나 복제하는 기능입니다. 
 ```
@@ -725,3 +691,44 @@ kubectl apply -k "https://github.com/kubernetes-csi/external-snapshotter/client/
 kubectl apply -k "https://github.com/kubernetes-csi/external-snapshotter/deploy/kubernetes/snapshot-controller?ref=${SNAP_VERSION}"
 ```
 
+
+## S3 버킷 생성 ##
+```
+export AWS_REGION=ap-northeast-2
+export ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
+export BUCKET=vlm-data-${ACCOUNT_ID}-${AWS_REGION}
+
+aws s3api create-bucket \
+  --bucket "$BUCKET" \
+  --region "$AWS_REGION" \
+  --create-bucket-configuration LocationConstraint="$AWS_REGION"
+
+cat > s3-policy.json <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "VlmDataBucketRW",
+      "Effect": "Allow",
+      "Action": [
+        "s3:GetObject",
+        "s3:PutObject",
+        "s3:DeleteObject"
+      ],
+      "Resource": "arn:aws:s3:::${BUCKET}/*"
+    },
+    {
+      "Sid": "VlmDataBucketList",
+      "Effect": "Allow",
+      "Action": "s3:ListBucket",
+      "Resource": "arn:aws:s3:::${BUCKET}"
+    }
+  ]
+}
+EOF
+
+aws iam put-role-policy \
+  --role-name VlmEKS_Role \
+  --policy-name VlmDataS3Access \
+  --policy-document file://s3-policy.json
+```
