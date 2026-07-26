@@ -669,11 +669,24 @@ aws logs tail "/aws/containerinsights/${CLUSTER_NAME}/application" \
   --region "${AWS_REGION}" --follow
 ```
 
-> [! NOTE]
+> [!NOTE]
 > logs:FilterLogEvents 권한 오류 발생시 아래 명령어 실행.
 > ```
 > aws iam attach-role-policy \
 > --role-name VlmEKS_Role \
 > --policy-arn arn:aws:iam::aws:policy/CloudWatchLogsReadOnlyAccess
 > ```
+
+## (Optional) 볼륨 스냅샷 CSI 드라이버 설치 ##
+
+볼륨 스냅샷은 CSI(Container Storage Interface) 표준으로 PVC(영구 볼륨)의 특정 시점 상태를 스냅샷으로 떠서 나중에 복원하거나 복제하는 기능입니다. 
+```
+SNAP_VERSION=v8.2.0   # v8.x 중 최신 태그로 (snapshotter v8.6과 호환)
+
+# 1) 스냅샷 CRD 3종
+kubectl apply -k "https://github.com/kubernetes-csi/external-snapshotter/client/config/crd?ref=${SNAP_VERSION}"
+
+# 2) snapshot-controller 배포
+kubectl apply -k "https://github.com/kubernetes-csi/external-snapshotter/deploy/kubernetes/snapshot-controller?ref=${SNAP_VERSION}"
+```
 
