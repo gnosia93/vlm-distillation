@@ -1,7 +1,7 @@
 
 ## vpc 생성 ##
 
-cloudformation 으로 실습에 필요한 인프라를 구축하고 CF_STACK 파일에 스택이름을 저장한다.
+cloudformation 으로 vpc 를 생성하고, CF_STACK 파일에 스택이름을 저장한다.
 ```
 export AWS_REGION="ap-northeast-2"
 export CF_STACK="vlm-distillation-`date +"%H-%M-%S"`"
