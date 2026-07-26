@@ -307,8 +307,26 @@ kubectl delete trainjob mnist-ddp -n mnist     # 이전 작업 삭제 후
 export IMAGE_URI=$ECR/mnist-ddp:v1.0.0
 envsubst '$IMAGE_URI $BUCKET' < trainjob-mnist-2gpu.yaml | kubectl apply -f -
 
-kubectl get trainjob -n mnist
-kubectl describe trainjob mnist-ddp-2gpu -n mnist
-
-kubectl get pods -n mnist            
+kubectl get pods -n mnist       
+```
+[결과]
+```
+NAME                            READY   STATUS      RESTARTS   AGE
+mnist-ddp-2gpu-node-0-0-zgh6w   0/1     Completed   0          14m
+```
+`SHM/direct/direct` 통신을 확인하기 위해 로그를 조회한다. 
+```
+kubectl logs -n mnist mnist-ddp-2gpu-node-0-0-zgh6w -f
+```
+[결과]
+```
+...
+mnist-ddp-2gpu-node-0-0:58:79 [0] NCCL INFO Channel 00 : 0[0] -> 1[1] via SHM/direct/direct
+mnist-ddp-2gpu-node-0-0:58:79 [0] NCCL INFO P2P is disabled between connected GPUs 0 and 1. You can repress this message with NCCL_IGNORE_DISABLED_P2P=1.
+mnist-ddp-2gpu-node-0-0:59:80 [1] NCCL INFO P2P is disabled between connected GPUs 1 and 0. You can repress this message with NCCL_IGNORE_DISABLED_P2P=1.
+mnist-ddp-2gpu-node-0-0:58:79 [0] NCCL INFO Channel 01 : 0[0] -> 1[1] via SHM/direct/direct
+mnist-ddp-2gpu-node-0-0:59:80 [1] NCCL INFO Channel 00 : 1[1] -> 0[0] via SHM/direct/direct
+mnist-ddp-2gpu-node-0-0:59:80 [1] NCCL INFO P2P is disabled between connected GPUs 1 and 0. You can repress this message with NCCL_IGNORE_DISABLED_P2P=1.
+mnist-ddp-2gpu-node-0-0:59:80 [1] NCCL INFO Channel 01 : 1[1] -> 0[0] via SHM/direct/direct
+...
 ```
