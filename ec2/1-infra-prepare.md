@@ -504,9 +504,17 @@ spec:
 EOF
 ```
 
-파드를 생성하고 nvidia-smi 가 동작하는 확인한다.  
+파드를 생성하고 nvidia-smi 가 동작하는지 확인한다.  
 ```
 kubectl get pods
+```
+[결과]
+```
+NAME      READY   STATUS    RESTARTS   AGE
+gpu-pod   1/1     Running   0          3m59s
+```
+gpu-pod 의 로그를 조회한다.
+```
 kubectl logs gpu-pod
 ```
 [출력]
