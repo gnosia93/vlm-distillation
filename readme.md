@@ -33,8 +33,7 @@ teacher 모델로는 InternVL3-78B를, student 모델로는 같은 계열의 Int
   
 * [2. Kubeflow로 MNIST 분산학습 (DDP)]
   - [Kubeflow 의 이해](https://github.com/gnosia93/vlm-distillation/blob/main/kubeflow/1-kubeflow-overview.md)
-  - [MNIST 분산학습 (DDP)] 
-
+  - [MNIST 분산학습 (DDP)](https://github.com/gnosia93/vlm-distillation/blob/main/kubeflow/2-mnist-ddp.md) 
 
 ### ■ _Wrap Up_ ###
 
