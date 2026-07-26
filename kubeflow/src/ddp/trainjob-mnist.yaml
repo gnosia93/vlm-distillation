@@ -27,6 +27,8 @@ spec:
         value: "${BUCKET}"
       - name: S3_PREFIX
         value: "mnist/raw"
+      - name: NCCL_DEBUG              # ★ NCCL 로그 활성화
+        value: "INFO"  
     resourcesPerNode:
       requests:
         cpu: "2"
