@@ -36,6 +36,12 @@ aws s3 ls s3://$BUCKET/mnist/raw/
 
 ### 2. 학습 코드 도커라이징 ###
 
+도커 데몬을 설치한다.
+```
+
+```
+
+ecr 레포지토리를 생성하고 mnist-ddp 도커 이미지를 푸시한다. 
 ```bash
 cd ddp
 
