@@ -92,14 +92,19 @@ train-images-idx3-ubyte.gz 등 4개 파일이 보이면 통과
 ### 3. 이미지 빌드 & 푸시 ###
 
 ```bash
-# ecr 로그인 추가 ..
+export AWS_REGION=ap-northeast-2
+export ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
+export ECR=$ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
 
-docker build --platform linux/amd64 -t YOUR_REGISTRY/mnist-ddp:latest .
-docker push YOUR_REGISTRY/mnist-ddp:latest
+aws ecr create-repository --repository-name mnist-ddp --region $AWS_REGION || true
+
+aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR
+
+docker build --platform linux/amd64 -t $ECR/mnist-ddp:latest .
+docker push $ECR/mnist-ddp:latest
+
+aws ecr describe-images --repository-name mnist-ddp --region $AWS_REGION
 ```
-
-ecr 레지스트리 조회.
-
 
 ### 4. S3 접근 IRSA 생성 ###
 ;; pod 가 s3 접근이 가능하다록 한다.
