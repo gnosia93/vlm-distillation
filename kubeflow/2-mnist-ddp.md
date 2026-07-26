@@ -8,7 +8,7 @@ TOKEN=$(curl -s -X PUT "http://169.254.169.254/latest/api/token" -H "X-aws-ec2-m
 export AWS_REGION=$(curl -s -H "X-aws-ec2-metadata-token: $TOKEN" http://169.254.169.254/latest/meta-data/placement/region)
 export ACCOUNT_ID=$(aws sts get-caller-identity --query 'Account' --output text)
 export CLUSTER_NAME="vlm-distillation"
-export BUCKET=vlm-data-${ACCOUNT_ID}-${REGION}
+export BUCKET=vlm-data-${ACCOUNT_ID}-${AWS_REGION}
 
 echo -e "\n-------------------------------------"
 echo "AWS_REGION: $AWS_REGION"
