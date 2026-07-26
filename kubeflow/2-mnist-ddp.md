@@ -119,7 +119,7 @@ aws ecr describe-images --repository-name mnist-ddp --region $AWS_REGION
             "repositoryName": "mnist-ddp",
             "imageDigest": "sha256:cfc1c18db69546240237381ef3d854e4bdbd725f6239e9eb466207d7f1ac92c5",
             "imageTags": [
-                "latest"
+                ""v1.0.0"
             ],
             "imageSizeInBytes": 3737181538,
             "imagePushedAt": "2026-07-26T02:31:51.462000+00:00",
