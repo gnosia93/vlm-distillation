@@ -717,7 +717,8 @@ cat > s3-policy.json <<EOF
         "s3:GetObject",
         "s3:PutObject",
         "s3:DeleteObject",
-        "s3:DeleteBucket"
+        "s3:DeleteBucket",
+		"s3:ListAllMyBuckets"
       ],
       "Resource": "arn:aws:s3:::${BUCKET}/*"
     },
