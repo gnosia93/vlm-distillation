@@ -57,6 +57,8 @@ torchrun train.py를 조립해 실행하고 노드 간 주소 연결까지 자�
 ## 4. Kubeflow Trainer 설치 ##
 
 * https://github.com/kubeflow/trainer/releases
+
+Kubernetes 클러스터에 Kubeflow Trainer를 설치한다.
 ```
 sudo dnf install git -y
 export VERSION=v2.2.1
@@ -72,7 +74,7 @@ NAME                             CREATED AT
 trainjobs.trainer.kubeflow.org   2026-07-24T19:05:55Z
 ```
 
-30 초 정도 지난 후에 클러스터 트레이닝런타임을 설치한다. 
+30 초 정도 지난 후에 클러스터 트레이닝 런타임을 설치한다. 
 ```
 kubectl apply --server-side -k "https://github.com/kubeflow/trainer.git/manifests/overlays/runtimes?ref=${VERSION}"
 kubectl get clustertrainingruntimes
