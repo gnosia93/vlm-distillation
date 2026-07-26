@@ -541,7 +541,7 @@ Wed Dec 10 06:44:46 2025
 +-----------------------------------------------------------------------------------------+
 ```
 
-vs-code 웹 터미널을 하나 열어서 eks-node-viwer 를 실행한다. 
+vs-code 웹콘솔에서 새로운 터미널을 하나 열어서 eks-node-viwer 를 실행한다. 
 ![](https://github.com/gnosia93/vlm-distillation/blob/main/images/eks-node-view-nvidia-smi.png)
 
 
@@ -660,8 +660,20 @@ fluent-bit-p8mw8                                                  1/1     Runnin
 fluent-bit-qz6nd                                                  1/1     Running   0          6m39s
 ```
 
-파드 / 컨테이너 로그를 조회한다. 
+vs-code 웹 콘솔에서 새로운 터미널을 하나 열고 파드 / 컨테이너 로그를 조회한다. 
 ```
+export AWS_REGION=$(aws ec2 describe-availability-zones --query 'AvailabilityZones[0].RegionName' --output text)
+export CLUSTER_NAME="vlm-distillation"
+
 aws logs tail "/aws/containerinsights/${CLUSTER_NAME}/application" \
   --region "${AWS_REGION}" --follow
 ```
+
+> [! NOTE]
+> logs:FilterLogEvents 권한 오류 발생시 아래 명령어 실행.
+> ```
+> aws iam attach-role-policy \
+> --role-name VlmEKS_Role \
+> --policy-arn arn:aws:iam::aws:policy/CloudWatchLogsReadOnlyAccess
+> ```
+
