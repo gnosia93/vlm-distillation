@@ -287,9 +287,11 @@ kubectl delete trainjob mnist-ddp -n mnist     # 이전 작업 삭제 후
 envsubst '$IMAGE_URI $BUCKET' < trainjob-mnist.yaml | kubectl apply -f -      # 재실행
 ```
 
-### 7. 스케일 조정 ###
+### 7. 싱글 노드로 실행하기 ###
 
-`trainjob-mnist.yaml`에서 numNodes, numProcPerNode, nvidia.com/gpu 항목을 수정한 후 실행한다. 
+AWS G/P 타입 인스턴스는 노드당 최대 8개의 GPU를 제공한다. 2-GPU 규모의 분산 훈련이라면, 2개 노드에 1 GPU씩 두는 대신 한 노드에서 2 GPU로 실행하는 편이 유리할 수 있다. GPU 간 통신이 노드 간 네트워크(TCP)를 타지 않고 노드 내부의 NVLink/PCIe(또는 GPUDirect P2P) 로 이뤄져 통신 오버헤드가 크게 줄기 때문이다.
+
+GPU가 2개인 인스턴스(예: Blackwell 기반 g7e.12xlarge)의 경우, 아래처럼 2개만 요청해 사용하면 된다. g7e는 GPUDirect P2P를 지원해 노드 내 멀티-GPU 성능에 특히 유리하다.
 ```yaml
   trainer:
     numNodes: 1
