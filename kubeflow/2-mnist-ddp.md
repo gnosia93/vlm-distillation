@@ -117,8 +117,6 @@ YAML이라면 `trainjob-mnist.yaml`에서:
         nvidia.com/gpu: 2
 ```
 
----
-
 ### 6. 모니터링 & 결과 검증 ###
 
 ```bash
