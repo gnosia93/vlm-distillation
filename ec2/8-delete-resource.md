@@ -24,6 +24,19 @@ kubectl patch ec2nodeclass gpu --type=merge -p '{"metadata":{"finalizers":[]}}'
 
 # 3) 클러스터 삭제
 eksctl delete cluster --name $CLUSTER_NAME --region $AWS_REGION --wait
+
+
+aws iam list-roles \
+  --query "Roles[?contains(RoleName,'$CLUSTER_NAME')].RoleName" --output table
+
+aws iam list-policies --scope Local \
+  --query "Policies[?PolicyName=='mnist-s3-access'].Arn" --output text
+# 나오면, 필요 없으면 삭제
+aws iam delete-policy --policy-arn arn:aws:iam::$ACCOUNT_ID:policy/mnist-s3-access
+
+aws cloudformation list-stacks --region $AWS_REGION \
+  --query "StackSummaries[?contains(StackName,'eksctl-$CLUSTER_NAME') && StackStatus!='DELETE_COMPLETE'].StackName" \
+  --output table
 ```
 
 
