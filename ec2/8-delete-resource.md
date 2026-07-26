@@ -10,19 +10,28 @@ aws s3 rm s3://$BUCKET --recursive   # 안의 객체 전부 삭제
 aws s3api delete-bucket --bucket $BUCKET --region $REGION  # 그다음 버킷 삭제
 ```
 
-### EKS 삭제 ###
-* 카펜터 인스턴스 프로파일 삭제 
+### EKS 클러스터 삭제하기 ###
+
 ```
-ROLE_NAME="eksctl-KarpenterNodeRole-${CLUSTER_NAME}"
-for p in $(aws iam list-attached-role-policies --role-name "$ROLE_NAME" --query 'AttachedPolicies[*].PolicyArn' --output text); do aws iam detach-role-policy --role-name "$ROLE_NAME" --policy-arn "$p"; done
-for p in $(aws iam list-role-policies --role-name "$ROLE_NAME" --query 'PolicyNames[*]' --output text); do aws iam delete-role-policy --role-name "$ROLE_NAME" --policy-name "$p"; done
-for i in $(aws iam list-instance-profiles-for-role --role-name "$ROLE_NAME" --query 'InstanceProfiles[*].InstanceProfileName' --output text); do aws iam remove-role-from-instance-profile --instance-profile-name "$i" --role-name "$ROLE_NAME"; aws iam delete-instance-profile --instance-profile-name "$i"; done
-aws iam delete-role --role-name "$ROLE_NAME"
+# 1) LB/PVC 먼저 (안 지우면 나중에 VPC 삭제가 막힘)
+kubectl delete svc --all --all-namespaces
+kubectl delete pvc --all --all-namespaces
+
+# 2) 카펜터 노드 스스로 정리시키기 (있다면)
+kubectl delete nodepool --all
+kubectl delete ec2nodeclass --all
+
+# 3) 클러스터 삭제
+eksctl delete cluster --name $CLUSTER_NAME --region $AWS_REGION --wait
 ```
-* 클러스터 삭제
-```
-eksctl delete cluster -f cluster.yaml
-```
+
+
+
+
+
+
+
+
 
 ### vpc 삭제 ###
 ```
