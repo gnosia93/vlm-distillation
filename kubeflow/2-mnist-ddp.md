@@ -136,10 +136,8 @@ aws ecr describe-images --repository-name mnist-ddp --region $AWS_REGION
 Training job은 MNIST 데이터를 S3에서 읽어오고, 훈련 중 생성되는 체크포인트를 다시 S3에 저장한다. 그런데 Kubernetes 파드는 기본적으로 S3에 접근할 권한이 없다. 이 읽기/쓰기 권한을 부여하기 위해 IAM Roles for Service Accounts(IRSA)를 설정한다.
 
 ```
-
-
 # 1. 클러스터에 OIDC 공급자 연결 (최초 1회)
-eksctl utils associate-iam-oidc-provider --cluster $CLUSTER --region $AWS_REGION --approve
+eksctl utils associate-iam-oidc-provider --cluster $CLUSTER_NAME --region $AWS_REGION --approve
 
 # 2. S3 접근 IAM 정책 생성 (버킷 읽기 + 체크포인트 쓰기)
 cat > s3-policy.json <<EOF
@@ -164,12 +162,17 @@ aws iam create-policy \
 
 # 3. IAM Role 생성 + 서비스어카운트에 연결 (role-arn annotation 자동 부여)
 eksctl create iamserviceaccount \
-  --cluster $CLUSTER --region $AWS_REGION \
-  --namespace $NAMESPACE \
-  --name $SA_NAME \
+  --cluster $CLUSTER_NAME --region $AWS_REGION \
+  --namespace mnist \
+  --name mnist-sa \
   --attach-policy-arn arn:aws:iam::$ACCOUNT_ID:policy/mnist-s3-access \
+  --override-existing-serviceaccounts \
   --approve
 ```
+지정한 정책(mnist-s3-access)을 붙인 IAM Role을 eksctl이 새로 생성하고, 그 Role ARN을 mnist-sa 서비스어카운트에 자동으로 연결한다. 이때 mnist 네임스페이스가 없으면 함께 생성되며, 이 서비스어카운트의 스코프는 mnist 네임스페이스로 한정된다.
+따라서 이 SA의 S3 권한을 사용하려는 파드(즉 TrainJob)도 반드시 mnist 네임스페이스에 있어야 하며, 파드 스펙에 serviceAccountName: mnist-sa를 지정해야 실제로 권한이 적용된다.
+
+
 
 확인 — 서비스어카운트에 IAM Role이 연결됐는지:
 ```
