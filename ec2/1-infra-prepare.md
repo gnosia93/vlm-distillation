@@ -643,10 +643,25 @@ lrwxrwxrwx.  1 root root 0 Jul 24 17:43 rdmap47s0 -> ../../devices/pci0000:24/00
 
 ## CloudWatch Container Insight ##
 
+cloudwatch 파드를 조회한다. 
 ```
 kubectl get pods -n amazon-cloudwatch
-# cloudwatch-agent-*, fluent-bit-* (노드마다 하나씩) Running 이면 정상
+```
+[결과]
+```
+NAME                                                              READY   STATUS    RESTARTS   AGE
+amazon-cloudwatch-observability-controller-manager-57c8c8cxwwsf   1/1     Running   0          16m
+cloudwatch-agent-szbrk                                            1/1     Running   0          16m
+cloudwatch-agent-twm82                                            1/1     Running   0          16m
+cloudwatch-agent-wwnph                                            1/1     Running   0          6m39s
+dcgm-exporter-wvqrz                                               1/1     Running   0          6m39s
+fluent-bit-nwgkb                                                  1/1     Running   0          16m
+fluent-bit-p8mw8                                                  1/1     Running   0          16m
+fluent-bit-qz6nd                                                  1/1     Running   0          6m39s
+```
 
+파드 / 컨테이너 로그를 조회한다. 
+```
 aws logs tail "/aws/containerinsights/${CLUSTER_NAME}/application" \
   --region "${AWS_REGION}" --follow
 ```
