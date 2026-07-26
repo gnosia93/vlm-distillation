@@ -23,7 +23,7 @@ cd ~/vlm-distillation/kubeflow/src
 pip install torch torchvision boto3
 python3 upload_mnist_to_s3.py --s3-bucket $BUCKET --s3-prefix mnist/raw
 
-aws s3 ls s3://my-datasets/mnist/raw/
+aws s3 ls s3://$BUCKET/mnist/raw/
 ```
 train-images-idx3-ubyte.gz 등 4개 파일이 보이면 통과
 
