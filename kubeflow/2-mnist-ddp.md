@@ -232,6 +232,8 @@ kubectl logs -n mnist mnist-ddp-node-0-0-sbqmz -f
 ### 6. Job 정리 / 재실행 ###
 
 TrainJob 은 이름으로 구분되므로, 다시 돌리려면 삭제후 재 실행해야 한다.
+삭제하지 않고 재실행하는 경우 `The TrainJob "mnist-ddp" is invalid: spec.trainer: Invalid value: "object": field is immutable` 
+와 같은 오류가 발생한다. 
 
 ```bash
 kubectl delete trainjob mnist-ddp -n mnist     # 이전 작업 삭제 후 
