@@ -14,9 +14,9 @@ spec:
     apiGroup: trainer.kubeflow.org
     kind: ClusterTrainingRuntime
   trainer:
-    numNodes: 2                # ★ 역할 없이 노드 수만 지정 (V1 의 Master+Worker 대체)
-    numProcPerNode: "1"        # 노드당 프로세스(=GPU) 수. 단일노드 2GPU 면 numNodes:1 + 이 값 "2"
-    image: YOUR_REGISTRY/mnist-ddp:latest   # 빌드/푸시한 이미지로 교체
+    numNodes: 2                    # 역할 없이 노드 수만 지정 (V1 의 Master+Worker 대체)
+    numProcPerNode: "1"            # 노드당 프로세스(=GPU) 수. 단일노드 2 GPU 면 numNodes:1 + 이 값 "2"
+    image: ${IMAGE_URI}            # ecr image URI
     command:
       - "python"
       - "train.py"
@@ -27,10 +27,6 @@ spec:
         value: "my-datasets"
       - name: S3_PREFIX
         value: "mnist/raw"
-    # S3 자격증명 Secret 주입. (SDK 대신 YAML 을 쓸 때의 방식)
-    envFrom:
-      - secretRef:
-          name: s3-credentials
     resourcesPerNode:
       requests:
         cpu: "2"
