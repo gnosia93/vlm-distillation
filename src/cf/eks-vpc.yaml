@@ -289,6 +289,9 @@ Resources:
               - "ecr:UploadLayerPart"
               - "ecr:CompleteLayerUpload"
               - "ecr:PutImage"
+              - "ecr:DescribeImages"
+              - "ecr:DescribeRepositories"
+              - "ecr:ListImages"
             Resource: "*"
 
   EKSCreatorRole:
