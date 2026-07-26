@@ -197,6 +197,7 @@ eks.amazonaws.com/role-arn: arn:aws:iam::499514681453:role/eksctl-vlm-distillati
 export IMAGE_URI=$ECR/mnist-ddp:v1.0.0
 envsubst '$IMAGE_URI $BUCKET' < trainjob-mnist.yaml | kubectl apply -f -
 
+kubectl delete trainjob mnist-ddp -n mnist        # 이전 trainjob 이 남아 있는 경우는 실행이 되지 않는다. 해당 trainjob 을 지워줘야 한다. 
 kubectl get trainjob -n mnist
 kubectl get pods -n mnist            
 ```
