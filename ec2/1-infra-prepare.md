@@ -1,6 +1,7 @@
 
 ## vpc 생성 ##
 
+cloudformation 으로 실습에 필요한 인프라를 구축하고 CF_STACK 파일에 스택이름을 저장한다.
 ```
 export AWS_REGION="ap-northeast-2"
 export CF_STACK="vlm-distillation-`date +"%H-%M-%S"`"
@@ -23,7 +24,7 @@ aws cloudformation create-stack \
   --capabilities CAPABILITY_NAMED_IAM \
   --tags Key=Project,Value=vlm-distillation
 ```
-vpc 생성이 완료될때 까지 대기한다. 
+아래 명령어로 스택 설치 여부를 확인하고, 상태값이 CREATE_COMPLETE 로 완료될 때 까지 대기한다. 
 ```
 aws cloudformation describe-stacks --stack-name ${CF_STACK} \
 --region $AWS_REGION \
