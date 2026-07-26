@@ -1,7 +1,7 @@
 apiVersion: trainer.kubeflow.org/v1alpha1
 kind: TrainJob
 metadata:
-  name: mnist-ddp
+  name: mnist-ddp-2gpu
   namespace: mnist
 spec:
   # 클러스터에 미리 설치된 분산 런타임 참조 (torch distributed).
@@ -11,8 +11,8 @@ spec:
     apiGroup: trainer.kubeflow.org
     kind: ClusterTrainingRuntime
   trainer:
-    numNodes: 2                    # 역할 없이 노드 수만 지정 (V1 의 Master+Worker 대체)
-    numProcPerNode: 1              # 노드당 프로세스(=GPU) 수. 단일노드 2 GPU 면 numNodes:1 + 이 값 "2"
+    numNodes: 1                    # 역할 없이 노드 수만 지정 (V1 의 Master+Worker 대체)
+    numProcPerNode: 2              # 노드당 프로세스(=GPU) 수. 단일노드 2 GPU 면 numNodes:1 + 이 값 "2"
     image: ${IMAGE_URI}            # ecr image URI
     command:
       - "torchrun"                 # torchrun 으로 실행해야 분산 훈련이 시작됨 - RANK, WORLD_SIZE, rendezvous 등이 runtime 에 의해 자동으로 주입됨. 
@@ -33,7 +33,7 @@ spec:
       limits:
         cpu: "4"
         memory: 8Gi
-        nvidia.com/gpu: 1            # 노드당 GPU 1개 (numProcPerNode 와 맞춤), limits 에만 명시해도 request 시 반영됨
+        nvidia.com/gpu: 2            # 노드당 GPU 1개 (numProcPerNode 와 맞춤), limits 에만 명시해도 request 시 반영됨
   # ★ 여기부터 추가 — 서비스 어카운트 지정
   runtimePatches:
     - manager: "example.com/mnist-irsa"          # 소유자 식별용 임의 문자열 (비어있으면 안 됨, 도메인 형식)
