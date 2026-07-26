@@ -215,15 +215,18 @@ mnist-ddp-node-0-1-zzsrt   0/1     ContainerCreating   0          2m7s
 ### 5. 모니터링 & 결과 검증 ###
 
 * eks-node-viewer - GPU 노드를 확인. 
+
 `vs-code 에서 새로운 터미널을 하나 열고 eks-node-viewer 실행`
 ![](https://github.com/gnosia93/vlm-distillation/blob/main/images/eks-nodeviewer.png)
 
 
 * k9s - 파드 정보 확인 
+
 `vs-code 에서 새로운 터미널을 하나 열고 k9s 실행 -> 숫자키 '1' 을 누름`
 ![](https://github.com/gnosia93/vlm-distillation/blob/main/images/k9s-1.png)
 
-* rank 0 파드 로그 스트리밍 
+* rank 0 파드 로그 스트리밍
+  
 `파드 이름은 kubectl get pods 로 확인`
 ```bash
 kubectl logs -n mnist mnist-ddp-node-0-0-sbqmz -f
@@ -231,12 +234,13 @@ kubectl logs -n mnist mnist-ddp-node-0-0-sbqmz -f
 
 ### 6. Job 정리 / 재실행 ###
 
-TrainJob 은 이름으로 구분되므로, 다시 돌리려면 삭제후 재 실행해야 한다.
-삭제하지 않고 재실행하는 경우 `The TrainJob "mnist-ddp" is invalid: spec.trainer: Invalid value: "object": field is immutable` 
-와 같은 오류가 발생한다. 
+TrainJob은 이름으로 식별되며, spec.trainer 등 핵심 필드가 불변(immutable)이다. 따라서 같은 이름으로 다시 실행하려면 기존 Job을 먼저 삭제한 뒤 재생성해야 한다. 삭제하지 않고 수정된 매니페스트를 다시 적용하면 다음 오류가 발생한다.
+`The TrainJob "mnist-ddp" is invalid: spec.trainer: Invalid value: "object": field is immutable`
+TrainJob은 Kubernetes Job처럼 한 번 실행되는 작업으로 설계되어, 생성 후 실행 스펙 변경을 막는다. 그래서 이미지 태그나 커맨드를 바꿔 다시 돌릴 때는 항상 삭제 → 재생성 패턴을 쓴다.
 
 ```bash
 kubectl delete trainjob mnist-ddp -n mnist     # 이전 작업 삭제 후 
+
 envsubst '$IMAGE_URI $BUCKET' < trainjob-mnist.yaml | kubectl apply -f -      # 재실행
 ```
 
