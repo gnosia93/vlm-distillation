@@ -194,12 +194,12 @@ eks.amazonaws.com/role-arn: arn:aws:iam::499514681453:role/eksctl-vlm-distillati
 ### 4. TrainJob 실행 ###
 
 ```bash
-kubectl delete trainjob mnist-ddp -n mnist     # 이전 trainjob 이 남아 있는 경우는 실행이 되지 않는다. 해당 trainjob 을 지워줘야 한다. 
-
 export IMAGE_URI=$ECR/mnist-ddp:v1.0.0
 envsubst '$IMAGE_URI $BUCKET' < trainjob-mnist.yaml | kubectl apply -f -
 
 kubectl get trainjob -n mnist
+kubectl describe trainjob mnist-ddp -n mnist
+
 kubectl get pods -n mnist            
 ```
 [결과]
@@ -215,48 +215,32 @@ mnist-ddp-node-0-1-zzsrt   0/1     ContainerCreating   0          2m7s
 ### 5. 모니터링 & 결과 검증 ###
 
 * eks-node-viewer - GPU 노드를 확인. 
-![](https://github.com/gnosia93/vlm-distillation/blob/main/images/eks-nodeviewer.png)
 `vs-code 에서 새로운 터미널을 하나 열고 eks-node-viewer 실행`
+![](https://github.com/gnosia93/vlm-distillation/blob/main/images/eks-nodeviewer.png)
+
 
 * k9s - 파드 정보 확인 
-![](https://github.com/gnosia93/vlm-distillation/blob/main/images/k9s-1.png)
 `vs-code 에서 새로운 터미널을 하나 열고 k9s 실행 -> 숫자키 '1' 을 누름`
+![](https://github.com/gnosia93/vlm-distillation/blob/main/images/k9s-1.png)
 
 * rank 0 파드 로그 스트리밍 
+`파드 이름은 kubectl get pods 로 확인`
 ```bash
 kubectl logs -n mnist mnist-ddp-node-0-0-sbqmz -f
 ```
-`파드 이름은 kubectl get pods 로 확인`
 
-* s3 체크 포인트 확인
-```
-
-```
-
-
-### 7. Job 정리 및 재실행 ###
+### 6. Job 정리 / 재실행 ###
 
 TrainJob 은 이름으로 구분되므로, 다시 돌리려면 삭제후 재 실행해야 한다.
 
 ```bash
-kubectl delete -f trainjob-mnist.yaml
+kubectl delete trainjob mnist-ddp -n mnist     # 이전 작업 삭제 후 
+envsubst '$IMAGE_URI $BUCKET' < trainjob-mnist.yaml | kubectl apply -f -      # 재실행
 ```
-
-> [!NOTE]
-> trainjob 명령어
-> * 잡 확인 - kubectl get trainjob                       
-> * 잡 삭제 - kubectl delete trainjob llama-3-8b        
-> * 잡 상세 - kubectl describe trainjob llama-3-8b
-
 
 ### 7. 스케일 조정 ###
 
-SDK 예 (단일노드 2GPU로 다시 실행):
-```bash
-python run_trainjob_sdk.py --num-nodes 1 --num-proc-per-node 2 --gpus-per-node 2
-```
-
-YAML이라면 `trainjob-mnist.yaml`에서:
+`trainjob-mnist.yaml`에서 numNodes, numProcPerNode, nvidia.com/gpu 항목을 수정한 후 실행한다. 
 ```yaml
   trainer:
     numNodes: 1
