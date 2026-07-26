@@ -642,6 +642,40 @@ drwxr-xr-x. 40 root root 0 Jul 24 17:43 ..
 lrwxrwxrwx.  1 root root 0 Jul 24 17:43 rdmap47s0 -> ../../devices/pci0000:24/0000:24:00.0/0000:25:00.0/0000:26:01.0/0000:2f:00.0/infiniband/rdmap47s0
 ```
 
+## S3 ##
+```
+cat > s3-policy.json <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "VlmDataBucketRW",
+      "Effect": "Allow",
+      "Action": [
+        "s3:GetObject",
+        "s3:PutObject",
+        "s3:DeleteObject"
+      ],
+      "Resource": "arn:aws:s3:::${BUCKET}/*"
+    },
+    {
+      "Sid": "VlmDataBucketList",
+      "Effect": "Allow",
+      "Action": "s3:ListBucket",
+      "Resource": "arn:aws:s3:::${BUCKET}"
+    }
+  ]
+}
+EOF
+
+aws iam put-role-policy \
+  --role-name VlmEKS_Role \
+  --policy-name VlmDataS3Access \
+  --policy-document file://s3-policy.json
+```
+
+
+
 ## CloudWatch Container Insight ##
 
 cloudwatch 파드를 조회한다. 
