@@ -336,3 +336,5 @@ mnist-ddp-2gpu-node-0-0:59:80 [1] NCCL INFO P2P is disabled between connected GP
 mnist-ddp-2gpu-node-0-0:59:80 [1] NCCL INFO Channel 01 : 1[1] -> 0[0] via SHM/direct/direct
 ...
 ```
+
+### 8. EFA 사용하기 ###
