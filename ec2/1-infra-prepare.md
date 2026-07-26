@@ -666,8 +666,17 @@ vs-code 웹 콘솔에서 새로운 터미널을 하나 열고 파드 / 컨테이
 export AWS_REGION=$(aws ec2 describe-availability-zones --query 'AvailabilityZones[0].RegionName' --output text)
 export CLUSTER_NAME="vlm-distillation"
 
-aws logs tail "/aws/containerinsights/${CLUSTER_NAME}/application" \
-  --region "${AWS_REGION}" --follow
+
+QID=$(aws logs start-query \
+  --region $AWS_REGION \
+  --log-group-name "/aws/containerinsights/$CLUSTER_NAME/application" \
+  --start-time $(date -d '1 hour ago' +%s) \
+  --end-time $(date +%s) \
+  --query-string 'fields @timestamp, kubernetes.pod_name, log | filter kubernetes.pod_name like "mnist-ddp-node" | sort @timestamp asc | limit 300' \
+  --query queryId --output text)
+
+sleep 6
+aws logs get-query-results --region $AWS_REGION --query-id "$QID"
 ```
 
 > [!NOTE]
