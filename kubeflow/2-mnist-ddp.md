@@ -193,7 +193,8 @@ IRSA는 서비스 어카운트를 만들어 놓은 것일 뿐이고, TrainJob �
 ### 4. TrainJob 실행 ###
 
 ```bash
-kubectl apply -f trainjob-mnist.yaml
+export IMAGE_URI=$ECR/mnist-ddp:v1.0.0
+envsubst '${IMAGE_URI}' < trainjob-mnist.yaml | kubectl apply -f -
 ```
 
 아래 명령으로 실행 여부를 확인한다. 
