@@ -300,3 +300,15 @@ GPU가 2개인 인스턴스(예: Blackwell 기반 g7e.12xlarge)의 경우, 아�
       limits:
         nvidia.com/gpu: 2
 ```
+
+```
+kubectl delete trainjob mnist-ddp -n mnist     # 이전 작업 삭제 후 
+
+export IMAGE_URI=$ECR/mnist-ddp:v1.0.0
+envsubst '$IMAGE_URI $BUCKET' < trainjob-mnist-2gpu.yaml | kubectl apply -f -
+
+kubectl get trainjob -n mnist
+kubectl describe trainjob mnist-ddp-2gpu -n mnist
+
+kubectl get pods -n mnist            
+```
