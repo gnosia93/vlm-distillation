@@ -5,14 +5,15 @@
 ```
 TOKEN=$(curl -s -X PUT "http://169.254.169.254/latest/api/token" -H "X-aws-ec2-metadata-token-ttl-seconds: 21600")
 
-export REGION=$(curl -s -H "X-aws-ec2-metadata-token: $TOKEN" http://169.254.169.254/latest/meta-data/placement/region)
-export AWS_RESION=$REGION
+export AWS_REGION=$(curl -s -H "X-aws-ec2-metadata-token: $TOKEN" http://169.254.169.254/latest/meta-data/placement/region)
 export ACCOUNT_ID=$(aws sts get-caller-identity --query 'Account' --output text)
+export CLUSTER_NAME="vlm-distillation"
 export BUCKET=vlm-data-${ACCOUNT_ID}-${REGION}
 
 echo -e "\n-------------------------------------"
-echo "REGION: $REGION"
+echo "AWS_REGION: $AWS_REGION"
 echo "ACCOUNT_ID: $ACCOUNT_ID"
+echo "CLUSTER_NAME: $CLUSTER_NAME"
 echo "BUCKET: $BUCKET"
 ```
 MNIST 데이터를 다운로드 받아서 S3 에 업로드 한다. 
@@ -135,12 +136,7 @@ aws ecr describe-images --repository-name mnist-ddp --region $AWS_REGION
 Training job은 MNIST 데이터를 S3에서 읽어오고, 훈련 중 생성되는 체크포인트를 다시 S3에 저장한다. 그런데 Kubernetes 파드는 기본적으로 S3에 접근할 권한이 없다. 이 읽기/쓰기 권한을 부여하기 위해 IAM Roles for Service Accounts(IRSA)를 설정한다.
 
 ```
-export CLUSTER=my-eks-cluster
-export AWS_REGION=ap-northeast-2
-export ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
-export NAMESPACE=kubeflow-user
-export SA_NAME=mnist-trainer
-export BUCKET=my-datasets
+
 
 # 1. 클러스터에 OIDC 공급자 연결 (최초 1회)
 eksctl utils associate-iam-oidc-provider --cluster $CLUSTER --region $AWS_REGION --approve
