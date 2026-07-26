@@ -62,6 +62,16 @@ sudo dnf install git -y
 export VERSION=v2.2.1
 kubectl apply --server-side -k "https://github.com/kubeflow/trainer.git/manifests/overlays/manager?ref=${VERSION}"
 ```
+trainjobs CRD 설치 여부를 확인한다.
+```
+kubectl get crd trainjobs.trainer.kubeflow.org
+```
+[결과]
+```
+NAME                             CREATED AT
+trainjobs.trainer.kubeflow.org   2026-07-24T19:05:55Z
+```
+
 30 초 정도 지난 후에 클러스터 트레이닝런타임을 설치한다. 
 ```
 kubectl apply --server-side -k "https://github.com/kubeflow/trainer.git/manifests/overlays/runtimes?ref=${VERSION}"
@@ -130,19 +140,7 @@ volumes, volumeMounts, nodeSelector, tolerations, serviceAccount, securityContex
 > [!NOTE]
 > _멀티 노드 분산 학습이 아닌 싱글 노드 분산 학습(예: 하나의 노드 안에서 GPU 1~8장으로 훈련)의 경우, 노드 간 조율이 필요 없으므로 Kubeflow Trainer를 설치할 필요가 없다. 이때는 하나의 노드안에서 torchrun --nproc_per_node=<GPU 수>만으로 노드 내 프로세스를 띄우고 NCCL이 GPU 간 통신을 처리하면 충분하다._ 
 
-
-아래 명령어로 설치 여부를 확인한다. 
-```bash
-# Trainer(V2) 설치 확인 — 이 CRD 가 있어야 한다
-kubectl get crd trainjobs.trainer.kubeflow.org
-
-# 사용 가능한 런타임 확인 → 3.8 의 runtime_ref 에 넣을 이름
-kubectl get clustertrainingruntime
-
-# SDK 필드명은 버전마다 다를 수 있으니 스키마 확인
-kubectl explain trainjob.spec.trainer
-
-# GPU 노드 확인
-kubectl get nodes -o json | grep nvidia.com/gpu
-```
+> [!NOTE]
+> SDK 필드명은 버전마다 다를 수 있으니 스키마 확인
+> kubectl explain trainjob.spec.trainer
 
