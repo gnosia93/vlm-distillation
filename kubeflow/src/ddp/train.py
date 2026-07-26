@@ -130,8 +130,8 @@ def main():
     # ★ 여기에 진단 추가
     print(f"[diag] cuda.is_available={torch.cuda.is_available()} "
           f"device_count={torch.cuda.device_count()} "
-          f"torch={torch.__version__}" 
-          f"backend={backend}, flush=True)
+          f"torch={torch.__version__} " 
+          f"backend={backend}", flush=True)
     
     setup(backend)
 
