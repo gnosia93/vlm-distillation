@@ -56,16 +56,7 @@ torchrun train.py를 조립해 실행하고 노드 간 주소 연결까지 자�
 즉 Kubeflow가 torchrun을 대체하는 것이 아니라, torchrun을 여러 파드에 걸쳐 자동으로 세팅·실행해주는 상위 오케스트레이터다. 같은 torchrun이 도는데, "누가 그것을 띄우느냐"만 다르다.
 
 
-
-
-
-
-
-
-
-
-
-
+## 실습 ##
 
 ### 1. Kubeflow Trainer 설치 ###
 
