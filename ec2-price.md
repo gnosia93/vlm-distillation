@@ -1,3 +1,4 @@
+_Seoul_
 ![](https://github.com/gnosia93/vlm-distillation/blob/main/images/gpu-comparison.png)
 
 * [p5e.48xlarge](https://aws.amazon.com/ko/ec2/instance-types/p5/) - USD 87.34848 - NVIDIA H200 Tensor Core GPU x 8개 (GPU당 141GB HBM3e) -> 8
