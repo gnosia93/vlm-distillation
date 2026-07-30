@@ -28,11 +28,11 @@ spec:
         value: "INFO"  
     resourcesPerNode:
       requests:
-        cpu: "2"
-        memory: 4Gi
+        cpu: "24"
+        memory: 256Gi
       limits:
-        cpu: "4"
-        memory: 8Gi
+        cpu: "48"
+        memory: 512Gi
         nvidia.com/gpu: 2            # 노드당 GPU 2개 (numProcPerNode 와 맞춤), limits 에만 명시해도 request 시 반영됨
   # ★ 여기부터 추가 — 서비스 어카운트 지정
   runtimePatches:
