@@ -64,7 +64,7 @@ spec:
                                       operator: In
                                       values:
          #                               - g7e.2xlarge          # 1 GPU / 96 VRAM / 8 vCPUs,      64 GiB RAM,   1.9 x 1 TB Instance Storage 
-                                        - g7e.4xlarge          # 1 GPU / 96 VRAM / 16 vCPUs,    128 GiB RAM    1.9 x 1 TB Instance Storage 
+         #                               - g7e.4xlarge          # 1 GPU / 96 VRAM / 16 vCPUs,    128 GiB RAM    1.9 x 1 TB Instance Storage 
                                         - g7e.8xlarge          # 1 GPU / 96 VRAM / 32 vCPUs,    256 GiB RAM    1.9 x 1 TB Instance Storage 
                                         - g7e.12xlarge         # 2 GPU / 192 VRAM / 48 vCPUs,   512 GiB RAM    3.8 x 1 TB Instance Storage 
                                         - g7e.24xlarge         # 4 GPU / 384 VRAM / 96 vCPUs,  1024 GiB RAM    3.8 x 2 TB Instance Storage 
