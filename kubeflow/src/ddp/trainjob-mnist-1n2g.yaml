@@ -33,7 +33,7 @@ spec:
         nvidia.com/gpu: "2"            
       limits:
         cpu: "48"
-        memory: "512Gi"
+        memory: "384Gi"
         nvidia.com/gpu: "2"             # 노드당 GPU 2개 (numProcPerNode 와 맞춤), limits 에만 명시해도 request 시 반영됨
   # ★ 여기부터 추가 — 서비스 어카운트 지정
   runtimePatches:
