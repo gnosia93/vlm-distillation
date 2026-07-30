@@ -117,15 +117,35 @@ COPY train.py .
 ENTRYPOINT ["python", "train.py"]
 ```
 
-도커 이미지를 빌드한다.
+도커 이미지를 빌드한다. 대략 10분 정도의 시간이 걸린다.
 ```
 docker build --platform linux/amd64 -t $ECR/mnist-ddp:v1.0.0 .
 ```
 [결과]
 ```
-[+] Building 162.5s (4/9)                                                                                                    docker:default
- => [1/5] FROM public.ecr.aws/deep-learning-containers/pytorch-training:2.8.0-gpu-py312-cu129-ubuntu22.04-ec2-v1.48-soci@sha256:ea5  160.2s
- => => sha256:2558a4b1a9e85e67ae0be61b07855d133c25bbeb44985845c45ba1edf1db023d 3.34GB / 6.59GB                                       160.2s
+[+] Building 554.9s (10/10) FINISHED                                                                                         docker:default
+ => [internal] load build definition from Dockerfile                                                                                   0.0s
+ => => transferring dockerfile: 789B                                                                                                   0.0s
+ => [internal] load metadata for public.ecr.aws/deep-learning-containers/pytorch-training:2.8.0-gpu-py312-cu129-ubuntu22.04-ec2-v1.48  2.3s
+ => [internal] load .dockerignore                                                                                                      0.0s
+ => => transferring context: 2B                                                                                                        0.0s
+ => [1/5] FROM public.ecr.aws/deep-learning-containers/pytorch-training:2.8.0-gpu-py312-cu129-ubuntu22.04-ec2-v1.48-soci@sha256:ea5  516.2s
+ => => resolve public.ecr.aws/deep-learning-containers/pytorch-training:2.8.0-gpu-py312-cu129-ubuntu22.04-ec2-v1.48-soci@sha256:ea550  0.0s
+ => => sha256:66587c81b81a58d07e40c48d900a1517516bbf58c4378c687d89d645824f5e5f 30.45MB / 30.45MB                                      16.4s
+ => => sha256:f29b1d4013a93a17a4d4acbb760170b608e6707e85419f0e1a2973233f1c0080 4.64MB / 4.64MB                                         1.4s
+ => => sha256:98b78b1030b388c30e05f9087c4ae92aa07e72be79a46f9c14c45bcaf9677f69 31.82kB / 31.82kB                                       0.0s
+ => => sha256:3b2d5ea5e9f1164da5e7e812a52d349052abb423e04634bacf37f0b4e91ca709 5.74kB / 5.74kB                                         0.0s
+ => => sha256:ea550cdd28cb0889acefc276b49ad6f080a3825942941856ca576d1b8f694cf1 803B / 803B                                             0.0s
+ => => sha256:340d44d2921c44112afe4f535a1a3bcfdc4eed5093388d098937942f7f883739 103.52MB / 103.52MB                                     6.1s
+ => => sha256:59a4bcbddda3c45ff4949d35d2321b6eca9eaff7daae2334c99226bb19f60c3a 184B / 184B                                             1.9s
+ => => sha256:6e8af4fd0a071982e528b634ba99dec2474c21147f99748be708f36e10e3f4c2 6.88kB / 6.88kB                                         2.5s
+ => => sha256:1ac0fdaf07f02f183d8ef17d0b1e243b47eab8ed3d0d0e501dbe44d0dcf01c0c 137.57MB / 137.57MB                                    10.0s
+ => => sha256:9e1bb683c4a3872219dc903128d73f2fa577d245133d87581feaf9b0a48a9b57 275.45kB / 275.45kB                                     7.1s
+ => => sha256:5f6e3f55c572ec27f3688241088dbb7abacd571d430f7ce1d3b39d28c929095e 13.21MB / 13.21MB                                       8.9s
+ => => sha256:2558a4b1a9e85e67ae0be61b07855d133c25bbeb44985845c45ba1edf1db023d 6.59GB / 6.59GB                                       307.8s
+ => => sha256:e2523b1c917479b6b60b96b71461ab8516b74c68d76e5f7a9c3850adc58f58a2 1.53kB / 1.53kB                                        10.5s
+ => => sha256:d0deb0a5a4be913650696838ec4416665103cda2db7c5bbec7488760370cbea2 3.94kB / 3.94kB                                        11.1s
+ => => sha256:29390721b7031ded343377aa5b330655608009b451fc49de36acbf626b560acb 389B / 389B                                            11.7s
  => => sha256:ad99c5dda660067a3621043ca4fb78cefaadf986b126717121b22224380284a4 190.14MB / 190.14MB                                    21.6s
  => => sha256:840df9e3c1a23ee6c5d13b3e457e88955699dfc636f0bb4afa4053261d87fa38 127.05MB / 127.05MB                                    22.9s
  => => extracting sha256:66587c81b81a58d07e40c48d900a1517516bbf58c4378c687d89d645824f5e5f                                              0.6s
@@ -137,7 +157,7 @@ docker build --platform linux/amd64 -t $ECR/mnist-ddp:v1.0.0 .
  => => sha256:ad192ec579ce3cef404ec72d96bfd4241dcc62685224043c0c06fa28a2ccc3ab 504.88MB / 504.88MB                                    49.4s
  => => extracting sha256:9e1bb683c4a3872219dc903128d73f2fa577d245133d87581feaf9b0a48a9b57                                              0.0s
  => => extracting sha256:5f6e3f55c572ec27f3688241088dbb7abacd571d430f7ce1d3b39d28c929095e                                              0.1s
- => => sha256:89aab7d6bdfe794061abd8a27a9e12922c0193d61544062323bcc23a9ee87f22 3.09GB / 4.67GB                                       160.2s
+ => => sha256:89aab7d6bdfe794061abd8a27a9e12922c0193d61544062323bcc23a9ee87f22 4.67GB / 4.67GB                                       232.0s
  => => sha256:35476ea31500b08f11a458e7d226011ad4985862d60e586280708eebecfe4b77 254.79MB / 254.79MB                                    64.8s
  => => sha256:7e5ad5803ecdf778c7edc7054eaba4c658e24c30ceb1c2d933a917d9c95c4eb0 288.16MB / 288.16MB                                    80.3s
  => => sha256:980fc20382e02e2425dfd8c530b36bdc1f9cae154a0bf939181254d6a5e4a9c6 1.78kB / 1.78kB                                        80.9s
@@ -155,8 +175,41 @@ docker build --platform linux/amd64 -t $ECR/mnist-ddp:v1.0.0 .
  => => sha256:8b9b128b38cd0f1e8d1907869c2a8ff74e67ec3bb89e429f5e41db6d5a766a46 1.44MB / 1.44MB                                        92.8s
  => => sha256:14aa7ba8f5412e0863a6a4b1b0c29b0d192c6948242a9bd433b8df7124c14c4a 414B / 414B                                            93.4s
  => => sha256:abcd5e503919350c4954140f2534a7d2e3eba06d540415caf2609246b6a06756 221B / 221B                                            94.0s
+ => => extracting sha256:2558a4b1a9e85e67ae0be61b07855d133c25bbeb44985845c45ba1edf1db023d                                             56.6s
+ => => extracting sha256:e2523b1c917479b6b60b96b71461ab8516b74c68d76e5f7a9c3850adc58f58a2                                              0.0s
+ => => extracting sha256:d0deb0a5a4be913650696838ec4416665103cda2db7c5bbec7488760370cbea2                                              0.0s
+ => => extracting sha256:29390721b7031ded343377aa5b330655608009b451fc49de36acbf626b560acb                                              0.0s
+ => => extracting sha256:ad99c5dda660067a3621043ca4fb78cefaadf986b126717121b22224380284a4                                              5.2s
+ => => extracting sha256:840df9e3c1a23ee6c5d13b3e457e88955699dfc636f0bb4afa4053261d87fa38                                              2.8s
+ => => extracting sha256:ad192ec579ce3cef404ec72d96bfd4241dcc62685224043c0c06fa28a2ccc3ab                                             14.0s
+ => => extracting sha256:89aab7d6bdfe794061abd8a27a9e12922c0193d61544062323bcc23a9ee87f22                                             99.1s
+ => => extracting sha256:35476ea31500b08f11a458e7d226011ad4985862d60e586280708eebecfe4b77                                              8.3s
+ => => extracting sha256:7e5ad5803ecdf778c7edc7054eaba4c658e24c30ceb1c2d933a917d9c95c4eb0                                              6.6s
+ => => extracting sha256:980fc20382e02e2425dfd8c530b36bdc1f9cae154a0bf939181254d6a5e4a9c6                                              0.0s
+ => => extracting sha256:928dba68c3233b8bdd30f2f4ad3b86af2447d608c2aeee3527d1d6e962eb844b                                              0.0s
+ => => extracting sha256:d83187bfb2daf990574aa2d5b4859eead9072f5447b9dd9ed60ee4f551fee971                                              0.0s
+ => => extracting sha256:94d6d3a72034a0dda2abd4841cb745b6c5d45b1d47c171ff53b1f9eb3cad8ef7                                              0.0s
+ => => extracting sha256:6a95766a9036531aaef27e8ed4b8eec280e22f29ba4f7749ee65052bc9fa5fdc                                              0.0s
+ => => extracting sha256:1c4c957a0e18beea1869844959a5976d2f390b4860f86eb1c1ca36fd01525776                                              0.0s
+ => => extracting sha256:f794ee6b903b7bef46f1a5a5d93132536933f44763231691ac1bd86a21335ec8                                              0.0s
+ => => extracting sha256:645dedcd42a3ded3acc0ec3e05f21cee2a203ca94c9104346250b880caba41f8                                              3.4s
+ => => extracting sha256:31f43ac8b954252549aa986337c0871c1fe9d2ab31826be4757124c2f718d5b1                                              0.0s
+ => => extracting sha256:70b3c9b4204c70d246b222167072a47fa825cf293e37c524e42f3da5f72942ae                                              0.0s
+ => => extracting sha256:0465e714c3bfeb0bbbac8c726cca52fcb4b941f4fd09af0dc84cc62f0a42fa69                                              0.0s
+ => => extracting sha256:c1b1f64cb2c84dd7a6c38518f7887176ba2203cdb7b1c5a4d1a0176fa7ee5509                                              0.0s
+ => => extracting sha256:8b9b128b38cd0f1e8d1907869c2a8ff74e67ec3bb89e429f5e41db6d5a766a46                                              0.1s
+ => => extracting sha256:14aa7ba8f5412e0863a6a4b1b0c29b0d192c6948242a9bd433b8df7124c14c4a                                              0.0s
+ => => extracting sha256:abcd5e503919350c4954140f2534a7d2e3eba06d540415caf2609246b6a06756                                              0.0s
  => [internal] load build context                                                                                                      0.0s
  => => transferring context: 175B                                                                                                      0.0s
+ => [2/5] WORKDIR /workspace                                                                                                          32.3s
+ => [3/5] COPY requirements.txt .                                                                                                      0.0s
+ => [4/5] RUN pip install --no-cache-dir -r requirements.txt                                                                           3.8s
+ => [5/5] COPY train.py .                                                                                                              0.1s
+ => exporting to image                                                                                                                 0.1s
+ => => exporting layers                                                                                                                0.1s
+ => => writing image sha256:33639df9d29ba2d72fb4e357694e5fe9720a31d79e66eab86d897923c811897f                                           0.0s
+ => => naming to 499514681453.dkr.ecr.ap-northeast-2.amazonaws.com/mnist-ddp:v1.0.0                                                    0.0s
 ```
 
 빌드한 이미지를 ecr 에 푸시한다.
