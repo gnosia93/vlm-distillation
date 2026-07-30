@@ -13,10 +13,20 @@ aws ec2 describe-instance-types \
 
 [결과]
 ```
-
+g4dn.8xlarge	g6e.24xlarge	g7e.24xlarge
+g4dn.metal	g7e.8xlarge	g6.8xlarge	g7e.48xlarge
+g5.16xlarge
+g5.24xlarge	g4dn.12xlarge	g6e.16xlarge	g7e.12xlarge	g6.48xlarge
+g6.12xlarge	g4dn.16xlarge	g6.16xlarge	p5en.48xlarge
+g6e.12xlarge	p4d.24xlarge	p5.48xlarge	g5.12xlarge
+g6e.8xlarge	g6e.48xlarge	g6.24xlarge
+gr6.8xlarge	g5.48xlarge	g5.8xlarge
 ```
+g*.8xlarge 부터 EFA 를 지원한다.
+
 
 ### 1-2. MNIST 데이터 준비 ###
+
 
 ```
 TOKEN=$(curl -s -X PUT "http://169.254.169.254/latest/api/token" -H "X-aws-ec2-metadata-token-ttl-seconds: 21600")
