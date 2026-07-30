@@ -339,7 +339,7 @@ mnist-ddp-2gpu-node-0-0:59:80 [1] NCCL INFO Channel 01 : 1[1] -> 0[0] via SHM/di
 
 ## AWS 딥러닝 컨테이너 이미지 ##
 
-AWS 는 다음과 같이 딥러닝 컨테이너 이미지를 제공하고 있다.
+AWS는 공식 딥러닝 컨테이너(DLC) 이미지를 제공하고 있다. 특히 멀티 노드 GPU 분산 학습 시 필수적인 EFA(Elastic Fabric Adapter) 관련 설정이 미리 완료되어 있어, AWS DLC 이미지를 활용하면 손쉽게 환경을 구축할 수 있다.
 
 * [Deep Learning Containers](https://gallery.ecr.aws/deep-learning-containers/pytorch-training)
 
