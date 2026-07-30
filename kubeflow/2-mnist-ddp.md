@@ -117,9 +117,50 @@ COPY train.py .
 ENTRYPOINT ["python", "train.py"]
 ```
 
-도커 이미지를 빌드하여 ecr 에 푸시한다.
+도커 이미지를 빌드한다.
 ```
 docker build --platform linux/amd64 -t $ECR/mnist-ddp:v1.0.0 .
+```
+[결과]
+```
+[+] Building 162.5s (4/9)                                                                                                    docker:default
+ => [1/5] FROM public.ecr.aws/deep-learning-containers/pytorch-training:2.8.0-gpu-py312-cu129-ubuntu22.04-ec2-v1.48-soci@sha256:ea5  160.2s
+ => => sha256:2558a4b1a9e85e67ae0be61b07855d133c25bbeb44985845c45ba1edf1db023d 3.34GB / 6.59GB                                       160.2s
+ => => sha256:ad99c5dda660067a3621043ca4fb78cefaadf986b126717121b22224380284a4 190.14MB / 190.14MB                                    21.6s
+ => => sha256:840df9e3c1a23ee6c5d13b3e457e88955699dfc636f0bb4afa4053261d87fa38 127.05MB / 127.05MB                                    22.9s
+ => => extracting sha256:66587c81b81a58d07e40c48d900a1517516bbf58c4378c687d89d645824f5e5f                                              0.6s
+ => => extracting sha256:f29b1d4013a93a17a4d4acbb760170b608e6707e85419f0e1a2973233f1c0080                                              0.1s
+ => => extracting sha256:340d44d2921c44112afe4f535a1a3bcfdc4eed5093388d098937942f7f883739                                              1.4s
+ => => extracting sha256:59a4bcbddda3c45ff4949d35d2321b6eca9eaff7daae2334c99226bb19f60c3a                                              0.0s
+ => => extracting sha256:6e8af4fd0a071982e528b634ba99dec2474c21147f99748be708f36e10e3f4c2                                              0.0s
+ => => extracting sha256:1ac0fdaf07f02f183d8ef17d0b1e243b47eab8ed3d0d0e501dbe44d0dcf01c0c                                              3.1s
+ => => sha256:ad192ec579ce3cef404ec72d96bfd4241dcc62685224043c0c06fa28a2ccc3ab 504.88MB / 504.88MB                                    49.4s
+ => => extracting sha256:9e1bb683c4a3872219dc903128d73f2fa577d245133d87581feaf9b0a48a9b57                                              0.0s
+ => => extracting sha256:5f6e3f55c572ec27f3688241088dbb7abacd571d430f7ce1d3b39d28c929095e                                              0.1s
+ => => sha256:89aab7d6bdfe794061abd8a27a9e12922c0193d61544062323bcc23a9ee87f22 3.09GB / 4.67GB                                       160.2s
+ => => sha256:35476ea31500b08f11a458e7d226011ad4985862d60e586280708eebecfe4b77 254.79MB / 254.79MB                                    64.8s
+ => => sha256:7e5ad5803ecdf778c7edc7054eaba4c658e24c30ceb1c2d933a917d9c95c4eb0 288.16MB / 288.16MB                                    80.3s
+ => => sha256:980fc20382e02e2425dfd8c530b36bdc1f9cae154a0bf939181254d6a5e4a9c6 1.78kB / 1.78kB                                        80.9s
+ => => sha256:928dba68c3233b8bdd30f2f4ad3b86af2447d608c2aeee3527d1d6e962eb844b 711B / 711B                                            81.5s
+ => => sha256:d83187bfb2daf990574aa2d5b4859eead9072f5447b9dd9ed60ee4f551fee971 712B / 712B                                            82.0s
+ => => sha256:94d6d3a72034a0dda2abd4841cb745b6c5d45b1d47c171ff53b1f9eb3cad8ef7 388B / 388B                                            82.6s
+ => => sha256:6a95766a9036531aaef27e8ed4b8eec280e22f29ba4f7749ee65052bc9fa5fdc 390B / 390B                                            83.1s
+ => => sha256:1c4c957a0e18beea1869844959a5976d2f390b4860f86eb1c1ca36fd01525776 1.24kB / 1.24kB                                        83.7s
+ => => sha256:f794ee6b903b7bef46f1a5a5d93132536933f44763231691ac1bd86a21335ec8 486.60kB / 486.60kB                                    84.8s
+ => => sha256:645dedcd42a3ded3acc0ec3e05f21cee2a203ca94c9104346250b880caba41f8 72.43MB / 72.43MB                                      89.3s
+ => => sha256:31f43ac8b954252549aa986337c0871c1fe9d2ab31826be4757124c2f718d5b1 127B / 127B                                            89.9s
+ => => sha256:70b3c9b4204c70d246b222167072a47fa825cf293e37c524e42f3da5f72942ae 440B / 440B                                            90.4s
+ => => sha256:0465e714c3bfeb0bbbac8c726cca52fcb4b941f4fd09af0dc84cc62f0a42fa69 438B / 438B                                            91.0s
+ => => sha256:c1b1f64cb2c84dd7a6c38518f7887176ba2203cdb7b1c5a4d1a0176fa7ee5509 549B / 549B                                            91.6s
+ => => sha256:8b9b128b38cd0f1e8d1907869c2a8ff74e67ec3bb89e429f5e41db6d5a766a46 1.44MB / 1.44MB                                        92.8s
+ => => sha256:14aa7ba8f5412e0863a6a4b1b0c29b0d192c6948242a9bd433b8df7124c14c4a 414B / 414B                                            93.4s
+ => => sha256:abcd5e503919350c4954140f2534a7d2e3eba06d540415caf2609246b6a06756 221B / 221B                                            94.0s
+ => [internal] load build context                                                                                                      0.0s
+ => => transferring context: 175B                                                                                                      0.0s
+```
+
+빌드한 이미지를 ecr 에 푸시한다.
+```
 docker push $ECR/mnist-ddp:v1.0.0
 ```
 [결과]
