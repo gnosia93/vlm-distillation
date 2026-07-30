@@ -303,9 +303,8 @@ envsubst '$IMAGE_URI $BUCKET' < trainjob-mnist.yaml | kubectl apply -f -      # 
 따라서 스케일링 전략은 이렇게 정리할 수 있다.
 * 한 노드로 충분한 규모 → 싱글 노드 멀티 GPU (노드 내부 통신, 가장 유리)
 * 한 노드 용량(최대 8 GPU)을 초과 → 멀티 노드로 확장하되, 이때는 반드시 EFA를 사용해 노드 간 통신 페널티를 최소화 (일반 TCP는 지양)
-GPU가 여러 개인 인스턴스(예: Blackwell 기반 g7e 계열의 멀티-GPU 크기)에서 필요한 수만큼만 요청해 사용하면 된다. 반드시 GPU 수가 딱 맞는 인스턴스일 필요는 없고, GPU가 그 이상인 노드에서 원하는 개수만 요청하면 된다. 특히 g7e는 GPUDirect P2P를 지원해 노드 내 멀티-GPU 성능에 유리하다.
-참고로 g7e 는 노드당 1, 2, 4, 8 갯수의 GPU 를 지원한다. 
 
+(확인필요) 참고로 g7e는 GPUDirect P2P(GPU Direct RDMA) 를 지원해 노드 내 멀티-GPU 성능에 유리하고, 노드당 1, 2, 4, 8 갯수의 GPU 를 지원한다. 
 
 ```
 kubectl delete trainjob mnist-ddp -n mnist     # 이전 작업 삭제 후 
