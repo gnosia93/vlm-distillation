@@ -356,5 +356,6 @@ AWS 는 다음과 같이 딥러닝 컨테이너 이미지를 제공하고 있다
 * v1.25 - AWS DLC release/patch 버전.
 * soci - SOCI 지표가 적용되어 있어, 대용량 이미지임에도 빠른 지연 로딩(Lazy Loading)으로 파드를 초고속 스타트.
 
+`public.ecr.aws/deep-learning-containers/pytorch-training:2.8.0-gpu-py312-cu129-ubuntu22.04-ec2-v1.48-soci`
 
 
