@@ -4,11 +4,14 @@
 ### 1. 사전 준비 ###
 
 ### 1-1. EFA 지원 GPU 인스턴스 확인 ###
+```bash
 aws ec2 describe-instance-types \
     --filters Name=network-info.efa-supported,Values=true \
     --query "InstanceTypes[?GpuInfo.Gpus!=null].InstanceType" \
     --output text | sort
+```
 
+[결과]
 ```
 
 ```
