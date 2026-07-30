@@ -5,7 +5,7 @@ metadata:
   namespace: mnist
 spec:
   # 클러스터에 미리 설치된 분산 런타임 참조 (torch distributed).
-  # 이름은 배포판마다 다를 수 있음 -> `kubectl get clustertrainingruntime` 확인.
+  # 이름은 배포판마다 다를 수 있음 -> `kubectl get clustertrainingruntime torch-distributed -o yaml | grep -i "name:` 확인.
   runtimeRef:
     name: torch-distributed
     apiGroup: trainer.kubeflow.org
