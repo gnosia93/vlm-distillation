@@ -57,6 +57,9 @@ spec:
                                     - key: node.kubernetes.io/instance-type
                                       operator: In
                                       values:
+                                        - g6e.12xlarge          # 4 GPU / 192 VARM / 48 vCPUs,    384 GiB RAM 
+                                        - g6e.24xlarge          # 4 GPU / 192 VARM / 96 vCPUs,    768 GiB RAM 
+                                        - g6e.48xlarge          # 8 GPU / 384 VARM / 192 vCPUs,  1536 GiB RAM                
                                      #   - g7e.2xlarge          # 1 GPU / 96 VRAM / 8 vCPUs,      64 GiB RAM,   1.9 x 1 TB Instance Storage 
                                      #   - g7e.4xlarge          # 1 GPU / 96 VRAM / 16 vCPUs,    128 GiB RAM    1.9 x 1 TB Instance Storage 
                                      #   - g7e.8xlarge          # 1 GPU / 96 VRAM / 32 vCPUs,    256 GiB RAM    1.9 x 1 TB Instance Storage 
