@@ -22,7 +22,7 @@ g6e.12xlarge	p4d.24xlarge	p5.48xlarge	g5.12xlarge
 g6e.8xlarge	g6e.48xlarge	g6.24xlarge
 gr6.8xlarge	g5.48xlarge	g5.8xlarge
 ```
-g*.8xlarge 부터 EFA 를 지원한다.
+* g*.8xlarge 부터 EFA 를 지원한다.
 
 
 ### 1-2. MNIST 데이터 준비 ###
