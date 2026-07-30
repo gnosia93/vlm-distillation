@@ -342,7 +342,7 @@ AWS 는 다음과 같이 딥러닝 컨테이너 이미지를 제공하고 있다
 
 * [Deep Learning Containers](https://gallery.ecr.aws/deep-learning-containers/pytorch-training)
 
-![](https://github.com/gnosia93/vlm-distillation/blob/main/images/pytorch-gpu-dlc-1.png)
+![](https://github.com/gnosia93/vlm-distillation/blob/main/images/pytorch-gpu-dlc-2.png)
 
 `public.ecr.aws/deep-learning-containers/pytorch-training:2.9.0-gpu-py312-cu130-ubuntu22.04-ec2-v1.25-soci`
 
