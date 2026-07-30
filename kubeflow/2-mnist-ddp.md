@@ -489,7 +489,15 @@ mnist-ddp-node-0-0:83:162 [0] NCCL INFO Connected all trees
 [rank 0] epoch 1 [25600/60000] loss=0.1966
 [rank 0] epoch 1 [28800/60000] loss=0.0978
 [rank 0] epoch 1 소요=2.98s
+...
+[rank 0] epoch 50 소요=2.62s
+[rank 0] 총 학습 시간=132.05s (epochs=50, world_size=2)
+모델 저장 완료: /data/mnist_ddp.pt
+체크포인트 업로드: s3://vlm-data-499514681453-ap-northeast-2/checkpoints/mnist_ddp.pt
+mnist-ddp-node-0-0:83:83 [0] NCCL INFO comm 0x556f7fc89d00 rank 0 nranks 2 cudaDev 0 busId 36000 - Destroy COMPLETE
 ```
+총 132 초의 학습 시간이 소요되었다. 
+
 > [!NOTE]
 > 노드간의 통신은 EFA( via NET/Libfabric/0 ) 를 사용하고 있다. 
 
@@ -578,4 +586,6 @@ AWS는 공식 딥러닝 컨테이너(DLC) 이미지를 제공하고 있다. 특�
 | **AWS DLC 패치 버전** | v1.48 | v1.25 | v2.8.0 이미지가 상대적으로 장기간 패치 및 검증되어 패치 횟수(v1.48)가 높음 |
 | **Python / OS / SOCI** | 동일 (Python 3.12 / Ubuntu 22.04 / SOCI 지원) | 동일 (Python 3.12 / Ubuntu 22.04 / SOCI 지원) | 동일 환경 및 동일한 지연 로딩 최적화 적용 |
 
+## 레퍼런스 ##
 
+* https://aws.amazon.com/ko/ec2/instance-types/g6e/
