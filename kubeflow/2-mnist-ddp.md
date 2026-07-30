@@ -344,5 +344,17 @@ AWS 는 다음과 같이 딥러닝 컨테이너 이미지를 제공하고 있다
 
 ![](https://github.com/gnosia93/vlm-distillation/blob/main/images/pytorch-gpu-dlc-1.png)
 
+`public.ecr.aws/deep-learning-containers/pytorch-training:2.9.0-gpu-py312-cu130-ubuntu22.04-ec2-v1.25-soci`
+
+* pytorch-training - PyTorch 모델 학습(Training) 전용 DLC 이미지.
+* 2.9.0 - PyTorch v2.9.0 버전이 적용. (이전 2.8.0 대비 최신 PyTorch 기능 및 버그 수정 적용)
+* gpu - NVIDIA GPU 전용 이미지.
+* py312 - Python 3.12 환경.
+* cu130 - CUDA 13.0 버전이 내장. (이전 cu129보다 최신 CUDA toolkit 탑재)
+* ubuntu22.04 - 베이스 OS는 Ubuntu 22.04 LTS.
+* ec2 - AWS EC2 및 EKS 환경, EFA 네트워크, AWS 전용 NCCL 플러그인에 최적화.
+* v1.25 - AWS DLC release/patch 버전.
+* soci - SOCI 지표가 적용되어 있어, 대용량 이미지임에도 빠른 지연 로딩(Lazy Loading)으로 파드를 초고속 스타트.
+
 
 
