@@ -341,9 +341,8 @@ mnist-ddp-2gpu-node-0-0:59:80 [1] NCCL INFO Channel 01 : 1[1] -> 0[0] via SHM/di
 AWS 는 다음과 같이 딥러닝 컨테이너 이미지를 제공하고 있다.
 
 * [Deep Learning Containers](https://aws.github.io/deep-learning-containers/reference/available_images/)
-* `컨테이너 이미지 선택`: [deep-learning-containers/pytorch](https://gallery.ecr.aws/deep-learning-containers/pytorch) 사이트 -> Image Tags
 
-![](https://github.com/gnosia93/vlm-distillation/blob/main/images/pytorch-gpu-dlc.png)
+![](https://github.com/gnosia93/vlm-distillation/blob/main/images/pytorch-gpu-dlc-1.png)
 
 
 
