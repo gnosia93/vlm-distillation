@@ -238,16 +238,16 @@ a7bc9bcfa158: Pushed
 e3559b7492a9: Pushed 
 2e7fc2e51536: Pushed 
 4b2b4818a17d: Pushed 
-ffb7e2a32dfa: Pushing [========================>                          ]  303.5MB/631.6MB
-fa5020f5e9a1: Pushing [============>                                      ]  247.2MB/1.005GB
-ee2f318de3fe: Pushing [=>                                                 ]  263.4MB/8.068GB
-8fdae1b2ad63: Pushing [=========>                                         ]  303.4MB/1.56GB
-3558aa5ddbe4: Pushing [>                                                  ]  3.223MB/392.5MB
-2ac3b5d77122: Waiting 
-517fdb26e239: Waiting 
-27125b921b33: Waiting 
-823e42c6e0bd: Waiting 
-f8c2d62bf874: Waiting 
+ffb7e2a32dfa: Pushed 
+fa5020f5e9a1: Pushing [=======================================>           ]  800.9MB/1.005GB
+ee2f318de3fe: Pushing [======>                                            ]  1.112GB/8.068GB
+8fdae1b2ad63: Pushing [==============================>                    ]  961.4MB/1.56GB
+3558aa5ddbe4: Pushed 
+2ac3b5d77122: Pushing [==============================>                    ]  320.8MB/524.7MB
+517fdb26e239: Pushed 
+27125b921b33: Pushed 
+823e42c6e0bd: Pushed 
+f8c2d62bf874: Pushing [>                                                  ]  209.2MB/10.96GB
 e1b74655a7a2: Waiting 
 124e7b92de0c: Waiting 
 abd0fa226734: Waiting 
