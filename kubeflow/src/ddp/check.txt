@@ -37,3 +37,16 @@ kubectl run nvme-check --rm -i --tty --image=busybox --overrides='
     }]
   }
 }'
+
+
+"operator": "Exists" 의 의미
+보통 Toleration(허용)을 적을 때는 key와 value를 일일이 지정해야 합니다.
+
+```
+{
+  "key": "nvidia.com/gpu",
+  "operator": "Equal",
+  "value": "present",
+  "effect": "NoSchedule"
+}
+```
