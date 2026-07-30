@@ -33,7 +33,7 @@ spec:
       limits:
         cpu: "4"
         memory: 8Gi
-        nvidia.com/gpu: 2            # 노드당 GPU 1개 (numProcPerNode 와 맞춤), limits 에만 명시해도 request 시 반영됨
+        nvidia.com/gpu: 2            # 노드당 GPU 2개 (numProcPerNode 와 맞춤), limits 에만 명시해도 request 시 반영됨
   # ★ 여기부터 추가 — 서비스 어카운트 지정
   runtimePatches:
     - manager: "example.com/mnist-irsa"          # 소유자 식별용 임의 문자열 (비어있으면 안 됨, 도메인 형식)
@@ -56,9 +56,9 @@ spec:
                                     - key: node.kubernetes.io/instance-type
                                       operator: In
                                       values:
-                                        - g7e.2xlarge          # 1 GPU / 96 VRAM / 8 vCPUs,      64 GiB RAM,   1.9 x 1 TB Instance Storage 
-                                        - g7e.4xlarge          # 1 GPU / 96 VRAM / 16 vCPUs,    128 GiB RAM    1.9 x 1 TB Instance Storage 
-                                        - g7e.8xlarge          # 1 GPU / 96 VRAM / 32 vCPUs,    256 GiB RAM    1.9 x 1 TB Instance Storage 
+                                     #   - g7e.2xlarge          # 1 GPU / 96 VRAM / 8 vCPUs,      64 GiB RAM,   1.9 x 1 TB Instance Storage 
+                                     #   - g7e.4xlarge          # 1 GPU / 96 VRAM / 16 vCPUs,    128 GiB RAM    1.9 x 1 TB Instance Storage 
+                                     #   - g7e.8xlarge          # 1 GPU / 96 VRAM / 32 vCPUs,    256 GiB RAM    1.9 x 1 TB Instance Storage 
                                         - g7e.12xlarge         # 2 GPU / 192 VRAM / 48 vCPUs,   512 GiB RAM    3.8 x 1 TB Instance Storage 
                                         - g7e.24xlarge         # 4 GPU / 384 VRAM / 96 vCPUs,  1024 GiB RAM    3.8 x 2 TB Instance Storage 
                                         - g7e.48xlarge         # 8 GPU / 768 VRAM / 192 vCPUs, 2048 GiB RAM    3.8 x 4 TB Instance Storage 
