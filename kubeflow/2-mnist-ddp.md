@@ -533,7 +533,7 @@ envsubst '$IMAGE_URI $BUCKET' < trainjob-mnist.yaml | kubectl apply -f -      # 
 (확인필요) 참고로 g7e는 GPUDirect P2P(GPU Direct RDMA) 를 지원해 노드 내 멀티-GPU 성능에 유리하고, 노드당 1, 2, 4, 8 갯수의 GPU 를 지원한다. 
 
 ```
-kubectl delete trainjob mnist-ddp-1n2g -n mnist     # 이전 작업 삭제 후 
+kubectl delete trainjob mnist-ddp-1n2g -n mnist     # 이전 작업이 있는 경우 삭제 후 
 
 export IMAGE_URI=$ECR/mnist-ddp:v1.0.0
 envsubst '$IMAGE_URI $BUCKET' < trainjob-mnist-1n2g.yaml | kubectl apply -f -
