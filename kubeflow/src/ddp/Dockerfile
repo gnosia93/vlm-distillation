@@ -1,7 +1,8 @@
 # CUDA runtime base so the same image works on GPU nodes; falls back to CPU
 # (gloo) automatically when no GPU is present. Swap for python:3.10-slim if
 # you only ever run on CPU and want a smaller image.
-FROM pytorch/pytorch:2.3.1-cuda12.1-cudnn8-runtime
+# FROM pytorch/pytorch:2.3.1-cuda12.1-cudnn8-runtime
+FROM public.ecr.aws/deep-learning-containers/pytorch-training:2.8.0-gpu-py312-cu129-ubuntu22.04-ec2-v1.48-soci
 
 WORKDIR /workspace
 
