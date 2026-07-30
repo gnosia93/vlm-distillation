@@ -373,7 +373,7 @@ mnist-ddp-node-0-1-zzsrt   0/1     ContainerCreating   0          2m7s
 
 * eks-node-viewer - GPU 노드를 확인    
 `vs-code 에서 새로운 터미널을 하나 열고 eks-node-viewer 실행`    
-![](https://github.com/gnosia93/vlm-distillation/blob/main/images/eks-nodeviewer.png)
+![](https://github.com/gnosia93/vlm-distillation/blob/main/images/eks-nodeviewer-1.png)
 
 
 * k9s - 파드 정보 확인      
