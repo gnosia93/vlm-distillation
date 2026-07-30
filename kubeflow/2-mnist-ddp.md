@@ -1,5 +1,19 @@
 ## MNIST 분산학습 (DDP) ##
 
+
+### 1. EFA 지원 GPU 인스턴스 확인 ###
+aws ec2 describe-instance-types \
+    --filters Name=network-info.efa-supported,Values=true \
+    --query "InstanceTypes[?GpuInfo.Gpus!=null].InstanceType" \
+    --output text | sort
+
+```
+
+```
+
+
+
+
 ### 1. MNIST 데이터 준비 ###
 
 ```
