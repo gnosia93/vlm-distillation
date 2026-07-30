@@ -219,14 +219,43 @@ docker push $ECR/mnist-ddp:v1.0.0
 [결과]
 ```
 The push refers to repository [499514681453.dkr.ecr.ap-northeast-2.amazonaws.com/mnist-ddp]
-787103d0bc13: Pushed 
-1855cb852b5a: Pushed 
-81014ae93b9a: Pushed 
-5f70bf18a086: Pushed 
-0f646da89c67: Pushed 
-e75c063b91c2: Pushing [=======>                                           ]  1.123GB/7.591GB
-a63da41ef05f: Pushed 
-0b9c994b0484: Pushed 
+8472ce0af935: Pushed 
+7c09a46b3c23: Pushed 
+9f02888d2694: Pushed 
+86cc1cbb058d: Pushed 
+aabde0deb924: Pushed 
+bd3e184f7dc4: Pushed 
+40e51e0b5792: Pushed 
+54b4198d891c: Pushed 
+13253d290b1a: Pushed 
+5f08466ea4f7: Pushed 
+acbf48a043b8: Pushed 
+9f5bcd5c3a50: Pushed 
+a7bc9bcfa158: Pushed 
+8cf75e17e74d: Pushed 
+5d602162eef4: Pushed 
+3c5b3a916e09: Pushed 
+e3559b7492a9: Pushed 
+2e7fc2e51536: Pushed 
+4b2b4818a17d: Pushed 
+ffb7e2a32dfa: Pushing [========================>                          ]  303.5MB/631.6MB
+fa5020f5e9a1: Pushing [============>                                      ]  247.2MB/1.005GB
+ee2f318de3fe: Pushing [=>                                                 ]  263.4MB/8.068GB
+8fdae1b2ad63: Pushing [=========>                                         ]  303.4MB/1.56GB
+3558aa5ddbe4: Pushing [>                                                  ]  3.223MB/392.5MB
+2ac3b5d77122: Waiting 
+517fdb26e239: Waiting 
+27125b921b33: Waiting 
+823e42c6e0bd: Waiting 
+f8c2d62bf874: Waiting 
+e1b74655a7a2: Waiting 
+124e7b92de0c: Waiting 
+abd0fa226734: Waiting 
+455bca42f6ec: Waiting 
+68b381704cbd: Waiting 
+2f58442919fa: Waiting 
+b5e294e75ffe: Waiting 
+3cc982388b71: Waiting 
 ```
 
 ecr 에 푸시된 이미지를 확인한다.
