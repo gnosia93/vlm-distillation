@@ -580,7 +580,7 @@ mnist-ddp-1n2g-node-0-0:105:134 [0] NCCL INFO Connected all rings, use ring PXN 
 mnist-ddp-1n2g-node-0-0:106:106 [1] NCCL INFO comm 0x55f9e0aff950 rank 1 nranks 2 cudaDev 1 busId 3a000 - Destroy COMPLETE
 mnist-ddp-1n2g-node-0-0:105:105 [0] NCCL INFO comm 0x5566cba64a10 rank 0 nranks 2 cudaDev 0 busId 38000 - Destroy COMPLETE
 ```
-123.87 초가 학습 시간으로 소요되었다.
+총 123.87 초의 학습 시간이 소요되었다.
 
 ## AWS 딥러닝 컨테이너 이미지 ##
 
