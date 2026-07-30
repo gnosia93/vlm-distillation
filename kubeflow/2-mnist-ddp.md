@@ -387,11 +387,111 @@ kubectl logs -n mnist mnist-ddp-node-0-0-sbqmz -f
 ```
 [결과]
 ```
+[diag] cuda.is_available=True device_count=1 torch=2.8.0+cu129 backend=nccl
+start: rank=0/2 local_rank=0 backend=nccl device=cuda:0
+S3 다운로드: s3://vlm-data-499514681453-ap-northeast-2/mnist/raw/train-images-idx3-ubyte.gz -> /data/MNIST/raw/train-images-idx3-ubyte.gz
+압축 해제 완료: /data/MNIST/raw/train-images-idx3-ubyte.gz
+S3 다운로드: s3://vlm-data-499514681453-ap-northeast-2/mnist/raw/train-labels-idx1-ubyte.gz -> /data/MNIST/raw/train-labels-idx1-ubyte.gz
+압축 해제 완료: /data/MNIST/raw/train-labels-idx1-ubyte.gz
+S3 다운로드: s3://vlm-data-499514681453-ap-northeast-2/mnist/raw/t10k-images-idx3-ubyte.gz -> /data/MNIST/raw/t10k-images-idx3-ubyte.gz
+압축 해제 완료: /data/MNIST/raw/t10k-images-idx3-ubyte.gz
+S3 다운로드: s3://vlm-data-499514681453-ap-northeast-2/mnist/raw/t10k-labels-idx1-ubyte.gz -> /data/MNIST/raw/t10k-labels-idx1-ubyte.gz
+압축 해제 완료: /data/MNIST/raw/t10k-labels-idx1-ubyte.gz
+/usr/local/lib/python3.12/site-packages/torch/distributed/distributed_c10d.py:4807: UserWarning: No device id is provided via `init_process_group` or `barrier `. Using the current device set by the user. 
+  warnings.warn(  # warn only once
+[rank0]:[W730 05:51:56.191663706 ProcessGroupNCCL.cpp:5023] [PG ID 0 PG GUID 0 Rank 0]  using GPU 0 as device used by this process is currently unknown. This can potentially cause a hang if this rank to GPU mapping is incorrect. You can specify device_id in init_process_group() to force use of a particular device.
+mnist-ddp-node-0-0:83:83 [0] NCCL INFO NCCL_SOCKET_IFNAME set by environment to ^docker0,lo
+mnist-ddp-node-0-0:83:83 [0] NCCL INFO Bootstrap: Using eth0:10.0.11.167<0>
+mnist-ddp-node-0-0:83:83 [0] NCCL INFO cudaDriverVersion 13000
+mnist-ddp-node-0-0:83:83 [0] NCCL INFO NCCL version 2.27.3+cuda12.9
+mnist-ddp-node-0-0:83:83 [0] NCCL INFO Comm config Blocking set to 1
+mnist-ddp-node-0-0:83:130 [0] NCCL INFO NET/Plugin: Plugin name set by env to libnccl-net.so
+mnist-ddp-node-0-0:83:130 [0] NCCL INFO NET/Plugin: Loaded net plugin Libfabric (v10)
+mnist-ddp-node-0-0:83:130 [0] NCCL INFO NET/Plugin: Failed to find ncclCollNetPlugin_v10 symbol.
+mnist-ddp-node-0-0:83:130 [0] NCCL INFO NET/Plugin: Failed to find ncclCollNetPlugin_v9 symbol.
+mnist-ddp-node-0-0:83:130 [0] NCCL INFO NET/Plugin: Failed to find ncclCollNetPlugin_v8 symbol.
+mnist-ddp-node-0-0:83:130 [0] NCCL INFO NET/Plugin: Failed to find ncclCollNetPlugin_v7 symbol.
+mnist-ddp-node-0-0:83:130 [0] NCCL INFO NET/Plugin: Failed to find ncclCollNetPlugin_v6 symbol.
+mnist-ddp-node-0-0:83:130 [0] NCCL INFO Successfully loaded external plugin libnccl-net.so
+mnist-ddp-node-0-0:83:130 [0] NCCL INFO NET/OFI Initializing aws-ofi-nccl 1.16.2
+mnist-ddp-node-0-0:83:130 [0] NCCL INFO NET/OFI Using Libfabric version 2.1
+mnist-ddp-node-0-0:83:130 [0] NCCL INFO NET/OFI Using CUDA driver version 13000 with runtime 12090
+mnist-ddp-node-0-0:83:130 [0] NCCL INFO NET/OFI Configuring AWS-specific options
+mnist-ddp-node-0-0:83:130 [0] NCCL INFO NET/OFI Setting provider_filter to efa
+mnist-ddp-node-0-0:83:130 [0] NCCL INFO NET/OFI Internode latency set at 75.0 us
+mnist-ddp-node-0-0:83:130 [0] NCCL INFO NET/OFI Selected provider is efa, fabric is efa (found 1 nics)
+mnist-ddp-node-0-0:83:130 [0] NCCL INFO NET/OFI NIC group 0 device #0 0000:2f:00.0
+mnist-ddp-node-0-0:83:130 [0] NCCL INFO NET/OFI Selected provider is efa, fabric is efa (found 1 nics)
+mnist-ddp-node-0-0:83:130 [0] NCCL INFO NET/OFI Using transport protocol SENDRECV
+mnist-ddp-node-0-0:83:130 [0] NCCL INFO NET/OFI Creating one domain per process
+mnist-ddp-node-0-0:83:130 [0] NCCL INFO NET/OFI GUID of rdmap47s0: 7b53c5dd00000d00
+mnist-ddp-node-0-0:83:130 [0] NCCL INFO NET/OFI GUID for dev[0]: 00000000000000000a000ba700000000
+mnist-ddp-node-0-0:83:130 [0] NCCL INFO NET/OFI Could not disable CUDA API usage for HMEM, disabling GDR
+mnist-ddp-node-0-0:83:130 [0] NCCL INFO NET/OFI Setting FI_OPT_EFA_SENDRECV_IN_ORDER_ALIGNED_128_BYTES not supported.
+mnist-ddp-node-0-0:83:130 [0] NCCL INFO NET/OFI Need to force simple protocol: byte delivery ordering not supported
+mnist-ddp-node-0-0:83:130 [0] NCCL INFO NET/OFI Support for global registrations: false
+mnist-ddp-node-0-0:83:130 [0] NCCL INFO NET/OFI Support for DMA-BUF registrations: false
+mnist-ddp-node-0-0:83:130 [0] NCCL INFO NET/OFI Need to force simple protocol: GDR not supported
+mnist-ddp-node-0-0:83:130 [0] NCCL INFO NET/OFI Adding FI_EFA_FORK_SAFE=1 to environment
+mnist-ddp-node-0-0:83:130 [0] NCCL INFO NET/OFI Adding NCCL_PROTO=simple to environment
+mnist-ddp-node-0-0:83:130 [0] NCCL INFO NET/OFI Adding NCCL_TUNER_PLUGIN=libnccl-net.so to environment
+mnist-ddp-node-0-0:83:130 [0] NCCL INFO Initialized NET plugin Libfabric
+mnist-ddp-node-0-0:83:130 [0] NCCL INFO Assigned NET plugin Libfabric to comm
+mnist-ddp-node-0-0:83:130 [0] NCCL INFO Using network Libfabric
+mnist-ddp-node-0-0:83:130 [0] NCCL INFO DMA-BUF is available on GPU device 0
+mnist-ddp-node-0-0:83:130 [0] NCCL INFO ncclCommInitRankConfig comm 0x556f7fc89d00 rank 0 nranks 2 cudaDev 0 nvmlDev 0 busId 36000 commId 0x8962567a82a5a8bd - Init START
+mnist-ddp-node-0-0:83:130 [0] NCCL INFO RAS client listening socket at ::1<28028>
+mnist-ddp-node-0-0:83:130 [0] NCCL INFO Bootstrap timings total 0.001825 (create 0.000075, send 0.000163, recv 0.000534, ring 0.000317, delay 0.000001)
+mnist-ddp-node-0-0:83:130 [0] NCCL INFO Setting affinity for GPU 0 to 0-31
+mnist-ddp-node-0-0:83:130 [0] NCCL INFO comm 0x556f7fc89d00 rank 0 nRanks 2 nNodes 2 localRanks 1 localRank 0 MNNVL 0
+mnist-ddp-node-0-0:83:130 [0] NCCL INFO Channel 00/02 : 0 1
+mnist-ddp-node-0-0:83:130 [0] NCCL INFO Channel 01/02 : 0 1
+mnist-ddp-node-0-0:83:130 [0] NCCL INFO Trees [0] 1/-1/-1->0->-1 [1] -1/-1/-1->0->1
+mnist-ddp-node-0-0:83:130 [0] NCCL INFO P2P Chunksize set to 131072
+mnist-ddp-node-0-0:83:130 [0] NCCL INFO PROFILER/Plugin: Could not find: libnccl-profiler.so. 
+mnist-ddp-node-0-0:83:130 [0] NCCL INFO Check P2P Type isAllDirectP2p 0 directMode 0
+mnist-ddp-node-0-0:83:132 [0] NCCL INFO [Proxy Service] Device 0 CPU core 21
+mnist-ddp-node-0-0:83:133 [0] NCCL INFO [Proxy Service UDS] Device 0 CPU core 30
+mnist-ddp-node-0-0:83:130 [0] NCCL INFO NCCL_PROTO set by environment to simple
+mnist-ddp-node-0-0:83:130 [0] NCCL INFO Enabled NCCL Func/Proto/Algo Matrix:
+     Function |       LL     LL128    Simple   |          Tree           Ring  CollNetDirect   CollNetChain           NVLS       NVLSTree            PAT  
+    Broadcast |        0         0         1   |             1              1              1              1              1              1              1  
+       Reduce |        0         0         1   |             1              1              1              1              1              1              1  
+    AllGather |        0         0         1   |             1              1              1              1              1              1              1  
+ReduceScatter |        0         0         1   |             1              1              1              1              1              1              1  
+    AllReduce |        0         0         1   |             1              1              1              1              1              1              1  
 
+mnist-ddp-node-0-0:83:130 [0] NCCL INFO threadThresholds 8/8/64 | 16/8/64 | 512 | 512
+mnist-ddp-node-0-0:83:130 [0] NCCL INFO 2 coll channels, 2 collnet channels, 0 nvls channels, 2 p2p channels, 2 p2p channels per peer
+mnist-ddp-node-0-0:83:130 [0] NCCL INFO CC Off, workFifoBytes 1048576
+mnist-ddp-node-0-0:83:130 [0] NCCL INFO TUNER/Plugin: Plugin name set by env to libnccl-net.so
+mnist-ddp-node-0-0:83:130 [0] NCCL INFO TUNER/Plugin: Failed to find ncclTunerPlugin_v4 symbol.
+mnist-ddp-node-0-0:83:130 [0] NCCL INFO TUNER/Plugin: Using tuner plugin nccl_ofi_tuner
+mnist-ddp-node-0-0:83:130 [0] NCCL INFO NET/OFI NCCL_OFI_TUNER is not available for platform : g6e.8xlarge, Fall back to NCCL's tuner
+mnist-ddp-node-0-0:83:130 [0] NCCL INFO ncclCommInitRankConfig comm 0x556f7fc89d00 rank 0 nranks 2 cudaDev 0 nvmlDev 0 busId 36000 commId 0x8962567a82a5a8bd - Init COMPLETE
+mnist-ddp-node-0-0:83:130 [0] NCCL INFO Init timings - ncclCommInitRankConfig: rank 0 nranks 2 total 0.46 (kernels 0.39, alloc 0.06, bootstrap 0.00, allgathers 0.00, topo 0.00, graphs 0.00, connections 0.00, rest 0.00)
+mnist-ddp-node-0-0:83:135 [0] NCCL INFO [Proxy Progress] Device 0 CPU core 8
+mnist-ddp-node-0-0:83:134 [0] NCCL INFO Channel 00/0 : 1[0] -> 0[0] [receive] via NET/Libfabric/0
+mnist-ddp-node-0-0:83:134 [0] NCCL INFO Channel 01/0 : 1[0] -> 0[0] [receive] via NET/Libfabric/0
+mnist-ddp-node-0-0:83:134 [0] NCCL INFO Channel 00/0 : 0[0] -> 1[0] [send] via NET/Libfabric/0
+mnist-ddp-node-0-0:83:134 [0] NCCL INFO Channel 01/0 : 0[0] -> 1[0] [send] via NET/Libfabric/0
+mnist-ddp-node-0-0:83:134 [0] NCCL INFO Connected all rings, use ring PXN 0 GDR 0
+mnist-ddp-node-0-0:83:151 [0] NCCL INFO Connected binomial trees
+[rank 0] epoch 1 [0/60000] loss=2.2994
+mnist-ddp-node-0-0:83:162 [0] NCCL INFO Connected all trees
+[rank 0] epoch 1 [3200/60000] loss=0.3185
+[rank 0] epoch 1 [6400/60000] loss=0.1549
+[rank 0] epoch 1 [9600/60000] loss=0.2728
+[rank 0] epoch 1 [12800/60000] loss=0.1011
+[rank 0] epoch 1 [16000/60000] loss=0.0581
+[rank 0] epoch 1 [19200/60000] loss=0.1636
+[rank 0] epoch 1 [22400/60000] loss=0.0648
+[rank 0] epoch 1 [25600/60000] loss=0.1966
+[rank 0] epoch 1 [28800/60000] loss=0.0978
+[rank 0] epoch 1 소요=2.98s
 ```
 > [!NOTE]
-> 노드간의 통신은 .. EFA ...
-
+> 노드간의 통신은 EFA( via NET/Libfabric/0 ) 를 사용하고 있다. 
 
 ### 6. Job 정리 / 재실행 ###
 
