@@ -29,12 +29,12 @@ spec:
     resourcesPerNode:
       requests:
         cpu: "24"
-        memory: 256Gi
-        nvidia.com/gpu: 2            
+        memory: "256Gi"
+        nvidia.com/gpu: "2"            
       limits:
         cpu: "48"
-        memory: 512Gi
-        nvidia.com/gpu: 2             # 노드당 GPU 2개 (numProcPerNode 와 맞춤), limits 에만 명시해도 request 시 반영됨
+        memory: "512Gi"
+        nvidia.com/gpu: "2"             # 노드당 GPU 2개 (numProcPerNode 와 맞춤), limits 에만 명시해도 request 시 반영됨
   # ★ 여기부터 추가 — 서비스 어카운트 지정
   runtimePatches:
     - manager: "example.com/mnist-irsa"          # 소유자 식별용 임의 문자열 (비어있으면 안 됨, 도메인 형식)
