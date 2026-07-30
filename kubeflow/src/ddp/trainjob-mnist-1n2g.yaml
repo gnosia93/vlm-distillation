@@ -28,8 +28,8 @@ spec:
         value: "INFO"  
     resourcesPerNode:
       requests:
-        cpu: "48"
-        memory: 512Gi
+        cpu: "24"
+        memory: 256Gi
         nvidia.com/gpu: 2            
       limits:
         cpu: "48"
