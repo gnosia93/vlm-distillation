@@ -552,8 +552,35 @@ kubectl logs -n mnist-ddp-1n2g-node-0-0-zgh6w -f
 [결과]
 
 ```
+...
+mnist-ddp-1n2g-node-0-0:105:134 [0] NCCL INFO P2P is disabled between connected GPUs 0 and 1. You can repress this message with NCCL_IGNORE_DISABLED_P2P=1.
+mnist-ddp-1n2g-node-0-0:106:135 [1] NCCL INFO P2P is disabled between connected GPUs 1 and 0. You can repress this message with NCCL_IGNORE_DISABLED_P2P=1.
+mnist-ddp-1n2g-node-0-0:105:134 [0] NCCL INFO P2P is disabled between connected GPUs 0 and 1. You can repress this message with NCCL_IGNORE_DISABLED_P2P=1.
+mnist-ddp-1n2g-node-0-0:106:135 [1] NCCL INFO P2P is disabled between connected GPUs 1 and 0. You can repress this message with NCCL_IGNORE_DISABLED_P2P=1.
+mnist-ddp-1n2g-node-0-0:105:134 [0] NCCL INFO P2P is disabled between connected GPUs 0 and 1. You can repress this message with NCCL_IGNORE_DISABLED_P2P=1.
+mnist-ddp-1n2g-node-0-0:106:135 [1] NCCL INFO P2P is disabled between connected GPUs 1 and 0. You can repress this message with NCCL_IGNORE_DISABLED_P2P=1.
+mnist-ddp-1n2g-node-0-0:105:134 [0] NCCL INFO Channel 00 : 0[0] -> 1[1] via SHM/direct/direct
+mnist-ddp-1n2g-node-0-0:105:134 [0] NCCL INFO P2P is disabled between connected GPUs 0 and 1. You can repress this message with NCCL_IGNORE_DISABLED_P2P=1.
+mnist-ddp-1n2g-node-0-0:106:135 [1] NCCL INFO Channel 00 : 1[1] -> 0[0] via SHM/direct/direct
+mnist-ddp-1n2g-node-0-0:106:135 [1] NCCL INFO P2P is disabled between connected GPUs 1 and 0. You can repress this message with NCCL_IGNORE_DISABLED_P2P=1.
+mnist-ddp-1n2g-node-0-0:105:134 [0] NCCL INFO Channel 01 : 0[0] -> 1[1] via SHM/direct/direct
+mnist-ddp-1n2g-node-0-0:106:135 [1] NCCL INFO Channel 01 : 1[1] -> 0[0] via SHM/direct/direct
+mnist-ddp-1n2g-node-0-0:106:135 [1] NCCL INFO Connected all rings, use ring PXN 0 GDR 1
+mnist-ddp-1n2g-node-0-0:105:134 [0] NCCL INFO Connected all rings, use ring PXN 0 GDR 1
+[rank 0] epoch 1 [0/60000] loss=2.3152
+[rank 1] epoch 1 [0/60000] loss=2.3000
+...
 
+[rank 0] epoch 50 소요=2.41s
+[rank 0] 총 학습 시간=123.87s (epochs=50, world_size=2)
+[rank 1] epoch 50 소요=2.41s
+[rank 1] 총 학습 시간=123.87s (epochs=50, world_size=2)
+모델 저장 완료: /data/mnist_ddp.pt
+체크포인트 업로드: s3://vlm-data-499514681453-ap-northeast-2/checkpoints/mnist_ddp.pt
+mnist-ddp-1n2g-node-0-0:106:106 [1] NCCL INFO comm 0x55f9e0aff950 rank 1 nranks 2 cudaDev 1 busId 3a000 - Destroy COMPLETE
+mnist-ddp-1n2g-node-0-0:105:105 [0] NCCL INFO comm 0x5566cba64a10 rank 0 nranks 2 cudaDev 0 busId 38000 - Destroy COMPLETE
 ```
+123.87 초가 학습 시간으로 소요되었다.
 
 ## AWS 딥러닝 컨테이너 이미지 ##
 
