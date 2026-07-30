@@ -32,14 +32,14 @@ spec:
     resourcesPerNode:
       requests:
         cpu: "16"
-        memory: 128Gi
-        nvidia.com/gpu: 1              # 노드당 GPU 1개 (numProcPerNode 와 맞춤), limits 에만 명시해도 request 시 반영됨
-        vpc.amazonaws.com/efa: 1       # ★ EFA 인터페이스 수 (인스턴스마다 다름!)
+        memory: "128Gi"
+        nvidia.com/gpu: "1"              # 노드당 GPU 1개 (numProcPerNode 와 맞춤), limits 에만 명시해도 request 시 반영됨
+        vpc.amazonaws.com/efa: "1"       # ★ EFA 인터페이스 수 (인스턴스마다 다름!)
       limits:
         cpu: "32"
-        memory: 256Gi
-        nvidia.com/gpu: 1              # 노드당 GPU 1개 (numProcPerNode 와 맞춤), limits 에만 명시해도 request 시 반영됨
-        vpc.amazonaws.com/efa: 1       # ★ EFA 인터페이스 수 (인스턴스마다 다름!)
+        memory: "256Gi"
+        nvidia.com/gpu: "1"              # 노드당 GPU 1개 (numProcPerNode 와 맞춤), limits 에만 명시해도 request 시 반영됨
+        vpc.amazonaws.com/efa: "1"       # ★ EFA 인터페이스 수 (인스턴스마다 다름!)
 
   # ★ 여기부터 추가 — 서비스 어카운트 지정
   runtimePatches:
