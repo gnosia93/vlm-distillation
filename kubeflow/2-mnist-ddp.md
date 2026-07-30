@@ -311,7 +311,7 @@ envsubst '$IMAGE_URI $BUCKET' < trainjob-mnist.yaml | kubectl apply -f -      # 
 kubectl delete trainjob mnist-ddp -n mnist     # 이전 작업 삭제 후 
 
 export IMAGE_URI=$ECR/mnist-ddp:v1.0.0
-envsubst '$IMAGE_URI $BUCKET' < trainjob-mnist-2gpu.yaml | kubectl apply -f -
+envsubst '$IMAGE_URI $BUCKET' < trainjob-mnist-1n2g.yaml | kubectl apply -f -
 
 kubectl get pods -n mnist       
 ```
