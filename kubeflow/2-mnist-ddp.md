@@ -212,7 +212,7 @@ docker build --platform linux/amd64 -t $ECR/mnist-ddp:v1.0.0 .
  => => naming to 499514681453.dkr.ecr.ap-northeast-2.amazonaws.com/mnist-ddp:v1.0.0                                                    0.0s
 ```
 
-빌드한 이미지를 ecr 에 푸시한다.
+빌드한 이미지를 ecr 에 푸시한다. 도커 이미지 크기는 10.96GB 이다. 
 ```
 docker push $ECR/mnist-ddp:v1.0.0
 ```
@@ -269,12 +269,12 @@ aws ecr describe-images --repository-name mnist-ddp --region $AWS_REGION
         {
             "registryId": "499514681453",
             "repositoryName": "mnist-ddp",
-            "imageDigest": "sha256:cfc1c18db69546240237381ef3d854e4bdbd725f6239e9eb466207d7f1ac92c5",
+            "imageDigest": "sha256:7f542c3103e4ad7d1bb3e458a465e5306a527a978e8c40fa10f061ce79fa2094",
             "imageTags": [
-                ""v1.0.0"
+                "v1.0.0"
             ],
-            "imageSizeInBytes": 3737181538,
-            "imagePushedAt": "2026-07-26T02:31:51.462000+00:00",
+            "imageSizeInBytes": 12994091466,
+            "imagePushedAt": "2026-07-30T05:22:05.224000+00:00",
             "imageManifestMediaType": "application/vnd.docker.distribution.manifest.v2+json",
             "artifactMediaType": "application/vnd.docker.container.image.v1+json",
             "imageStatus": "ACTIVE"
