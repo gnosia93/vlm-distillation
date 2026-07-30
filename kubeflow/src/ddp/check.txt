@@ -10,43 +10,23 @@
 kubectl get clustertrainingruntime torch-distributed -o yaml | grep -i "name:"
 
 
-
-kubectl run nvme-check --rm -i --tty --image=busybox --overrides='
+kubectl run nvme-check --rm -i --tty --image=busybox \
+  --pod-running-timeout=10m \
+  --overrides='
 {
   "spec": {
-    "nodeSelector": {
-      "karpenter.k8s.aws/instance-type": "g6e.12xlarge"
-    },
-    "tolerations": [
-      {
-        "operator": "Exists"
-      }
-    ],
+    "nodeSelector": { "karpenter.k8s.aws/instance-type": "g6e.12xlarge" },
+    "tolerations": [{ "operator": "Exists" }],
     "containers": [{
       "name": "checker",
       "image": "busybox",
       "command": ["sh"],
-      "volumeMounts": [{
-        "mountPath": "/host",
-        "name": "host-root"
-      }]
+      "stdin": true,
+      "tty": true,
+      "volumeMounts": [{ "mountPath": "/host", "name": "host-root" }]
     }],
-    "volumes": [{
-      "name": "host-root",
-      "hostPath": { "path": "/" }
-    }]
+    "volumes": [{ "name": "host-root", "hostPath": { "path": "/" } }]
   }
 }'
 
 
-"operator": "Exists" 의 의미
-보통 Toleration(허용)을 적을 때는 key와 value를 일일이 지정해야 합니다.
-
-```
-{
-  "key": "nvidia.com/gpu",
-  "operator": "Equal",
-  "value": "present",
-  "effect": "NoSchedule"
-}
-```
