@@ -359,3 +359,12 @@ AWS 는 다음과 같이 딥러닝 컨테이너 이미지를 제공하고 있다
 `public.ecr.aws/deep-learning-containers/pytorch-training:2.8.0-gpu-py312-cu129-ubuntu22.04-ec2-v1.48-soci`
 
 
+| 항목 | PyTorch 2.8.0 이미지 | PyTorch 2.9.0 이미지 | 주요 영향 및 특징 |
+| :--- | :--- | :--- | :--- |
+| **PyTorch 버전** | v2.8.0 | v2.9.0 | 최신 PyTorch API, Compiler 성능 및 분산 학습(FSDP2 등) 버그 수정 포함 |
+| **CUDA Toolkit** | v12.9 (cu129) | v13.0 (cu130) | CUDA 13.0의 Shared Memory Spilling 등 메모리 처리 개선 및 최신 GPU 명령어 지원 |
+| **최소 호스트 드라이버** | R535 / R550 이상 | R580 이상 | cu130 사용 시 노드(EC2)에 탑재된 NVIDIA 드라이버 요구 스펙이 더 높음 |
+| **AWS DLC 패치 버전** | v1.48 | v1.25 | v2.8.0 이미지가 상대적으로 장기간 패치 및 검증되어 패치 횟수(v1.48)가 높음 |
+| **Python / OS / SOCI** | 동일 (Python 3.12 / Ubuntu 22.04 / SOCI 지원) | 동일 (Python 3.12 / Ubuntu 22.04 / SOCI 지원) | 동일 환경 및 동일한 지연 로딩 최적화 적용 |
+
+
