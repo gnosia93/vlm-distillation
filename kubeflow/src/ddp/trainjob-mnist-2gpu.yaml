@@ -68,12 +68,16 @@ spec:
                               medium: Memory
                               sizeLimit: 16Gi          # ★ 기본값은 64MB, DataLoader의 num_workers를 높이면 /dev/shm(공유 메모리) 용량이 부족해 Bus error 발생
                                                        # ★ 8Gi ~ 32Gi 정도면 충분
-                        
+                          - name: local-nvme
+                            hostPath:
+                              path: /mnt/nvme          # ★ 노드의 로컬 SSD -> mount 포인트 확인 필요. 
                         containers:                    # ★ 추가
                           - name: node
                             volumeMounts:
                               - name: dshm
                                 mountPath: /dev/shm
+                              - name: local-nvme
+                                mountPath: /data       # 컨테이너 내부   
                             securityContext:
                               capabilities:
                                 add: ["IPC_LOCK"]      # ★ EFA 메모리 고정     
