@@ -15,7 +15,9 @@ python -m pip install -U huggingface_hub
 huggingface-cli login
 ```
 ```
-
+git clone https://github.com/gnosia93/vlm-distillation.git
+cd ~/vlm-distillation/sam/src
+python sam3.py
 ```
 
   
