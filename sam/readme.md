@@ -109,7 +109,7 @@ print(f"아무것도 못 잡은 프레임: {len(zero)}장  (인식 실패 후보
 
 ### 4. 파인튜닝 ###
 
-앞 단계에서 "확실히 못 잡는다"가 확인되면 파인튜닝을 수행한다. 파인튜닝은 HF가 아니라 Meta 공식 repo(sam3/train.py) 또는 **LoRA 특화 커뮤니티 repo(SAM3_LoRA)**로 진행하며, LoRA로 detector decoder 등에 가볍게 시작할 수 있다. (라벨 데이터 확보가 전제)
+앞 단계에서 "확실히 못 잡는다"가 확인되면 파인튜닝을 수행한다. 파인튜닝은 HF가 아니라 Meta 공식 repo(sam3/train.py) 또는 LoRA 특화 커뮤니티 repo(SAM3_LoRA)로 진행하며, LoRA로 detector decoder 등에 가볍게 시작할 수 있다. (라벨 데이터 확보가 전제)
 
 * 프롬프트 실험: "child", "person", "kid", "toddler" 등 여러 프롬프트를 바꿔가며 돌려본다. 특정 프롬프트만 잘 되면 그건 인코더가 아니라 텍스트 정렬 이슈라는 신호이다.
 * 점수 계산: 내부적으로 final = pred_logits.sigmoid() * presence_logits.sigmoid()로 최종 점수가 나온다. presence token이 "이 개념이 존재하나"를 판단해줘서 negative(없는 것) 처리에 강함.
