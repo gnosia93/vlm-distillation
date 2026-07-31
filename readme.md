@@ -34,7 +34,7 @@ teacher 모델로는 InternVL3-78B를, student 모델로는 같은 계열의 Int
 * `2`. Kubeflow로 MNIST 분산학습
   - [Kubeflow 의 이해 및 설치](https://github.com/gnosia93/vlm-distillation/blob/main/kubeflow/1-kubeflow-overview.md)
   - [MNIST 분산학습 (DDP)](https://github.com/gnosia93/vlm-distillation/blob/main/kubeflow/2-mnist-ddp.md) 
-  - [SOCI로 대형 컨테이너 이미지 기동 시간 최적화](https://github.com/gnosia93/vlm-distillation/blob/main/kubeflow/3-soci-optim-container-coldstart.md) 
+  - [SOCI로 대형 컨테이너 이미지 기동 시간 최적화(EKS)](https://github.com/gnosia93/vlm-distillation/blob/main/kubeflow/3-soci-optim-container-coldstart.md) 
 
 ### ■ _Wrap Up_ ###
 
