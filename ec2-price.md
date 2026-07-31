@@ -10,4 +10,20 @@ _Seoul_
 * [g4dn.12xlarge](https://aws.amazon.com/ko/ec2/instance-types/g4/) - USD 4.812 - NVIDIA T4 x 4개 (GPU당 16 GB) -> 1/4/Metal 8
 
 
+
+| 패밀리 | GPU | 아키텍처 | GPU 메모리 | 비고 |
+|--------|-----|----------|-----------|------|
+| g4dn | NVIDIA T4 | Turing | 16GB | 고객이 쓰려는 것 |
+| g5g | NVIDIA T4G | Turing (ARM/Graviton2) | 16GB | ARM 기반, T4급 |
+| g5 | NVIDIA A10G | Ampere | 24GB | 어텐션 가속 O |
+| g6 | NVIDIA L4 | Ada Lovelace | 24GB | 전력효율 좋음 |
+| g6e | NVIDIA L40S | Ada Lovelace | 48GB | 고성능/대용량 |
+| g7 | NVIDIA RTX PRO 4500 Blackwell | Blackwell | 32GB | G6 대비 메모리·대역폭 향상 |
+| g7e | NVIDIA RTX PRO 6000 Blackwell | Blackwell | 96GB | 최상위, 대형 LLM/멀티모달 |
+
+
+
+
+
+
 price - https://instances.vantage.sh/aws/ec2/p4d.24xlarge?currency=USD&region=ap-northeast-2
