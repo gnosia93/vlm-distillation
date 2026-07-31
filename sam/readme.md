@@ -4,7 +4,6 @@ facebook/sam3 모델의 경우 gated model 인 관계로, https://huggingface.co
 
 ### 2. 모델 스모크 테스트 ###
 ```
-# base 말고 전용 환경
 python -m venv ~/sam3-venv
 source ~/sam3-venv/bin/activate
 
@@ -12,8 +11,6 @@ python -m pip install -U pip
 python -m pip install -U "transformers>=4.57" accelerate torch torchvision pillow matplotlib requests
 
 export HF_TOKEN=xxxxx
-```
-```
 git clone https://github.com/gnosia93/vlm-distillation.git
 cd ~/vlm-distillation/sam/src
 python sam3.py
@@ -25,7 +22,7 @@ python sam3.py
 점수: tensor([0.9606], device='mps:0')
 저장됨: result.png
 ```
-
+open 으로 결과 이미지를 관찰한다. 
 ```
 open original.jpg result.png
 ```
