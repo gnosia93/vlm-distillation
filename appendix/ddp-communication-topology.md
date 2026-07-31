@@ -2,23 +2,9 @@
 
 ### 1. DDP가 통신하는 것 — gradient all-reduce ###
 
-DDP는 각 GPU에 **모델을 통째로 복제**하고, 각자 다른 데이터 조각으로 forward/backward를 돈다. 통신은 딱 하나, **gradient를 all-reduce**(모든 GPU의 gradient를 합·평균해 다시 배포)뿐이다.
+DDP는 각 GPU에 **모델을 통째로 복제**하고, 각자 다른 데이터 조각으로 forward/backward를 실행한다. 통신은 딱 하나, **gradient를 all-reduce**(모든 GPU의 gradient를 합·평균해 다시 배포)뿐이다.
 
-```
-   GPU0            GPU1            GPU2            GPU3
- ┌───────┐      ┌───────┐      ┌───────┐      ┌───────┐
- │ model │      │ model │      │ model │      │ model │   ← 모델을 각 GPU에 통째로 복제
- │ (복제)│      │ (복제)│      │ (복제)│      │ (복제)│
- └───┬───┘      └───┬───┘      └───┬───┘      └───┬───┘
-  data0          data1          data2          data3      ← 데이터만 나눠서
-     │              │              │              │
-   forward/backward (각자 독립적으로 gradient 계산)
-     │              │              │              │
-     └──────────────┴──── all-reduce ────┴──────────────┘  ← 통신은 여기 한 번
-                    (gradient 합산·평균 후 재배포)
-     │              │              │              │
-  optimizer.step()  (모든 GPU가 동일 gradient로 갱신 → 가중치 동기 유지)
-```
+![](https://github.com/gnosia93/vlm-distillation/blob/main/images/ddp-all-reduce.png)
 
 ### 2. 언제 통신하나 — 스텝(optimizer step)마다 ###
 
