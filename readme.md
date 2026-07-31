@@ -42,7 +42,7 @@ teacher 모델로는 InternVL3-78B를, student 모델로는 같은 계열의 Int
 
 ### ■ _Part 3. SAM-3 기반 영상 객체 탐지·추적_ ###
 
-* `1`. [SAM-3 평가 및 파인튜닝 개요](https://github.com/gnosia93/vlm-distillation/blob/main/sam/readme.md)
+* `1`. [SAM-3 평가 및 파인튜닝 개요](https://github.com/gnosia93/vlm-distillation/blob/main/sam/1-sam3.md)
 * `2`. [라벨 데이터 준비(COCO)](https://github.com/gnosia93/vlm-distillation/blob/main/sam/2-coco.md)
 * `3`. [학습 — SAM3_LoRA로 train (단일/멀티 GPU)]
 * `4`. [평가 — baseline(원본) vs LoRA 비교 (mAP/cgF1)]
