@@ -121,7 +121,7 @@ print(f"아무것도 못 잡은 프레임: {len(zero)}장  (인식 실패 후보
 > 일부 단어만 되면 텍스트 정렬 이슈(프롬프트 교체로 해결), 어떤 단어도 안 되면 입력/인코더 문제.
 
 > [!WARNING]
-> HF forward 함수는 loss 를 반환하지 않음 -> 인코더/디코더 튜닝시 loss 값을 알수 없음.   
+> HF forward 함수는 loss를 자동 반환하지 않음 → 인코더/디코더 튜닝 시 HF만으로는 학습 loss를 바로 얻을 수 없음.  
 > DETR 식 손실(헝가리안 매칭)이 필요한데, Meta repo(train.py) 나 SAM3_LoRA에 찾을 수 있음 -> 파인 튜닝시 HF 대신 사용.
 > * https://github.com/Sompote/SAM3_LoRA   
 
