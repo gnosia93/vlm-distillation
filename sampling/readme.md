@@ -86,6 +86,6 @@ python src/event_clips.py
 * FRAMES_PER_CLIP : VLM 입력 규격에 맞춤(16) 
 
 > [!NOTE]
-> - 모션 감지는 CPU 연산이라 GPU 불필요 → Graviton 사용
-> - "진짜 무슨 사건인지"는 추출된 프레임을 SAM-3/VLM에 넣어 판정.
-> - 조명 변화·그림자에 오탐할 수 있으니, 실제 영상 몇 개로 임계값을 먼저 튜닝 / detectShadows=False를 켜고 끄며 비교.
+> 모션 감지는 CPU 연산이라 GPU 불필요 → Graviton 사용.  
+> "진짜 무슨 사건인지"는 추출된 프레임을 SAM-3/VLM에 넣어 판정.    
+> 조명 변화·그림자에 오탐할 수 있으니, 실제 영상 몇 개로 임계값을 먼저 튜닝 / detectShadows=False를 켜고 끄며 비교.  
