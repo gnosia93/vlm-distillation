@@ -26,7 +26,7 @@ open 으로 결과 이미지를 확인한다.
 ```
 open original.jpg result.png
 ```
-
+![](https://github.com/gnosia93/vlm-distillation/blob/main/images/sam-result.png)
 
 
 ### Phase 2: 고객 데이터로 성능 보기 (폴더 일괄 + 시각화) ###
