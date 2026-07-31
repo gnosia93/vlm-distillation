@@ -6,11 +6,10 @@ model = Sam3Model.from_pretrained("facebook/sam3", device_map="auto")
 processor = Sam3Processor.from_pretrained("facebook/sam3")
 
 # 샘플 이미지 (나중에 유치원 프레임 경로로 교체)
-#url = "http://images.cocodataset.org/val2017/000000077595.jpg"
-url = "https://edu.chosun.com/site/data/img_dir/2023/02/16/2023021601153_0.jpg"
+url = "http://images.cocodataset.org/val2017/000000077595.jpg"
 image = Image.open(requests.get(url, stream=True).raw).convert("RGB")
 
-PROMPT = "teacher"   # ← 텍스트 프롬프트. 유치원이면 "child" / "person" 등
+PROMPT = "notebook"   # ← 텍스트 프롬프트. 유치원이면 "child" / "person" 등
 inputs = processor(images=image, text=PROMPT, return_tensors="pt").to(model.device)
 
 with torch.no_grad():
