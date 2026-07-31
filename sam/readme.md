@@ -121,8 +121,8 @@ print(f"아무것도 못 잡은 프레임: {len(zero)}장  (인식 실패 후보
 > 일부 단어만 되면 텍스트 정렬 이슈(프롬프트 교체로 해결), 어떤 단어도 안 되면 입력/인코더 문제.
 
 > [!WARNING]
-> 인코더 LoRA = 원본 freeze + ViT 선형층에 어댑터만 학습 (PEFT로 표준적).   
-> SAM3는 DETR식 손실(헝가리안 매칭)이 필요한데, 이 학습 코드는 Meta repo(train.py)와 SAM3_LoRA에 이미 구현돼 있음 (HF forward 함수는 loss 를 반환하지 않음)
+> HF forward 함수는 loss 를 반환하지 않음   
+> SAM3는 DETR식 손실(헝가리안 매칭)이 필요한데, 이 학습 코드는 Meta repo(train.py)와 SAM3_LoRA에 이미 구현돼 있음
 > * https://github.com/Sompote/SAM3_LoRA   
 
 ## 레퍼런스 ##
