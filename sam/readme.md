@@ -111,5 +111,9 @@ Phase 2에서 "확실히 못 잡는다"가 확인되면 그때 파인튜닝. HF�
 정리하면 Phase 1으로 "돌아가는지" 확인 → Phase 2로 고객 프레임에서 "잘 잡는지" 눈으로 + 개수로 확인 → 실패 확인되면 Phase 3 파인튜닝..
 
 
+## 레퍼런스 ##
+
+* https://huggingface.co/facebook/sam3 
+
 
 
