@@ -29,8 +29,8 @@ open original.jpg result.png
 ![](https://github.com/gnosia93/vlm-distillation/blob/main/images/sam-result.png)
 
 
-### Phase 2: 고객 데이터로 성능 보기 (폴더 일괄 + 시각화) ###
-✅ 마스크가 유치원 아이를 정확히 잡았는지 ?
+### 3. 고객 데이터로 성능 보기 (폴더 일괄 + 시각화) ###
+마스크가 우리가 원하는 세그먼트를 감지했는지 확인한다. 
 ```
 # sam3_eval.py — 유치원 프레임 폴더에 프롬프트 돌려 결과 시각화/집계
 import os, glob, torch, numpy as np
