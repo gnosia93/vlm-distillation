@@ -19,3 +19,13 @@ python event_clips.py
   ...
 완료. 총 8개 클립, 각 최대 16장.
 ```
+
+#### 튜닝 포인트 (현장 맞춤) ####
+```
+파라미터	조정 방향
+START_THRESH / END_THRESH	오탐 많으면 ↑, 이벤트 놓치면 ↓
+COOLDOWN_SEC	한 사건이 자꾸 쪼개지면 ↑
+MERGE_GAP_SEC	가까운 이벤트 합치고 싶으면 ↑
+MOTION_FPS	순간 사건 놓치면 ↑ (비용도 ↑)
+FRAMES_PER_CLIP	VLM 입력 규격에 맞춤(16)
+```
