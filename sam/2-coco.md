@@ -5,7 +5,7 @@ CVAT는 무료 + SAM 보조 라벨링 + COCO export를 다 갖춰서 프레임 �
 
 ### 1. 설치 (자체 호스팅, SAM 포함) ###
 
-* cvat 
+* cvat - Computer Vision Annotation Tool. 컴퓨터 비전용 데이터 라벨링(주석) 웹 도구로 이미지·영상에 정답(박스·마스크 등)을 사람이 표시해서 학습용 데이터셋을 만드는 데 사용된다.
 ```
 git clone https://github.com/cvat-ai/cvat
 cd cvat
