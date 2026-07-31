@@ -2,7 +2,7 @@
 
 facebook/sam3 모델의 경우 gated model 인 관계로, https://huggingface.co/facebook/sam3 방문해서 sam3 모델에 대한 억세스 권한을 요청한다.
 
-### python 가상 환경 설정 ###
+### 모델 스모크 테스트 ###
 ```
 # base 말고 전용 환경
 python -m venv ~/sam3-venv
@@ -13,6 +13,8 @@ python -m pip install -U "transformers>=4.57" accelerate torch torchvision pillo
 # huggingface 로그인 (gated 접근용 — 이미 토큰 있으면)
 python -m pip install -U huggingface_hub
 huggingface-cli login
+```
+```
 
 ```
 
