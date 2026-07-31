@@ -13,9 +13,9 @@ _Seoul_
 
 | 패밀리 | GPU | 아키텍처 | GPU 메모리 | 비고 |
 |--------|-----|----------|-----------|------|
-| g4dn | NVIDIA T4 | Turing | 16GB | 고객이 쓰려는 것 |
+| g4dn | NVIDIA T4 | Turing | 16GB | NVIDIA Turing, INT 8/4 |
 | g5g | NVIDIA T4G | Turing (ARM/Graviton2) | 16GB | ARM 기반, T4급 |
-| g5 | NVIDIA A10G | Ampere | 24GB | 어텐션 가속 O |
+| g5 | NVIDIA A10G | Ampere | 24GB | NVIDIA Ampere, Flash Attention 2 |
 | g6 | NVIDIA L4 | Ada Lovelace | 24GB | 전력효율 좋음 |
 | g6e | NVIDIA L40S | Ada Lovelace | 48GB | 고성능/대용량 |
 | g7 | NVIDIA RTX PRO 4500 Blackwell | Blackwell | 32GB | G6 대비 메모리·대역폭 향상 |
