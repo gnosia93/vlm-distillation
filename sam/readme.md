@@ -114,6 +114,6 @@ Phase 2에서 "확실히 못 잡는다"가 확인되면 그때 파인튜닝. HF�
 ## 레퍼런스 ##
 
 * https://huggingface.co/facebook/sam3 
-
+* https://huggingface.co/settings/gated-repos
 
 
