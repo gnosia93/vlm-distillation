@@ -1,8 +1,9 @@
 ## SAM-3 평가 및 파인튜닝 ##
 
+**SAM 3 구조 개요**
+
 ![](https://github.com/gnosia93/vlm-distillation/blob/main/images/sam3-arch.png)
 
-**SAM 3 구조 개요**
 - Vision Encoder: 이미지를 특징으로 변환 (Detector·Tracker가 공유)
 - Detector: 텍스트/예시 프롬프트로 객체 탐지·분할 (DETR 기반, 박스+분류)
 - Tracker: 영상에서 시간적 추적 (SAM2 방식) — 아래 세부
