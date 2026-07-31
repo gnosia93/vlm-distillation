@@ -471,7 +471,7 @@ chmod +x measure-cold-start.sh
 ## 레퍼런스 ##
 
 * https://aditmodi.hashnode.dev/soci-snapshotter-on-eks-eliminating-the-8-minute-gpu-cold-start-nobody-talks-about
-* Seekable OCI: Lazy-Loading Container Images via Range-Request Indexing - https://arxiv.org/abs/2607.06868
+* [Seekable OCI: Lazy-Loading Container Images via Range-Request Indexing](https://arxiv.org/abs/2607.06868)
 
 
 
