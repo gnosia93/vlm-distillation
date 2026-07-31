@@ -66,8 +66,6 @@ python src/event_clips.py
 
 
 
-​```
-
 [결과]
 ```
 영상 길이: 3600.0s, fps: 30.0
