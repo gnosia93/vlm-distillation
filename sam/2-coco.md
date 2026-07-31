@@ -4,15 +4,44 @@ CVAT는 무료 + SAM 보조 라벨링 + COCO export를 다 갖춰서 프레임 �
 
 
 ### 1. 설치 (자체 호스팅, SAM 포함) ###
+
+* cvat 
 ```
-git clone https://github.com/cvat-ai/cvat.git
+git clone https://github.com/cvat-ai/cvat
 cd cvat
-docker compose up -d          # 기본 CVAT 기동 → http://localhost:8080
+docker compose up -d
+
+관리자 계정 생성
+docker exec -it cvat_server bash -ic 'python3 ~/manage.py createsuperuser'
+→ 브라우저에서 http://<서버IP>:8080 접속.
 ```
+
+* nuctl
 ```
-# SAM 등 AI 자동주석 함수는 Nuclio(serverless)로 별도 배포
-# (CVAT 문서의 "Automatic annotation / serverless" 절차 따라 SAM 함수 deploy)
-SAM 함수 배포 절차·이름은 CVAT 버전마다 달라지니, 현재 CVAT 공식 문서의 AI Tools/serverless 섹션을 확인 필요.
+wget https://github.com/nuclio/nuclio/releases/download/<VERSION>/nuctl-<VERSION>-linux-amd64
+chmod +x nuctl-<VERSION>-linux-amd64
+sudo ln -sf $(pwd)/nuctl-<VERSION>-linux-amd64 /usr/local/bin/nuctl
+
+docker compose -f docker-compose.yml \
+  -f components/serverless/docker-compose.serverless.yml up -d
+
+./serverless/deploy_gpu.sh serverless/pytorch/facebookresearch/sam/nuclio
+
+nuctl get functions
+pth-facebookresearch-sam-... 함수가 ready 상태면 OK.
+```
+
+
+```
+5. UI에서 SAM으로 라벨링
+Task 생성 → 유치원 프레임 업로드, 라벨 child(mask/polygon)
+프레임 열기 → 좌측 AI Tools → Interactors → Segment Anything 선택
+아이 클릭 → 마스크 초안 → positive/negative 점으로 보정 → child 확정
+검수(놓친 것 추가) → Export dataset → COCO 1.0
+
+
+6. (영상 추적 라벨링이면) SAM2 Tracker
+만약 영상 추적용 masklet 라벨(2단계 영상 FT용)까지 만들 거면, CVAT의 Segment Anything 2 Tracker 함수를 씁니다. 단, 이건 추적 상태 저장용 Redis가 추가로 필요해요 (cvat_redis_ondisk 재사용 가능). deploy 시 인자로 지정합니다. 이걸 쓰면 한 프레임 라벨 → 여러 프레임 자동 추적으로 masklet을 빠르게 만들 수 있어요.
 ```
 
 ### 2. 프로젝트·작업 생성 + 라벨 정의 ###
