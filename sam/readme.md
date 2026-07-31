@@ -10,9 +10,8 @@ source ~/sam3-venv/bin/activate
 
 python -m pip install -U pip
 python -m pip install -U "transformers>=4.57" accelerate torch torchvision pillow matplotlib
-# huggingface 로그인 (gated 접근용 — 이미 토큰 있으면)
-python -m pip install -U huggingface_hub
-huggingface-cli login
+
+export HF_TOKEN=xxxxx
 ```
 ```
 git clone https://github.com/gnosia93/vlm-distillation.git
