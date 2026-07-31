@@ -1,48 +1,24 @@
 ### facebook/sam3 모델 억세스 권한 획득 ###
 
 facebook/sam3 모델의 경우 gated model 인 관계로, https://huggingface.co/facebook/sam3 방문해서 sam3 모델에 대한 억세스 권한을 요청한다.
+
+### python 가상 환경 설정 ###
+```
+# base 말고 전용 환경
+python -m venv ~/sam3-venv
+source ~/sam3-venv/bin/activate
+
+python -m pip install -U pip
+python -m pip install -U "transformers>=4.57" accelerate torch torchvision pillow matplotlib
+# huggingface 로그인 (gated 접근용 — 이미 토큰 있으면)
+python -m pip install -U huggingface_hub
+huggingface-cli login
+
+```
+
   
 
-### Phase 1: 스모크 테스트 (모델 로드 + 추론 확인) ###
 
-✅ transformers/torch 환경이 제대로 깔렸나  
-✅ facebook/sam3 모델이 로드되나 (다운로드, 메모리)  
-✅ 이미지 + 프롬프트 넣으면 에러 없이 출력(마스크/개수)이 나오나  
-
-```
-# 설치 (SAM3는 2025-11-19에 추가돼서 최신 transformers 필요)
-pip install -U "transformers>=4.57" torch pillow requests matplotlib
-# 안 되면 소스 설치: pip install git+https://github.com/huggingface/transformers.git
-```
-```
-# sam3_smoke.py — SAM3가 로드되고 추론이 되는지 확인
-import requests, torch
-from PIL import Image
-from transformers import Sam3Model, Sam3Processor
-
-model = Sam3Model.from_pretrained("facebook/sam3", device_map="auto")
-processor = Sam3Processor.from_pretrained("facebook/sam3")
-
-# 샘플 이미지 (나중에 유치원 프레임 경로로 교체)
-url = "http://images.cocodataset.org/val2017/000000077595.jpg"
-image = Image.open(requests.get(url, stream=True).raw).convert("RGB")
-
-PROMPT = "cat"   # ← 텍스트 프롬프트. 유치원이면 "child" / "person" 등
-inputs = processor(images=image, text=PROMPT, return_tensors="pt").to(model.device)
-
-with torch.no_grad():
-    outputs = model(**inputs)
-
-results = processor.post_process_instance_segmentation(
-    outputs, threshold=0.5, mask_threshold=0.5,
-    target_sizes=inputs.get("original_sizes").tolist(),
-)[0]
-
-print(f"'{PROMPT}' 객체 {len(results['masks'])}개 탐지")
-print("박스:", results.get("boxes"))
-print("점수:", results.get("scores"))
-
-```
 
 ### Phase 2: 고객 데이터로 성능 보기 (폴더 일괄 + 시각화) ###
 ✅ 마스크가 유치원 아이를 정확히 잡았는지 ?
