@@ -1,7 +1,6 @@
+## CVAT 라벨링 ##
 
 CVAT는 무료 + SAM 보조 라벨링 + COCO export를 다 갖춰서 프레임 라벨링에 적합하다.
-
-
 
 ### 1. 설치 (자체 호스팅, SAM 포함) ###
 
@@ -86,3 +85,22 @@ data/
 > [!NOTE]
 > 영상 직접 업로드 + 추적 보간: CVAT는 영상에서 한 프레임 라벨 후 다음 프레임으로 보간/추적하는 기능도 있어, 연속 프레임 라벨링을 더 줄일 수 있다. (트래킹 데이터에 유용).
 > train/valid 분리는 라벨링 전에 정해두면 편함 (같은 영상 프레임이 train·valid에 섞이면 누수 위험 → 영상 단위로 분리 권장).
+
+## Roboflow Universe ##
+
+### roboflow.com 가입 ###
+
+* Settings → API Key 복사 (rf_xxxx)
+
+### Python SDK 로 데이터 다운로드 받기 ###
+```
+pip install roboflow
+```
+```
+from roboflow import Roboflow
+rf = Roboflow(api_key="rf_xxxx")           # 본인 API 키
+project = rf.workspace("워크스페이스명").project("프로젝트명")
+dataset = project.version(1).download("coco-segmentation")   # 또는 "coco"
+print(dataset.location)   # 다운로드된 경로
+```
+* 워크스페이스/프로젝트/버전 이름은 데이터셋마다 다르니, 각 데이터셋 페이지의 코드 스니펫을 복사해서 쓰는 게 정확하다.
