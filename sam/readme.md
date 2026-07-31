@@ -22,7 +22,7 @@ python sam3.py
 점수: tensor([0.9606], device='mps:0')
 저장됨: result.png
 ```
-open 으로 결과 이미지를 관찰한다. 
+open 으로 결과 이미지를 확인한다. 
 ```
 open original.jpg result.png
 ```
