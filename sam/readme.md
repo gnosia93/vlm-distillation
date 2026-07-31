@@ -2,6 +2,10 @@
 
 ![](https://github.com/gnosia93/vlm-distillation/blob/main/images/sam3-arch.png)
 
+* Prompt Encoder: 사용자의 텍스트 입력(Text Prompt), 클릭(Points), 박스(Bounding Boxes) 데이터를 임베딩 벡터로 변환하여 트래커로 전달합니다.
+* Memory Bank: 과거 프레임의 특징(Features)과 생성된 마스크(Masks)를 저장하고 관리하는 데이터베이스 역할을 합니다. 트래커 내의 Mask Decoder는 이 메모리 뱅크로부터 시공간적 맥락(Temporal Memory)을 참조하여 영상 속 객체를 끊김 없이 추적합니다.
+* 피드백 루프 (Feedback Loop): 트래커가 현재 프레임에서 예측한 최종 마스크 정보는 다시 메모리 뱅크로 전달되어 업데이트되며, 이는 다음 프레임을 처리할 때 활용됩니다.
+
 ### 1. facebook/sam3 모델 억세스 권한 획득 ###
 
 facebook/sam3 모델의 경우 gated model 인 관계로, https://huggingface.co/facebook/sam3 방문해서 sam3 모델에 대한 억세스 권한을 요청한다.
