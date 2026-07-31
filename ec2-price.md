@@ -22,4 +22,6 @@ _Seoul_
 | g7e | NVIDIA RTX PRO 6000 Blackwell | Blackwell | 96GB | 최상위, 대형 LLM/멀티모달 |
 
 
-* price - https://instances.vantage.sh/aws/ec2/p4d.24xlarge?currency=USD&region=ap-northeast-2
+### Price ###
+
+* https://instances.vantage.sh/aws/ec2/p4d.24xlarge?currency=USD&region=ap-northeast-2
