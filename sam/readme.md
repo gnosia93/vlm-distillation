@@ -1,3 +1,5 @@
+## SAM-3 파인튜닝 ##
+
 ### 1. facebook/sam3 모델 억세스 권한 획득 ###
 
 facebook/sam3 모델의 경우 gated model 인 관계로, https://huggingface.co/facebook/sam3 방문해서 sam3 모델에 대한 억세스 권한을 요청한다.
