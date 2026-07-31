@@ -16,7 +16,7 @@ docker exec -it cvat_server bash -ic 'python3 ~/manage.py createsuperuser'
 → 브라우저에서 http://<서버IP>:8080 접속.
 ```
 
-* nuctl
+* nuctl - CVAT에서는 SAM, YOLO, Mask R-CNN 같은 DL 모델들을 각각 "Nuclio 서버리스 함수"로 패키징해서 돌린다. 즉 SAM으로 클릭하면 마스크 생성 같은 자동 주석 기능이 내부적으로 Nuclio 함수 호출로 동작한다. nuctl은 그걸 관리하는 CLI 도구이다.
 ```
 wget https://github.com/nuclio/nuclio/releases/download/<VERSION>/nuctl-<VERSION>-linux-amd64
 chmod +x nuctl-<VERSION>-linux-amd64
