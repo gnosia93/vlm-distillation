@@ -79,14 +79,13 @@ python src/event_clips.py
 
 ### 튜닝 포인트 ###
 
-| 파라미터 | 조정 방향 |
-|----------|-----------|
-| START_THRESH / END_THRESH | 오탐 많으면 ↑, 이벤트 놓치면 ↓ |
-| COOLDOWN_SEC | 한 사건이 자꾸 쪼개지면 ↑ |
-| MERGE_GAP_SEC | 가까운 이벤트 합치고 싶으면 ↑ |
-| MOTION_FPS | 순간 사건 놓치면 ↑ (비용도 ↑) |
-| FRAMES_PER_CLIP | VLM 입력 규격에 맞춤(16) |
+* START_THRESH / END_THRESH : 오탐 많으면 ↑, 이벤트 놓치면 ↓ 
+* COOLDOWN_SEC : 한 사건이 자꾸 쪼개지면 ↑ 
+* MERGE_GAP_SEC : 가까운 이벤트 합치고 싶으면 ↑ 
+* MOTION_FPS : 순간 사건 놓치면 ↑ (비용도 ↑) 
+* FRAMES_PER_CLIP : VLM 입력 규격에 맞춤(16) 
 
-- 모션 감지는 CPU 연산이라 GPU 불필요 → 워크샵의 "CPU 샘플링은 Graviton" 단계에 딱 맞습니다.
-- 이건 후보 구간을 싸게 잡는 것이고, "진짜 무슨 사건인지"는 추출된 프레임을 SAM-3/VLM에 넣어 판정합니다.
-- 조명 변화·그림자에 오탐할 수 있으니, 실제 유치원 영상 몇 개로 임계값을 먼저 튜닝하세요. detectShadows=False를 켜고 끄며 비교해도 좋아요.
+> [!NOTE]
+> - 모션 감지는 CPU 연산이라 GPU 불필요 → Graviton 사용
+> - "진짜 무슨 사건인지"는 추출된 프레임을 SAM-3/VLM에 넣어 판정.
+> - 조명 변화·그림자에 오탐할 수 있으니, 실제 영상 몇 개로 임계값을 먼저 튜닝 / detectShadows=False를 켜고 끄며 비교.
