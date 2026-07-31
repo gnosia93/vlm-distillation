@@ -96,6 +96,11 @@ print(f"아무것도 못 잡은 프레임: {len(zero)}장  (인식 실패 후보
 * 프롬프트 실험: "child", "person", "kid", "toddler" 등 여러 프롬프트를 바꿔가며 돌려본다. 특정 프롬프트만 잘 되면 그건 인코더가 아니라 텍스트 정렬 이슈라는 신호이다.
 * 점수 계산: 내부적으로 final = pred_logits.sigmoid() * presence_logits.sigmoid()로 최종 점수가 나온다. presence token이 "이 개념이 존재하나"를 판단해줘서 negative(없는 것) 처리에 강함.
 
+#### 파인튜닝 위치 ####
+* 크롭하면 잘 잡힘 → 입력(해상도) 문제 → 전처리 개선 (파인튜닝 불필요)
+* 특정 프롬프트만 됨 → 텍스트 정렬 이슈
+* 그 외 탐지/마스크 품질 → detector/mask decoder에 LoRA
+* 크롭해도 못 잡음 → 인코더 문제 (LoRA, 최후)
 
 
 ## 레퍼런스 ##
