@@ -21,7 +21,7 @@ teacher 모델로는 InternVL3-78B를, student 모델로는 같은 계열의 Int
 * [1. 기반 인프라 구축 - VPC부터 EKS 클러스터까지](https://github.com/gnosia93/vlm-distillation/blob/main/ec2/1-infra-prepare.md)
 * [2. 데이터셋 / 모델 가중치 다운로드](https://github.com/gnosia93/vlm-distillation/blob/main/ec2/2-prepare-dataset.md)
 * [3. 프롬프트 설계 및 출력 스키마 확정](https://github.com/gnosia93/vlm-distillation/blob/main/ec2/3-prompt-design.md)
-* [4. 프레임 샘플링](https://github.com/gnosia93/vlm-on-eks/blob/main/ec2/4-frame-sampling.md)
+* [4. 영상 프레임 샘플링](https://github.com/gnosia93/vlm-on-eks/blob/main/ec2/4-frame-sampling.md)
 * [5. InternVL3-78B 기반 학습 데이터 생성 (영상 자동 라벨링)](https://github.com/gnosia93/vlm-on-eks/blob/main/ec2/5-vlm-infer.md)
 * [6. Student 모델 평가 및 파인튜닝 전략 (Full vs. LoRA)](https://github.com/gnosia93/vlm-distillation/blob/main/ec2/6-student-finetune-strategy.md)
 * [7. Student 모델 파인튜닝](https://github.com/gnosia93/vlm-on-aws/blob/main/ec2/6-student-finetune.md)
@@ -30,7 +30,8 @@ teacher 모델로는 InternVL3-78B를, student 모델로는 같은 계열의 Int
 ### ■ _Part 2. Advanced (EKS 병렬 스케일아웃)_ ###
 
 * `1`. K8s Job 기반 학습 데이터 병렬 생성
-  
+  - [영상 프레임 샘플링](https://github.com/gnosia93/vlm-distillation/blob/main/sampling/readme.md)
+    
 * `2`. Kubeflow로 MNIST 분산학습
   - [Kubeflow 의 이해 및 설치](https://github.com/gnosia93/vlm-distillation/blob/main/kubeflow/1-kubeflow-overview.md)
   - [MNIST 분산학습 (DDP)](https://github.com/gnosia93/vlm-distillation/blob/main/kubeflow/2-mnist-ddp.md) 
