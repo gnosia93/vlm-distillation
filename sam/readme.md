@@ -1,15 +1,15 @@
-### facebook/sam3 모델 억세스 권한 획득 ###
+### 1. facebook/sam3 모델 억세스 권한 획득 ###
 
 facebook/sam3 모델의 경우 gated model 인 관계로, https://huggingface.co/facebook/sam3 방문해서 sam3 모델에 대한 억세스 권한을 요청한다.
 
-### 모델 스모크 테스트 ###
+### 2. 모델 스모크 테스트 ###
 ```
 # base 말고 전용 환경
 python -m venv ~/sam3-venv
 source ~/sam3-venv/bin/activate
 
 python -m pip install -U pip
-python -m pip install -U "transformers>=4.57" accelerate torch torchvision pillow matplotlib
+python -m pip install -U "transformers>=4.57" accelerate torch torchvision pillow matplotlib requests
 
 export HF_TOKEN=xxxxx
 ```
@@ -18,8 +18,17 @@ git clone https://github.com/gnosia93/vlm-distillation.git
 cd ~/vlm-distillation/sam/src
 python sam3.py
 ```
+[결과]
+```
+'notebook' 객체 1개 탐지
+박스: tensor([[-1.0039e+00,  3.6772e-01,  2.8926e+02,  4.2335e+02]], device='mps:0')
+점수: tensor([0.9606], device='mps:0')
+저장됨: result.png
+```
 
-  
+```
+open original.jpg result.png
+```
 
 
 
