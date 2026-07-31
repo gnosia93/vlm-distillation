@@ -36,7 +36,7 @@ teacher 모델로는 InternVL3-78B를, student 모델로는 같은 계열의 Int
   - [MNIST 분산학습 (DDP)](https://github.com/gnosia93/vlm-distillation/blob/main/kubeflow/2-mnist-ddp.md) 
   - [SOCI로 대형 컨테이너 이미지 기동 시간 최적화 (EKS)](https://github.com/gnosia93/vlm-distillation/blob/main/kubeflow/3-soci-optim-container-coldstart.md) 
 
-* `3.` [SAM 3.1 파인튜닝](https://github.com/gnosia93/vlm-distillation/blob/main/kubeflow/3-sam-finetune.md)
+* `3.` [SAM 3.1 파인튜닝](https://github.com/gnosia93/vlm-distillation/blob/main/sam/readme.md)
 
 ### ■ _Wrap Up_ ###
 
