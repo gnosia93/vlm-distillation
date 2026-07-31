@@ -1,5 +1,7 @@
 ## SAM-3 평가 및 파인튜닝 ##
 
+![](https://github.com/gnosia93/vlm-distillation/blob/main/images/sam3-arch.png)
+
 ### 1. facebook/sam3 모델 억세스 권한 획득 ###
 
 facebook/sam3 모델의 경우 gated model 인 관계로, https://huggingface.co/facebook/sam3 방문해서 sam3 모델에 대한 억세스 권한을 요청한다.
