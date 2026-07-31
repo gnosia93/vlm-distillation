@@ -1,5 +1,9 @@
 ### Phase 1: 스모크 테스트 (모델 로드 + 추론 확인) ###
 
+✅ transformers/torch 환경이 제대로 깔렸나
+✅ facebook/sam3 모델이 로드되나 (다운로드, 메모리)
+✅ 이미지 + 프롬프트 넣으면 에러 없이 출력(마스크/개수)이 나오나
+
 ```
 # 설치 (SAM3는 2025-11-19에 추가돼서 최신 transformers 필요)
 pip install -U "transformers>=4.57" torch pillow requests matplotlib
@@ -36,6 +40,7 @@ print("점수:", results.get("scores"))
 ```
 
 ### Phase 2: 고객 데이터로 성능 보기 (폴더 일괄 + 시각화) ###
+✅ 마스크가 유치원 아이를 정확히 잡았는지 ?
 ```
 # sam3_eval.py — 유치원 프레임 폴더에 프롬프트 돌려 결과 시각화/집계
 import os, glob, torch, numpy as np
