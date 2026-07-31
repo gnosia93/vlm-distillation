@@ -1,3 +1,8 @@
+### facebook/sam3 모델 억세스 권한 획득 ###
+
+facebook/sam3 모델의 경우 gated model 인 관계로, https://huggingface.co/facebook/sam3 방문해서 sam3 모델에 대한 억세스 권한을 요청한다.
+  
+
 ### Phase 1: 스모크 테스트 (모델 로드 + 추론 확인) ###
 
 ✅ transformers/torch 환경이 제대로 깔렸나  
