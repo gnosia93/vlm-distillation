@@ -32,7 +32,8 @@ teacher 모델로는 InternVL3-78B를, student 모델로는 같은 계열의 Int
 
 * `1`. K8s Job 기반 학습 데이터 병렬 생성
   - [영상 프레임 샘플링 Deep Dive](https://github.com/gnosia93/vlm-distillation/blob/main/sampling/readme.md)
-    
+  - [배치 인퍼런스](https://github.com/gnosia93/vlm-distillation/blob/main/sampling/3-batch-infer.md)
+      
 * `2`. Kubeflow로 MNIST 분산학습
   - [Kubeflow 의 이해 및 설치](https://github.com/gnosia93/vlm-distillation/blob/main/kubeflow/1-kubeflow-overview.md)
   - [MNIST 분산학습 (DDP)](https://github.com/gnosia93/vlm-distillation/blob/main/kubeflow/2-mnist-ddp.md) 
