@@ -87,7 +87,9 @@ GPU당 통신 배수 = 2(N-1)/N
 - 멀티노드에서 유일하게 신경 쓸 병목은 **노드 간 네트워크**
 - 그런데 **1B LoRA → gradient 수십 MB** → 노드 간이 좀 느려도 스텝당 수 ms, 계산(수백 ms~초) 대비 여전히 미미
 
-### 7. 결론 — 1B DDP엔 NVLink도, 고속 인터커넥트도 필수 아님 ###
+### 결론 ###
+
+`1B DDP엔 NVLink도, 고속 인터커넥트도 필수 아님` 
 
 ```
  스텝당 통신 시간 (all-reduce)        vs   스텝당 계산 시간 (16프레임 fwd+bwd)
@@ -103,6 +105,5 @@ GPU당 통신 배수 = 2(N-1)/N
 - NVLink·EFA가 필요한 경우는 **FSDP/TP로 모델을 쪼개거나, full fine-tune + 수십 노드**로 갈 때
 - (별개) **`/dev/shm`은 DataLoader worker용** — GPU 통신과 무관하지만 16프레임 텐서라 부족하면 학습이 죽음. num_workers 기준 2~8GB 확보
 
-### 결론 ##
 
 DDP 통신량은 **모델 크기에만 비례**(배치·GPU 수 무관, GPU당 2×gradient 상한)하므로, 1B LoRA에서는 스텝마다 소량 gradient만 오가 **PCIe·일반 네트워크로도 선형 스케일**되고 NVLink·EFA는 필요 없다.
