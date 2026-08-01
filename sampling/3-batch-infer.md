@@ -65,10 +65,7 @@ spec:
     consolidateAfter: 1m        # 비면 1분 후 노드 정리 → scale to 0
 ```
 
-Karpenter는 EC2 Fleet처럼 allocationStrategy 필드를 직접 노출하지 않는다. 내부적으로 이미 price-capacity-optimized(가격+용량 균형, 중단 최소화 지향)를 사용한다. 
-AWS 문서 기준 price-capacity-optimized는 **"중단 가능성이 가장 낮은 풀 + 가능한 낮은 가격"**을 함께 본다. — 대부분의 Spot 워크로드에 권장되는 전략.
-Karpenter는 후보 인스턴스 타입들을 EC2 Fleet에 넘길 때 이 전략으로 provisioning → 이미 capacity(중단 최소화)를 고려하고 있다.
-
+Karpenter는 내부적으로 이미 price-capacity-optimized(가격+용량 균형, 중단 최소화 지향)를 전략을 사용하여 EC2 인스턴스를 프로비저닝 한다. 
 
 ### Indexed Job (배치 인퍼런스, Spot 내성) ###
 ```
