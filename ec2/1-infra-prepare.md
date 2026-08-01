@@ -55,9 +55,10 @@ echo ${OUTPUT}
 ```
 
 ## S3 버킷 생성 ##
-vs-code 서버에 웹으로 접속한 후, S3 버킷을 생성한다. (vs-code 패스워드는 code!@#c 이다)
+vs-code 서버에 웹으로 접속한 후, 새로운 터미널을 하나 연다. (vs-code 패스워드는 code!@#c 이다)
 ![](https://github.com/gnosia93/training-on-eks/blob/main/chapter/images/code-server.png)
 
+아래 명령어로 S3 버킷을 생성한다.
 ```
 TOKEN=$(curl -s -X PUT "http://169.254.169.254/latest/api/token" -H "X-aws-ec2-metadata-token-ttl-seconds: 21600")
 
@@ -103,12 +104,9 @@ aws iam put-role-policy \
   --policy-document file://s3-policy.json
 ```
 
-
-
 ## EKS 프로비저닝 ##
 
-vs-code 서버에 웹으로 접속한 후, 터미널을 열어 kubectl, eksctl, helm 을 설치한다. (vs-code 패스워드는 code!@#c 이다)
-![](https://github.com/gnosia93/training-on-eks/blob/main/chapter/images/code-server.png)
+vs-code 서버에 웹으로 접속한 후, 터미널을 열어 kubectl, eksctl, helm 을 설치한다.
  
 ### 1. 소프트웨어 설치 ### 
 ```
