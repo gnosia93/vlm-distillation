@@ -100,28 +100,32 @@ cat <<'EOF' > coco.py
 import fiftyone as fo
 import fiftyone.zoo as foz
 
-# 1. 데이터셋 로드
+# 1. 기존 데이터셋이 꼬였을 수 있으니 새 이름으로 로드
 dataset = foz.load_zoo_dataset(
     "coco-2017",
     split="validation",
     label_types=["segmentations"],
     max_samples=50,
-    dataset_name="coco-clean-test"
+    dataset_name="coco-working-contours"
 )
 
-# 2. 마스크 데이터를 선(Polyline)으로 변환 후, 원본 ground_truth에서 'mask' 속성 제거
+# 2. Polylines 변환
 for sample in dataset:
     if sample.ground_truth:
-        # 외곽선 전용 레이어 생성
-        sample["polygons"] = sample.ground_truth.to_polylines()
+        # filled=False로 테두리선만 생성
+        sample["polygons"] = sample.ground_truth.to_polylines(
+            tolerance=0,
+            filled=False
+        )
 
-        # ground_truth 내부의 색칠용 mask 속성을 None으로 만들어 박스만 남김
+        # ground_truth의 인스턴스 마스크 제거 → 박스 안 색칠 없이 바운딩 박스만 표시
         for detection in sample.ground_truth.detections:
             detection.mask = None
+            detection.mask_path = None
 
         sample.save()
 
-# 3. 앱 실행
+# 3. 앱 실행 (설정값 강제 지정 없이 기본 렌더링으로 띄움)
 session = fo.launch_app(dataset, port=5151)
 session.wait()
 EOF
