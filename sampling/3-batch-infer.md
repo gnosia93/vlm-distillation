@@ -31,3 +31,100 @@ s3://<bucket>/
     └── internvl3-1b/ , sam3/ ...
 
 ```
+
+
+
+### 카펜터 GPU 노드풀 ###
+```
+apiVersion: karpenter.sh/v1
+kind: NodePool
+metadata: { name: gpu }
+spec:
+  template:
+    spec:
+      requirements:
+        - key: karpenter.sh/capacity-type
+          operator: In
+          values: ["spot", "on-demand"]       # Spot 우선, 없으면 OnDemand
+        - key: node.kubernetes.io/instance-type
+          operator: In
+          values: ["g5.4xlarge","g6.4xlarge"]   # 다중 GPU 타입
+      nodeClassRef: { group: karpenter.k8s.aws, kind: EC2NodeClass, name: gpu }
+      taints:
+        - key: nvidia.com/gpu
+          effect: NoSchedule
+  limits: { nvidia.com/gpu: "100" }
+  disruption:
+    consolidationPolicy: WhenEmpty
+    consolidateAfter: 1m        # 비면 1분 후 노드 정리 → scale to 0
+```
+
+### Indexed Job (배치 인퍼런스, Spot 내성) ###
+```
+apiVersion: batch/v1
+kind: Job
+metadata: { name: vlm-batch-infer }
+spec:
+  completions: 100          # 총 100 샤드
+  parallelism: 20           # 동시에 20개 Pod
+  completionMode: Indexed
+  backoffLimitPerIndex: 3   # 샤드별 재시도 3회
+  maxFailedIndexes: 5
+  podFailurePolicy:
+    rules:
+      - action: Ignore                    # Spot 중단은 재시도 카운트 제외
+        onPodConditions:
+          - type: DisruptionTarget
+  template:
+    spec:
+      restartPolicy: Never
+      serviceAccountName: infer-sa        # S3 접근 IRSA
+      tolerations:
+        - key: nvidia.com/gpu
+          effect: NoSchedule              # GPU 노드 taint 허용
+      containers:
+        - name: worker
+          image: <ECR>/vlm-infer:latest
+          resources:
+            limits: { nvidia.com/gpu: 1 }
+          env:
+            - name: TOTAL_SHARDS
+              value: "100"
+            # JOB_COMPLETION_INDEX 는 Indexed Job이 자동 주입
+```
+
+### worker 로직 ###
+```
+import os
+idx   = int(os.environ["JOB_COMPLETION_INDEX"])   # 내 샤드 번호 (자동 주입)
+total = int(os.environ["TOTAL_SHARDS"])
+
+items = load_manifest_from_s3()          # 전체 아이템 목록
+mine  = items[idx::total]                # 내 샤드만 (stride 분할)
+
+model = load_model()                     # A10G/L4 무관, CUDA면 동작
+for it in mine:
+    if output_exists_in_s3(it["id"]):    # 멱등성: 이미 한 건 skip
+        continue
+    result = run_inference(model, it)
+    write_to_s3(it["id"], result)        # 결정적 출력 경로
+```
+
+
+### 실행하기 ### 
+```
+# 1) 아이템 manifest를 S3에 올림 (producer)
+# 2) Job apply
+kubectl apply -f vlm-batch-infer.yaml
+# 3) Karpenter가 GPU Spot 노드 자동 provision → Pod 실행
+kubectl get pods -w
+# 4) 완료 후 노드 자동 축소 확인
+kubectl get nodes
+```
+
+### 정리 ###
+
+* 고정 배치면: Karpenter GPU NodePool(Spot·다중타입·scale-to-0) + Indexed Job(샤드) + 멱등 워커. SQS 불필요.
+* Spot 내성: podFailurePolicy로 중단 무시 + backoffLimitPerIndex + 워커 멱등성.
+* 비용: 끝나면 Karpenter가 노드를 0으로 내림.
+* (동적 유입이면 → SQS + KEDA로 확장)
