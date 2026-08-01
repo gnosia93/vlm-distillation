@@ -46,7 +46,7 @@ teacher 모델로는 InternVL3-78B를, student 모델로는 같은 계열의 Int
 
 * `1`. [DETR vs SAM](https://github.com/gnosia93/vlm-distillation/blob/main/sam/0-detr-sam.md)
 * `2`. [SAM-3 진단 / 평가 (도메인에 대한)](https://github.com/gnosia93/vlm-distillation/blob/main/sam/1-sam3.md)
-* `3`. [객체 탐지/세그먼테이션 라벨 데이터 준비 (COCO)](https://github.com/gnosia93/vlm-distillation/blob/main/sam/2-coco.md)
+* `3`. [객체 탐지 / 세그먼테이션 라벨 데이터 준비 (COCO)](https://github.com/gnosia93/vlm-distillation/blob/main/sam/2-coco.md)
 * `4`. [SAM-3 LoRA 파인튜닝](https://github.com/gnosia93/vlm-distillation/tree/main/sam/src/sam3-lora)
 
 ### ■ _Wrap Up_ ###
