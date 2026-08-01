@@ -88,10 +88,13 @@ data/
 
 ## COCO 데이터셋 준비 ##
 
+파이썬 가상환경을 생성하고, 패키지를 설치한다. 
 ```
+python3 -m venv .venv
+source .venv/bin/activate
 pip install fiftyone
 ```
-
+데이터 셋을 다운로드 받기 위해서 스크립트를 실행한다. 
 ```
 cat <<'EOF' > coco.py
 import fiftyone as fo
@@ -107,4 +110,6 @@ dataset = foz.load_zoo_dataset(
 # 다운로드된 데이터셋 시각화 (웹 브라우저/셀에 UI 실행)
 session = fo.launch_app(dataset)
 EOF
+
+python coco.py
 ```
