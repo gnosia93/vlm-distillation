@@ -91,6 +91,8 @@ data/
 * https://app.roboflow.com/login 에서 회원 가입 -> Public Plan 선택 -> Create Workspace 
 * Settings → Private API Key 복사
 
+* https://universe.roboflow.com/microsoft/coco-dataset-vdnr1
+
 
 ### Python SDK 로 데이터 다운로드 받기 ###
 ```
