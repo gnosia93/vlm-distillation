@@ -93,6 +93,7 @@ pip install fiftyone
 ```
 
 ```
+cat <<'EOF' > coco.py
 import fiftyone as fo
 import fiftyone.zoo as foz
 
@@ -105,4 +106,5 @@ dataset = foz.load_zoo_dataset(
 
 # 다운로드된 데이터셋 시각화 (웹 브라우저/셀에 UI 실행)
 session = fo.launch_app(dataset)
+EOF
 ```
