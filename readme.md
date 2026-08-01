@@ -46,7 +46,7 @@ teacher 모델로는 InternVL3-78B를, student 모델로는 같은 계열의 Int
 
 * `1`. [SAM-3 평가 및 파인튜닝 개요](https://github.com/gnosia93/vlm-distillation/blob/main/sam/1-sam3.md)
 * `2`. [라벨 데이터 준비(COCO)](https://github.com/gnosia93/vlm-distillation/blob/main/sam/2-coco.md)
-* `3`. [학습 — SAM3_LoRA로 train (단일/멀티 GPU)]
+* `3`. [학습 — SAM3_LoRA 파인튜닝](https://github.com/gnosia93/vlm-distillation/blob/main/sam/3-sam3-lora.md)
 * `4`. [평가 — baseline(원본) vs LoRA 비교 (mAP/cgF1)]
 * `5`. [병합]
 
