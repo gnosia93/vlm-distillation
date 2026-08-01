@@ -134,7 +134,7 @@ kubectl get nodes
 
 ### 정리 ###
 
-* 고정 배치면: Karpenter GPU NodePool(Spot·다중타입·scale-to-0) + Indexed Job(샤드) + 멱등 워커. SQS 불필요.
+* 고정 배치면: Karpenter GPU NodePool(Spot·다중타입·scale-to-0) + Indexed Job(샤드) + 멱등 워커. 
 * Spot 내성: podFailurePolicy로 중단 무시 + backoffLimitPerIndex + 워커 멱등성.
-* 비용: 끝나면 Karpenter가 노드를 0으로 내림.
-* (동적 유입이면 → SQS + KEDA로 확장)
+* 비용 최적화: 끝나면 Karpenter가 노드를 0으로 내림.
+* 동적 유입인 경우 → SQS + KEDA로 확장 필요.
