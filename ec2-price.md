@@ -20,7 +20,7 @@ _* ICN Region_
 | g6 | NVIDIA L4 | Ada Lovelace | 24GB | GDDR6 300 GB/s | 전력효율 좋음 | **G4dn 인스턴스 대비 추론 성능 2배 향상**, 자연어 처리(NLP)·언어 번역·비디오 및 이미지 분석·음성 인식·개인화를 위한 머신러닝(ML) 모델 지원, 최대 100Gbps의 네트워크 대역폭 및 최대 7.52TB의 로컬 NVMe SSD 스토리지 지원 |
 | g6e | NVIDIA L40S | Ada Lovelace | 48GB | GDDR6 864 GB/s | 고성능/대용량 |**G5 인스턴스 대비 최대 2.5배 더 나은 성능 제공**, 최대 130억(13B) 파라미터 LLM / 디퓨전(Diffusion) 모델 배포, 최대 400Gbps의 네트워크 대역폭 지원, 최대 7.6TB의 로컬 NVMe SSD 스토리지 제공.|
 | g7 | NVIDIA RTX PRO 4500 Blackwell | Blackwell | 32GB | | G6 대비 메모리·대역폭 향상 |.  |
-| g7e | NVIDIA RTX PRO 6000 Blackwell | Blackwell | 96GB | GDDR7 ~1.6 TB/s | Flash Attention 3/4, FP 4/8 | up to 4x the inter-GPU communication bandwidth and 4x the Elastic Fabric Adapter (EFA) networking bandwidth compared to G6e instances. G7e instances offer up to 2.3x inference performance compared to G6e. deploy large language models (LLMs), multimodal generative AI models and physical AI models. up to 1600 Gbps of networking bandwidth with EFA, up to 15.2 TB of local NVMe SSD storage.  |
+| g7e | NVIDIA RTX PRO 6000 Blackwell | Blackwell | 96GB | GDDR7 ~1.6 TB/s | Flash Attention 3/4, FP 4/8 | **G6e 인스턴스 대비 최대 2.3배의 추론 성능 성능 향상**, G6e 인스턴스 대비 최대 4배의 GPU 간 통신 대역폭 및 4배의 EFA(Elastic Fabric Adapter) 네트워크 대역폭 제공, EFA를 통해 최대 1600Gbps의 네트워크 대역폭 지원, 최대 15.2TB의 로컬 NVMe SSD 스토리지 제공. |
 
 
 ### Price ###
