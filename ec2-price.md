@@ -19,7 +19,7 @@ _* ICN Region_
 | <img width="12" height="12" alt="download" src="https://github.com/user-attachments/assets/6e5eca91-aaae-4c52-a43d-6f5b24b1dff8" /> g6 | 텐서코어 4세대 - [NVIDIA L4](https://www.nvidia.com/ko-kr/data-center/l4/) | Ada Lovelace | 24GB | FP32-30.3, FP16-242, FP8-485| GDDR6 300 GB/s | + FP8 및 트랜스포머 엔진 | **G4dn 인스턴스 대비 추론 성능 2배 향상**, 자연어 처리(NLP)·언어 번역·비디오 및 이미지 분석·음성 인식·개인화를 위한 머신러닝(ML) 모델 지원, 최대 100Gbps의 네트워크 대역폭 및 최대 7.52TB의 로컬 NVMe SSD 스토리지 지원 |
 | g6e | 텐서코어 4세대 - [NVIDIA L40S](https://www.nvidia.com/ko-kr/data-center/l40s/) | Ada Lovelace | 48GB | FP32-91.6, FP16-733, FP8-1.4P | GDDR6 864 GB/s |  |**G5 인스턴스 대비 최대 2.5배 더 나은 성능 제공**, 최대 130억(13B) 파라미터 LLM / 디퓨전(Diffusion) 모델 배포, 최대 400Gbps의 네트워크 대역폭 지원, 최대 7.6TB의 로컬 NVMe SSD 스토리지 제공.|
 | g7 | 텐서코어 5세대 - [NVIDIA RTX PRO 4500 BW](https://www.nvidia.com/en-us/products/workstations/professional-desktop-gpus/rtx-pro-4500/) | Blackwell | 32GB | | |  |.  |
-| g7e | 텐서코어 5세대 - [NVIDIA RTX PRO 6000 BW](https://www.nvidia.com/en-us/data-center/rtx-pro-6000-blackwell-server-edition/) | Blackwell | 96GB | FP32-120, FP16-1P, FP8-2P | **GDDR7 ~1.6 TB/s** | + Flash Attention 3/4, FP4 | **G6e 인스턴스 대비 최대 2.3배의 추론 성능 성능 향상**, G6e 인스턴스 대비 최대 4배의 GPU 간 통신 대역폭 및 4배의 EFA(Elastic Fabric Adapter) 네트워크 대역폭 제공, EFA를 통해 최대 1600Gbps의 네트워크 대역폭 지원, 최대 15.2TB의 로컬 NVMe SSD 스토리지 제공. |
+| g7e | 텐서코어 5세대 - [NVIDIA RTX PRO 6000 BW](https://www.nvidia.com/en-us/data-center/rtx-pro-6000-blackwell-server-edition/) | Blackwell | 96GB | FP32-120, FP16-1P, FP8-2P | **GDDR7 ~1.6 TB/s** | + **Flash Attention 3/4, FP4** | **G6e 인스턴스 대비 최대 2.3배의 추론 성능 성능 향상**, G6e 인스턴스 대비 최대 4배의 GPU 간 통신 대역폭 및 4배의 EFA(Elastic Fabric Adapter) 네트워크 대역폭 제공, EFA를 통해 최대 1600Gbps의 네트워크 대역폭 지원, 최대 15.2TB의 로컬 NVMe SSD 스토리지 제공. |
 
 
 ### Price ###
