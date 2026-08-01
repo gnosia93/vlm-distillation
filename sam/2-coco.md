@@ -40,7 +40,7 @@ pth-facebookresearch-sam-... 함수가 ready 상태면 OK.
 
 #### (영상 추적 라벨링이면) SAM2 Tracker ####
 만약 영상 추적용 masklet 라벨(2단계 영상 FT용)까지 만들 거면, CVAT의 Segment Anything 2 Tracker 함수를 사용한다. 단, 이건 추적 상태 저장용 Redis가 별도로 필요하다. (cvat_redis_ondisk 재사용 가능). 이걸 쓰면 한 프레임 라벨 → 여러 프레임 자동 추적으로 masklet을 빠르게 만들 수 있다.
-```
+
 
 > [!NOTE]
 > 영상 직접 업로드 + 추적 보간: CVAT는 영상에서 한 프레임 라벨 후 다음 프레임으로 보간/추적하는 기능도 있어, 연속 프레임 라벨링을 더 줄일 수 있다. (트래킹 데이터에 유용).
