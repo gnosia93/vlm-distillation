@@ -38,7 +38,7 @@ s3://<bucket>/
 ```
 apiVersion: karpenter.sh/v1
 kind: NodePool
-metadata: { name: gpu }
+metadata: { name: gpu-spot }
 spec:
   template:
     spec:
@@ -72,16 +72,18 @@ spec:
   maxFailedIndexes: 5
   podFailurePolicy:
     rules:
-      - action: Ignore                    # Spot 중단은 재시도 카운트 제외
+      - action: Ignore                        # Spot 중단은 재시도 카운트 제외
         onPodConditions:
           - type: DisruptionTarget
   template:
     spec:
       restartPolicy: Never
-      serviceAccountName: infer-sa        # S3 접근 IRSA
+      serviceAccountName: infer-sa            # S3 접근 IRSA
+      nodeSelector:
+        karpenter.sh/nodepool: gpu-spot       # ← 이 NodePool의 노드에만 스케줄
       tolerations:
         - key: nvidia.com/gpu
-          effect: NoSchedule              # GPU 노드 taint 허용
+          effect: NoSchedule                  # GPU 노드 taint 허용
       containers:
         - name: worker
           image: <ECR>/vlm-infer:latest
