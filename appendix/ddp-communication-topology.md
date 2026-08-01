@@ -100,7 +100,7 @@ GPU당 통신 배수 = 2(N-1)/N
 - 통신량이 작고(모델 크기에만 비례), GPU당 부담엔 상한(2×gradient)이 있어 → **PCIe로 충분, NVLink는 과투자**
 - **`g5`(A10G, NVLink 없음) + 노드 수 확장**으로 선형에 가깝게 스케일
 - 노드 간도 **1B LoRA면 일반 네트워크로 충분**, EFA 같은 고속 인터커넥트도 필수는 아님
-- NVLink·EFA가 값하는 건 **FSDP/TP로 모델을 쪼개거나, full fine-tune + 수십 노드**로 갈 때
+- NVLink·EFA가 필요한 경우는 **FSDP/TP로 모델을 쪼개거나, full fine-tune + 수십 노드**로 갈 때
 - (별개) **`/dev/shm`은 DataLoader worker용** — GPU 통신과 무관하지만 16프레임 텐서라 부족하면 학습이 죽음. num_workers 기준 2~8GB 확보
 
 ### 결론 ##
