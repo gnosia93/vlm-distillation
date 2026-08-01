@@ -100,15 +100,30 @@ cat <<'EOF' > coco.py
 import fiftyone as fo
 import fiftyone.zoo as foz
 
-# COCO 2017 데이터셋 중 validation 세트에서 100장만 다운로드
+# 1. 데이터셋 로드
 dataset = foz.load_zoo_dataset(
     "coco-2017",
     split="validation",
-    max_samples=500
+    label_types=["segmentations"],
+    max_samples=50,
+    dataset_name="coco-clean-test"
 )
 
-# 다운로드된 데이터셋 시각화 (웹 브라우저/셀에 UI 실행)
-session = fo.launch_app(dataset, auto=False)
+# 2. 마스크 데이터를 선(Polyline)으로 변환 후, 원본 ground_truth에서 'mask' 속성 제거
+for sample in dataset:
+    if sample.ground_truth:
+        # 외곽선 전용 레이어 생성
+        sample["polygons"] = sample.ground_truth.to_polylines()
+
+        # ground_truth 내부의 색칠용 mask 속성을 None으로 만들어 박스만 남김
+        for detection in sample.ground_truth.detections:
+            detection.mask = None
+
+        sample.save()
+
+# 3. 앱 실행
+session = fo.launch_app(dataset, port=5151)
+session.wait()
 EOF
 
 python coco.py
