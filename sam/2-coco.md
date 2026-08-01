@@ -94,11 +94,18 @@ data/
 
 ### Python SDK 로 데이터 다운로드 받기 ###
 ```
-pip install roboflow
+python3 -m venv .venv
+source .venv/bin/activate
+pip install roboflow python-dotenv
+
+export ROBOFLOW_API_KEY=xcI6your_private_api_key_here
 ```
 ```
 from roboflow import Roboflow
-rf = Roboflow(api_key="rf_xxxx")           # 본인 API 키
+
+api_key = os.getenv("ROBOFLOW_API_KEY")
+rf = Roboflow(api_key=api_key)
+
 project = rf.workspace("워크스페이스명").project("프로젝트명")
 dataset = project.version(1).download("coco-segmentation")   # 또는 "coco"
 print(dataset.location)   # 다운로드된 경로
