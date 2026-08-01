@@ -192,6 +192,7 @@ iam:
 
 karpenter:
   version: "${KARPENTER_VERSION}"
+  withSpotInterruptionQueue: true   		 # SQS 큐 + 규칙 + 정책 자동 생성. 기본값 false
 EOF
 
 eksctl create cluster -f cluster.yaml
