@@ -108,7 +108,7 @@ dataset = foz.load_zoo_dataset(
 )
 
 # 다운로드된 데이터셋 시각화 (웹 브라우저/셀에 UI 실행)
-session = fo.launch_app(dataset)
+session = fo.launch_app(dataset, auto=False)
 EOF
 
 python coco.py
