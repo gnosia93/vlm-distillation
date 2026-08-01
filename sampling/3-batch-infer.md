@@ -76,8 +76,8 @@ spec:
   completions: 100          # 총 100 샤드
   parallelism: 20           # 동시에 20개 Pod
   completionMode: Indexed
-  backoffLimitPerIndex: 3   # 샤드별 재시도 3회
-  maxFailedIndexes: 5
+  backoffLimitPerIndex: 3   # 각 샤드는 3번까지 재시도
+  maxFailedIndexes: 5       # 최종 실패한 샤드가 5개를 넘으면 → Job 전체 중단(Failed) 
   podFailurePolicy:
     rules:
       - action: Ignore                        # Spot 중단은 재시도 카운트 제외
@@ -85,7 +85,7 @@ spec:
           - type: DisruptionTarget
   template:
     spec:
-      restartPolicy: Never
+      restartPolicy: Never                    # 컨테이너 실패 → 그 Pod는 실패로 끝남 → Job이 새 Pod 생성해서 재시도 / podFailurePolicy 는 Never 일때만 동작
       serviceAccountName: infer-sa            # S3 접근 IRSA
       nodeSelector:
         karpenter.sh/nodepool: gpu-spot       # ← 이 NodePool의 노드에만 스케줄
