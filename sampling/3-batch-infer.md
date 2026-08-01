@@ -45,10 +45,16 @@ spec:
       requirements:
         - key: karpenter.sh/capacity-type
           operator: In
-          values: ["spot", "on-demand"]       # Spot 우선, 없으면 OnDemand
+          values: ["spot", "on-demand"]             # Spot 우선, 없으면 OnDemand
         - key: node.kubernetes.io/instance-type
           operator: In
-          values: ["g5.4xlarge","g6.4xlarge"]   # 다중 GPU 타입
+          values:                                   # 다중 GPU 타입
+            - "g5.4xlarge"
+            - "g5.12xlarge"
+            - "g5.48xlarge"
+            - "g6.4xlarge"
+            - "g6.12xlarge"
+            - "g6.48xlarge"        
       nodeClassRef: { group: karpenter.k8s.aws, kind: EC2NodeClass, name: gpu }
       taints:
         - key: nvidia.com/gpu
@@ -58,6 +64,19 @@ spec:
     consolidationPolicy: WhenEmpty
     consolidateAfter: 1m        # 비면 1분 후 노드 정리 → scale to 0
 ```
+
+arpenter는 EC2 Fleet처럼 allocationStrategy 필드를 직접 노출하지 않습니다. 내부적으로 이미 price-capacity-optimized(가격+용량 균형, 중단 최소화 지향)를 씁니다. 그래서 "capacity 위주"의 실질적 레버는 필드 설정이 아니라 인스턴스 타입/AZ 다양화예요.
+
+핵심: Karpenter의 Spot 전략은 이미 price-capacity-optimized
+AWS 문서 기준 price-capacity-optimized는 **"중단 가능성이 가장 낮은 풀 + 가능한 낮은 가격"**을 함께 봅니다 — 대부분의 Spot 워크로드에 권장되는 전략.
+Karpenter는 후보 인스턴스 타입들을 EC2 Fleet에 넘길 때 이 전략으로 provisioning → 이미 capacity(중단 최소화)를 고려하고 있어요.
+순수 capacity-optimized(가격 무시, 최심 풀만)는 Karpenter가 별도 필드로 안 열어줍니다.
+
+
+
+
+
+
 
 ### Indexed Job (배치 인퍼런스, Spot 내성) ###
 ```
