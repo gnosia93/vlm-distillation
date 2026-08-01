@@ -54,6 +54,57 @@ echo ${OUTPUT}
 ]
 ```
 
+## S3 버킷 생성 ##
+vs-code 서버에 웹으로 접속한 후, S3 버킷을 생성한다. (vs-code 패스워드는 code!@#c 이다)
+![](https://github.com/gnosia93/training-on-eks/blob/main/chapter/images/code-server.png)
+
+```
+TOKEN=$(curl -s -X PUT "http://169.254.169.254/latest/api/token" -H "X-aws-ec2-metadata-token-ttl-seconds: 21600")
+
+export AWS_REGION=$(curl -s -H "X-aws-ec2-metadata-token: $TOKEN" http://169.254.169.254/latest/meta-data/placement/region)
+export ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
+export BUCKET=vlm-data-${ACCOUNT_ID}-${AWS_REGION}
+
+aws s3api create-bucket \
+  --bucket "$BUCKET" \
+  --region "$AWS_REGION" \
+  --create-bucket-configuration LocationConstraint="$AWS_REGION"
+
+cat > s3-policy.json <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "VlmDataBucketRW",
+      "Effect": "Allow",
+      "Action": [
+		"s3:CreateBucket",
+        "s3:GetObject",
+        "s3:PutObject",
+        "s3:DeleteObject",
+        "s3:DeleteBucket",
+		"s3:ListAllMyBuckets"
+      ],
+      "Resource": "arn:aws:s3:::${BUCKET}/*"
+    },
+    {
+      "Sid": "VlmDataBucketList",
+      "Effect": "Allow",
+      "Action": "s3:ListBucket",
+      "Resource": "arn:aws:s3:::${BUCKET}"
+    }
+  ]
+}
+EOF
+
+aws iam put-role-policy \
+  --role-name VlmEKS_Role \
+  --policy-name VlmDataS3Access \
+  --policy-document file://s3-policy.json
+```
+
+
+
 ## EKS 프로비저닝 ##
 
 vs-code 서버에 웹으로 접속한 후, 터미널을 열어 kubectl, eksctl, helm 을 설치한다. (vs-code 패스워드는 code!@#c 이다)
@@ -716,48 +767,3 @@ kubectl apply -k "https://github.com/kubernetes-csi/external-snapshotter/deploy/
 ```
 
 
-## S3 버킷 생성 ##
-```
-TOKEN=$(curl -s -X PUT "http://169.254.169.254/latest/api/token" -H "X-aws-ec2-metadata-token-ttl-seconds: 21600")
-
-export AWS_REGION=$(curl -s -H "X-aws-ec2-metadata-token: $TOKEN" http://169.254.169.254/latest/meta-data/placement/region)
-export ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
-export BUCKET=vlm-data-${ACCOUNT_ID}-${AWS_REGION}
-
-aws s3api create-bucket \
-  --bucket "$BUCKET" \
-  --region "$AWS_REGION" \
-  --create-bucket-configuration LocationConstraint="$AWS_REGION"
-
-cat > s3-policy.json <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Sid": "VlmDataBucketRW",
-      "Effect": "Allow",
-      "Action": [
-		"s3:CreateBucket",
-        "s3:GetObject",
-        "s3:PutObject",
-        "s3:DeleteObject",
-        "s3:DeleteBucket",
-		"s3:ListAllMyBuckets"
-      ],
-      "Resource": "arn:aws:s3:::${BUCKET}/*"
-    },
-    {
-      "Sid": "VlmDataBucketList",
-      "Effect": "Allow",
-      "Action": "s3:ListBucket",
-      "Resource": "arn:aws:s3:::${BUCKET}"
-    }
-  ]
-}
-EOF
-
-aws iam put-role-policy \
-  --role-name VlmEKS_Role \
-  --policy-name VlmDataS3Access \
-  --policy-document file://s3-policy.json
-```
