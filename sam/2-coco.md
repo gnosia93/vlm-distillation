@@ -113,3 +113,9 @@ EOF
 
 python coco.py
 ```
+[결과]
+```
+Downloading split 'validation' to '/Users/automake/fiftyone/coco-2017/validation' if necessary
+Downloading annotations to '/Users/automake/fiftyone/coco-2017/tmp-download/annotations_trainval2017.zip'
+  64% |█████████████████████████████████████████████████████████████████████████████/-------------------------------------------|    1.2Gb/1.9Gb [14.3s elapsed, 6.2s remaining, 132.4Mb/s]
+```
