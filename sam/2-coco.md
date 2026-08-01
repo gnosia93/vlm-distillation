@@ -138,4 +138,6 @@ Downloading split 'validation' to '/Users/automake/fiftyone/coco-2017/validation
 Downloading annotations to '/Users/automake/fiftyone/coco-2017/tmp-download/annotations_trainval2017.zip'
   64% |█████████████████████████████████████████████████████████████████████████████/-------------------------------------------|    1.2Gb/1.9Gb [14.3s elapsed, 6.2s remaining, 132.4Mb/s]
 ```
+
+#### 웹 브라이저 UI ####
 ![](https://github.com/gnosia93/vlm-distillation/blob/main/images/coco-webui.png)
