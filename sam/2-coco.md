@@ -94,7 +94,7 @@ python3 -m venv .venv
 source .venv/bin/activate
 pip install fiftyone pycocotools
 ```
-데이터 셋을 다운로드 받기 위해서 스크립트를 실행한다. 
+데이터 셋을 다운로드 받기 위해서 스크립트를 실행한다. 데이터셋은 ~/fiftyone/coco-2017 디렉토리에 저장된다.  
 ```
 cat <<'EOF' > coco.py
 import fiftyone as fo
