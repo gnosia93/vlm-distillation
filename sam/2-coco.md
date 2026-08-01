@@ -88,8 +88,7 @@ data/
 
 ## Roboflow Universe ##
 
-### roboflow.com 가입 ###
-
+* https://app.roboflow.com/login 에서 회원 가입
 * Settings → API Key 복사 (rf_xxxx)
 
 ### Python SDK 로 데이터 다운로드 받기 ###
