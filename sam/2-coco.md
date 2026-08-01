@@ -86,32 +86,23 @@ data/
 > 영상 직접 업로드 + 추적 보간: CVAT는 영상에서 한 프레임 라벨 후 다음 프레임으로 보간/추적하는 기능도 있어, 연속 프레임 라벨링을 더 줄일 수 있다. (트래킹 데이터에 유용).
 > train/valid 분리는 라벨링 전에 정해두면 편함 (같은 영상 프레임이 train·valid에 섞이면 누수 위험 → 영상 단위로 분리 권장).
 
-## Roboflow Universe ##
+## COCO 데이터셋 준비 ##
 
-* https://app.roboflow.com/login 에서 회원 가입 -> Public Plan 선택 -> Create Workspace 
-* Settings → Private API Key 복사
-
-### 데이터셋 다운로드 ###
-* https://universe.roboflow.com/microsoft/coco-dataset-vdnr1
-* /Fork Dataset/ 버튼 클릭 -> 팝업창에서 /Fork Dataset/ 클릭
-  
-
-### Python SDK 로 데이터 다운로드 받기 ###
 ```
-python3 -m venv .venv
-source .venv/bin/activate
-pip install roboflow python-dotenv
-
-export ROBOFLOW_API_KEY=xcI6your_private_api_key_here
+pip install fiftyone
 ```
-```
-from roboflow import Roboflow
 
-api_key = os.getenv("ROBOFLOW_API_KEY")
-rf = Roboflow(api_key=api_key)
-
-project = rf.workspace("워크스페이스명").project("프로젝트명")
-dataset = project.version(1).download("coco-segmentation")   # 또는 "coco"
-print(dataset.location)   # 다운로드된 경로
 ```
-* 워크스페이스/프로젝트/버전 이름은 데이터셋마다 다르니, 각 데이터셋 페이지의 코드 스니펫을 복사해서 쓰는 게 정확하다.
+import fiftyone as fo
+import fiftyone.zoo as foz
+
+# COCO 2017 데이터셋 중 validation 세트에서 100장만 다운로드
+dataset = foz.load_zoo_dataset(
+    "coco-2017",
+    split="validation",
+    max_samples=100
+)
+
+# 다운로드된 데이터셋 시각화 (웹 브라우저/셀에 UI 실행)
+session = fo.launch_app(dataset)
+```
