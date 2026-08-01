@@ -92,7 +92,7 @@ data/
 ```
 python3 -m venv .venv
 source .venv/bin/activate
-pip install fiftyone
+pip install fiftyone pycocotools
 ```
 데이터 셋을 다운로드 받기 위해서 스크립트를 실행한다. 
 ```
