@@ -28,7 +28,7 @@
 #### 3. 학습 모델 범위 (LoRA 활용) ####
 * 무거운 Image Encoder는 고정(Freeze)하고 Mask Decoder 부분만 LoRA(Low-Rank Adaptation) 방식으로 파인튜닝하는 것을 권장. 데이터가 500~1,000장 수준으로 적어도 과적합 없이 빠른 수렴이 가능.
 
-> ![NOTE] 추천 진행 순서:
+> **Note** 추천 진행 순서:
 > 
 > 1.	우선 카메라 구도별로 대표 이미지 200~300장을 정밀하게 레이블링.
 > 2.	Mask Decoder / LoRA 기반 1차 파인튜닝을 진행.
