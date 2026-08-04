@@ -39,7 +39,7 @@
 > 2.	Mask Decoder / LoRA 기반 1차 파인튜닝을 진행.
 > 3.	아동이 겹치거나 쪼그려 앉아 인식이 깨지는 오류 구간(Hard Negative) 이미지 300~500장을 추가 발굴하여 보완 학습시키는 순서로 진행하는 것이 가장 비용 효율적
 
-### 디코더 ###
+### 파인 튜닝 대상 Mask Decoder  ###
 
 #### SAM 3 아키텍처 (Segment Anything with Concepts, Meta 2025) ####
 
