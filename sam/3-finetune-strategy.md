@@ -109,3 +109,48 @@ SAM 1/2와 가장 큰 차이는 텍스트/예시 프롬프트로 "개념(concept
 
 SAM 2 대비 체감 차이는, 예전엔 "사람을 박스로 찍어줘야" 했던 걸 SAM 3는 "child" 같은 텍스트 한 줄로 프레임 내 전원을 한 번에 잡아준다는 점입니다. 즉 검출기가 내장돼
 별도 YOLO 계열 디텍터를 붙일 필요가 줄어든다.
+
+## Text Alignment ##
+비전 인코더(Vision Encoder)는 완전히 동결(Freeze)한 상태에서 텍스트와 비전 간 정렬(Alignment) 성능을 끌어올리기 위해서는 텍스트 인코더 자체 또는 비전-텍스트를 이어주는 중간 레이어(Fusion Encoder)만 선택적으로 트레이닝 한다.
+SAM 3 구조를 활용하여 텍스트 정렬 부분만 파인튜닝할 수 있는 핵심 기법과 단계별 접근법은 다음과 같다.
+
+### 1. 파라미터 고정(Freezing) 설정 전략 ###
+가장 기본이자 핵심은 비전 인코더의 가중치 업데이트를 차단하고, 학습시킬 모듈의 requires_grad만 True로 설정하는 것이다.
+
+*	Vision Encoder (PE ViT): requires_grad = False (완전 동결)
+*	Fusion Encoder (Cross-Attention 영역): requires_grad = True (학습)
+* Text Encoder (선택 사항):
+  * 방법 A (LoRA 적용 - 추천): Text Encoder 전체를 튜닝하면 범용 언어 능력이 파괴(Catastrophic Forgetting)될 수 있으므로, **LoRA(Low-Rank Adaptation)**를 텍스트 인코더에만 붙여서 정렬 성능을 개선
+  * 방법 B (Projection Layer만 학습): Text Encoder 자체는 Frozen 상태로 두고, 텍스트 토큰을 Fusion Encoder로 보내는 마지막 선형 투영 레이어(Text Projection Head)만 학습
+
+### 2. 추천하는 3가지 파인튜닝 기법
+
+#### ① LoRA (Low-Rank Adaptation)를 이용한 텍스트 인코더 튜닝 ####
+텍스트 인코더의 Self-Attention 레이어(‭$W_q, W_v$‬‭‬ ‭‬)에 LoRA 어댑터를 삽입
+
+⚬	장점: 파라미터 추가량이 전체의 1% 미만으로 극히 적으면서도, 도메인 특화 단어(예: 의료용어, 공장 불량 명칭 등)와 비전 특징 간 정렬 능력을 대폭 끌어올릴 수 있다.
+
+#### ② Fusion Encoder의 Cross-Attention 집중 튜닝 ####
+이미지와 텍스트 토큰이 만나는 Fusion Encoder 내부의 Cross-Attention 및 Feed-Forward Network(FFN) 레이어만 가중치를 열어둔다.
+
+⚬	원리: 이미 추출된 강인한 비전 패치 임베딩을 바탕으로, 입력된 텍스트 Query가 비전의 어느 위치를 참조(Attend)해야 하는지 매핑 규칙만 재학습한다.
+
+#### ③ Soft Prompt Tuning / Prefix Tuning (Text Prompt Encoder) ####
+텍스트 인코더 전단에 학습 가능한 연속적인 임베딩 벡터(Virtual Tokens)를 붙여 학습하는 방식이다.
+
+⚬	원리: "아이", "모자"라는 단어 앞에 학습 가능한 프롬프트 토큰 ‭$[P_1][P_2]\dots$‬‭‬‭‬‭‬‭‬‭‬‭‬를 주입하여, 비전 특징과 잘 맞물리도록 텍스트 표현을 유연하게 변형한다.
+
+### 3. 손실 함수(Loss) 구성 방안 ###
+
+텍스트 정렬(Alignment) 향상이 목적이므로 다음과 같은 손실 함수 조합을 사용한다.
+
+1.	Contrastive Loss / Region-Text Alignment Loss:
+
+⚬	입력한 텍스트 프롬프트 벡터와 Detector/Mask Head에서 추출된 해당 인스턴스 영역의 비전 벡터 간 코사인 유사도를 높이도록 학습한다.
+
+2.	Presence Loss (Presence Head):
+
+⚬	이미지 내에 해당 텍스트 프롬프트 개념이 실제 존재하는지 판단하는 분류 손실(BCE Loss)을 함께 학습시켜 거짓 긍정(False Positive)을 줄인다.
+
+
+
