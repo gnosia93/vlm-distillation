@@ -25,7 +25,7 @@
 #### 3. 학습 모델 범위 (LoRA 활용) ####
 * 무거운 Image Encoder는 고정(Freeze)하고 Mask Decoder 부분만 LoRA(Low-Rank Adaptation) 방식으로 파인튜닝하는 것을 권장. 데이터가 500~1,000장 수준으로 적어도 과적합 없이 빠른 수렴이 가능.
 
-> [!INFORMATION]
+> [!INFORMATION]  
 > SAM에서 Image Encoder는 Freeze, Mask Decoder만 LoRA로 학습하는 이유:
 > 
 > - 인코더 Freeze: 파라미터의 90% 이상을 차지해 학습 비용이 크고, 이미 수십억 마스크로 학습돼 시각 특징 추출 능력이 완성형. 건드리면 일반화 성능만 잃음(파괴적 망각).
