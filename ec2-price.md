@@ -32,10 +32,8 @@ _* ICN Region_
 | **P4** | NVIDIA A100 (Ampere) | 40 / 80GB | FP16 312 (dense) | 1.6~2.0 TB/s | 이전 세대 학습 표준 | p4d=40GB, p4de=80GB |
 | **P5** | NVIDIA H100 (Hopper) | 80GB | FP8 1,979 / FP16 989 (dense) | 3.35 TB/s | 대규모 LLM 학습·추론 | HBM3 |
 | **P5e / P5en** | NVIDIA H200 (Hopper) | 141GB | FP8 1,979 / FP16 989 (dense) | 4.8 TB/s | H100과 연산 동일, 메모리·대역폭 강화 | HBM3e / `e`=메모리, `n`=네트워킹 강화 |
-| **P6-B200** | NVIDIA Blackwell B200 | 192GB | FP4 9,000 / FP8 4,500 (dense) | 8.0 TB/s | P5en 대비 메모리 대역폭 +60%, EFAv4 최대 3.2Tbps | HBM3e, Emerald Rapids Xeon, 시스템 2TiB |
-| **P6-B300** | NVIDIA Blackwell Ultra (B300) | 약 288GB × 8¹ | B200 대비 약 1.5배 | 8.0 TB/s 이상 | EFA 6.4Tbps, ENA 300Gbps, B200 대비 네트워크 2배 | HBM3e, 시스템 4TB |
-| **P6e-GB200**(UltraServer) | NVIDIA Grace Blackwell GB200 NVL72 | 총 13.4TB HBM3e | 360,000 (=360 PFLOPS FP8, dense)² | NVLink 도메인 통합 | 최대 72 GPU를 단일 NVLink 도메인으로 결합 | 초거대 모델용 |
-| **P6e-GB300**(UltraServer) | NVIDIA GB300 NVL72 | GB200 대비 약 1.5배 | GB200 대비 약 1.5배² | NVLink 도메인 통합 | GB200 대비 메모리·TFLOPS 1.5배 | 최상위 구성 |
+| **P6-B200** | NVIDIA Blackwell B200 | 180GB | FP4 9,000 / FP8 4,500 (dense) | 8.0 TB/s | P5en 대비 메모리 대역폭 +60%, EFAv4 최대 3.2Tbps | HBM3e, Emerald Rapids Xeon, 시스템 2TiB |
+| **P6-B300** | NVIDIA Blackwell Ultra (B300) | 약 268GB | B200 대비 약 1.5배 | 8.0 TB/s 이상 | EFA 6.4Tbps, ENA 300Gbps, B200 대비 네트워크 2배 | HBM3e, 시스템 4TB |
 
 #### 각주 ####
 1. NVIDIA 단일 GPU 원사양은 B200 = 192GB, Blackwell Ultra(B300) ≈ 288GB HBM3e. AWS는 P6-B200을 "총 1,440GB", P6-B300을 "총 2.1TB"로 안내하며, 이는 인스턴스에서 노출/할당되는 값 기준이라 원사양 단순 합산과 차이가 있다.
