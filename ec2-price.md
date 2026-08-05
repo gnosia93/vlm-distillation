@@ -39,7 +39,7 @@ EC2의 P 계열은 딥러닝 학습·추론과 HPC에 특화된 GPU 가속 인�
 | P6-B200 | 텐서코어 5세대 - [NVIDIA BW B200](https://www.nvidia.com/ko-kr/data-center/hgx/) | Blackwell | 180GB | FP32-600, FP16-36P FP8-72P, FP4-144P | HBM3e 7.7 TB/s | NVLink 1.8 TB/s |  |
 | P6-B300 | 텐서코어 5세대 - [NVIDIA BW B300](https://www.nvidia.com/ko-kr/data-center/hgx/) | Blackwell | 268GB | FP32-600, FP16-36P FP8-72P, FP4-144P  | HBM3e 7.7 TB/s | NVLink 1.8 TB/s |  |
 
-
+..
 ### Price ###
 
 * https://instances.vantage.sh/aws/ec2/p4d.24xlarge?currency=USD&region=ap-northeast-2
