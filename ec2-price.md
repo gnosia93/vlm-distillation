@@ -22,6 +22,35 @@ _* ICN Region_
 | g7e | 텐서코어 5세대 - [NVIDIA RTX PRO 6000 BW](https://www.nvidia.com/en-us/data-center/rtx-pro-6000-blackwell-server-edition/) | Blackwell | 96GB | FP32-120, FP16-1P, FP8-2P | **GDDR7 ~1.6 TB/s** | + **Flash Attention 3/4, FP4** | **G6e 인스턴스 대비 최대 2.3배의 추론 성능 성능 향상**, G6e 인스턴스 대비 최대 4배의 GPU 간 통신 대역폭 및 4배의 EFA(Elastic Fabric Adapter) 네트워크 대역폭 제공, EFA를 통해 최대 1600Gbps의 네트워크 대역폭 지원, 최대 15.2TB의 로컬 NVMe SSD 스토리지 제공. |
 
 
+### P 시리즈 스팩 비교 ###
+
+> EC2의 P 계열은 딥러닝 학습·추론과 HPC에 특화된 GPU 가속 인스턴스로, 세대마다 최신 NVIDIA 데이터센터 GPU를 탑재한다.
+> 연산성능·대역폭은 **GPU 1개 기준의 NVIDIA 공표 피크값**이며(별도 표기 제외), 정밀도(FP16/FP8/FP4)와 sparsity 적용 여부에 따라 달라진다.
+
+| 패밀리 | GPU 아키텍처 | GPU 메모리 | 연산성능(TFLOPS) | 대역폭 | 주요특징 | 비고 |
+|--------|-------------|-----------|------------------|--------|---------|------|
+| **P4** | NVIDIA A100 (Ampere) | 40 / 80GB × 8 | FP16 312 (dense) | 1.6~2.0 TB/s | 이전 세대 학습 표준 | p4d=40GB, p4de=80GB |
+| **P5** | NVIDIA H100 (Hopper) | 80GB × 8 (총 640GB) | FP8 1,979 / FP16 989 (dense) | 3.35 TB/s | 대규모 LLM 학습·추론 | HBM3 |
+| **P5e / P5en** | NVIDIA H200 (Hopper) | 141GB × 8 (총 1,128GB) | FP8 1,979 / FP16 989 (dense) | 4.8 TB/s | H100과 연산 동일, 메모리·대역폭 강화 | HBM3e / `e`=메모리, `n`=네트워킹 강화 |
+| **P6-B200** | NVIDIA Blackwell B200 | 192GB × 8¹ | FP4 9,000 / FP8 4,500 (dense) | 8.0 TB/s | P5en 대비 메모리 대역폭 +60%, EFAv4 최대 3.2Tbps | HBM3e, Emerald Rapids Xeon, 시스템 2TiB |
+| **P6-B300** | NVIDIA Blackwell Ultra (B300) | 약 288GB × 8¹ | B200 대비 약 1.5배 | 8.0 TB/s 이상 | EFA 6.4Tbps, ENA 300Gbps, B200 대비 네트워크 2배 | HBM3e, 시스템 4TB |
+| **P6e-GB200**(UltraServer) | NVIDIA Grace Blackwell GB200 NVL72 | 총 13.4TB HBM3e | 360,000 (=360 PFLOPS FP8, dense)² | NVLink 도메인 통합 | 최대 72 GPU를 단일 NVLink 도메인으로 결합 | 초거대 모델용 |
+| **P6e-GB300**(UltraServer) | NVIDIA GB300 NVL72 | GB200 대비 약 1.5배 | GB200 대비 약 1.5배² | NVLink 도메인 통합 | GB200 대비 메모리·TFLOPS 1.5배 | 최상위 구성 |
+
+#### 각주 ####
+1. NVIDIA 단일 GPU 원사양은 B200 = 192GB, Blackwell Ultra(B300) ≈ 288GB HBM3e. AWS는 P6-B200을 "총 1,440GB", P6-B300을 "총 2.1TB"로 안내하며, 이는 인스턴스에서 노출/할당되는 값 기준이라 원사양 단순 합산과 차이가 있다.
+2. P6e 계열의 연산성능은 GPU 1개가 아니라 **UltraServer(최대 72 GPU) 전체** 기준이다. 나머지 P4~P6은 GPU 1개 기준이므로 직접 비교 시 유의.
+
+#### 접미사 의미 ####
+- `e` : 메모리(HBM) 강화 버전 (예: P5e = H200)
+- `n` : 네트워킹 강화 버전
+- `GB`: Grace CPU + Blackwell GPU 슈퍼칩(NVL72)
+- `UltraServer`: 여러 노드를 NVLink로 묶어 다수 GPU를 하나처럼 사용하는 구성
+
+
+
+
+
 ### Price ###
 
 * https://instances.vantage.sh/aws/ec2/p4d.24xlarge?currency=USD&region=ap-northeast-2
