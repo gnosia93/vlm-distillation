@@ -12,6 +12,7 @@ _* ICN Region_
 * [g5.48xlarge](https://aws.amazon.com/ko/ec2/instance-types/g5/) - USD 20.02809 - NVIDIA A10G x 8개 (GPU당 24GB) -> 1/4/8
 * [g4dn.metal](https://aws.amazon.com/ko/ec2/instance-types/g4/) - USD 9.624 - NVIDIA T4 x 4개 (GPU당 16 GB) -> 1/4/Metal 8
 
+![](https://github.com/gnosia93/vlm-distillation/blob/main/images/blank-space.png)
 
 
 ### G 시리즈 스팩 비교 ###
@@ -25,6 +26,7 @@ _* ICN Region_
 | g7 | 텐서코어 5세대 - [NVIDIA RTX PRO 4500 BW](https://www.nvidia.com/en-us/products/workstations/professional-desktop-gpus/rtx-pro-4500/) | Blackwell | 32GB | | |  |.  |
 | g7e | 텐서코어 5세대 - [NVIDIA RTX PRO 6000 BW](https://www.nvidia.com/en-us/data-center/rtx-pro-6000-blackwell-server-edition/) | Blackwell | 96GB | FP32-120, FP16-1P, FP8-2P | **GDDR7 ~1.6 TB/s** | + **Flash Attention 3/4, FP4** | **G6e 인스턴스 대비 최대 2.3배의 추론 성능 성능 향상**, G6e 인스턴스 대비 최대 4배의 GPU 간 통신 대역폭 및 4배의 EFA(Elastic Fabric Adapter) 네트워크 대역폭 제공, EFA를 통해 최대 1600Gbps의 네트워크 대역폭 지원, 최대 15.2TB의 로컬 NVMe SSD 스토리지 제공. |
 
+![](https://github.com/gnosia93/vlm-distillation/blob/main/images/blank-space.png)
 
 
 ### P 시리즈 스팩 비교 ###
@@ -39,7 +41,7 @@ EC2의 P 계열은 딥러닝 학습·추론과 HPC에 특화된 GPU 가속 인�
 | P6-B200 | 텐서코어 5세대 - [NVIDIA BW B200](https://www.nvidia.com/ko-kr/data-center/hgx/) | Blackwell | 180GB | FP32-600, FP16-36P FP8-72P, FP4-144P | HBM3e 7.7 TB/s | NVLink 1.8 TB/s, EFA 3.2Tbps  | P5en 인스턴스에 비해 최대 2.25배 높은 연산성능, **+ Flash Attention 4**   |
 | P6-B300 | 텐서코어 5세대 - [NVIDIA BW B300](https://www.nvidia.com/ko-kr/data-center/hgx/) | Blackwell | 268GB | FP32-600, FP16-36P FP8-72P, FP4-144P  | HBM3e 7.7 TB/s | NVLink 1.8 TB/s, EFA 6.4Tbps |  -  |
 
-
+![](https://github.com/gnosia93/vlm-distillation/blob/main/images/blank-space.png)
 
 ### FlashAttention ###
 
