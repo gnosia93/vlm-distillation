@@ -38,8 +38,8 @@ EC2의 P 계열은 딥러닝 학습·추론과 HPC에 특화된 GPU 가속 인�
 | P4e / P4de | 텐서코어 3세대 - [NVIDIA A100](https://www.nvidia.com/ko-kr/data-center/a100/) | Ampere | 40 or 80GB | FP32-19.5, FP16-312, INT8-624 | HBM2e 1.6 or 2.0 TB/s | NVLink 600GB/s, EFA 400Gbps | **Flash Attention 1/2**  |
 | P5 | 텐서코어 4세대 - [NVIDIA H100](https://www.nvidia.com/ko-kr/data-center/h100/) | Hopper | 80GB | FP32-67, FP16-1.9P FP8-3.9P | HBM3 3.35 TB/s | NVLink 900GB/s, EFA 3.2Tbps | P4 대비 최대 4배 연산성능, 100B+ 모델훈련, **+ Flash Attention 3**  |
 | P5e / P5en | 텐서코어 4세대 - [NVIDIA H200](https://www.nvidia.com/ko-kr/data-center/h200/) | Hopper | 141GB | FP32-67, FP16-1.9P FP8-3.9P  | HBM3 4.8 TB/s | NVLink 900GB/s, EFA 3.2Tbps  | - |
-| P6-B200 | 텐서코어 5세대 - [NVIDIA BW B200](https://www.nvidia.com/ko-kr/data-center/hgx/) | Blackwell | 180GB | FP32-600, FP16-36P FP8-72P, FP4-144P | HBM3e 7.7 TB/s | NVLink 1.8 TB/s, EFA 3.2Tbps  | P5en 인스턴스에 비해 최대 2.25배 높은 연산성능, **+ Flash Attention 4**   |
-| P6-B300 | 텐서코어 5세대 - [NVIDIA BW B300](https://www.nvidia.com/ko-kr/data-center/hgx/) | Blackwell | 268GB | FP32-600, FP16-36P FP8-72P, FP4-144P  | HBM3e 7.7 TB/s | NVLink 1.8 TB/s, EFA 6.4Tbps |  -  |
+| P6-B200 | 텐서코어 5세대 - [NVIDIA BW B200](https://www.nvidia.com/ko-kr/data-center/hgx/) | Blackwell | 180GB | FP32-600, FP16-2.25P FP8-4.5P, FP4-9P | HBM3e 7.7 TB/s | NVLink 1.8 TB/s, EFA 3.2Tbps  | P5en 인스턴스에 비해 최대 2.25배 높은 연산성능, **+ Flash Attention 4**   |
+| P6-B300 | 텐서코어 5세대 - [NVIDIA BW B300](https://www.nvidia.com/ko-kr/data-center/hgx/) | Blackwell | 268GB | FP32-600, FP16-2.25P FP8-4.5P, FP4-9P  | HBM3e 7.7 TB/s | NVLink 1.8 TB/s, EFA 6.4Tbps |  -  |
 
 ![](https://github.com/gnosia93/vlm-distillation/blob/main/images/blank-space.png)
 
