@@ -39,6 +39,18 @@ EC2의 P 계열은 딥러닝 학습·추론과 HPC에 특화된 GPU 가속 인�
 | P6-B300 | 텐서코어 5세대 - [NVIDIA BW B300](https://www.nvidia.com/ko-kr/data-center/hgx/) | Blackwell | 268GB | FP32-600, FP16-36P FP8-72P, FP4-144P  | HBM3e 7.7 TB/s | NVLink 1.8 TB/s, EFA 6.4Tbps | P5en 인스턴스에 비해 최대 2.25배 높은 연산성능  |
 
 ..
+
+### FlashAttention ###
+
+| 버전 | 대상 GPU | 핵심 혁신 | 해결한 병목 |
+|------|----------|-----------|-------------|
+| FA1 (2022) | A100 (Ampere) | Tiling + online softmax + recompute | HBM I/O, O(N²) 메모리 |
+| FA2 (2023) | A100 등 | 병렬화·작업분할 개선, non-matmul 감소 | 낮은 GPU 활용률 |
+| FA3 (2024) | H100 (Hopper) | 비동기 실행, warp specialization, FP8 | 연산·데이터이동 오버랩 |
+| FA4 (2025~26) | B200 (Blackwell) | 알고리즘·커널 co-design, exp 근사, CuTe-DSL | 비대칭 스케일링(SFU·공유메모리) |
+
+**"exact attention을 유지하면서, 매 세대 GPU에서 새로 생긴 병목을 찾아 최적화한다"**, FA1~2는 메모리 I/O, FA3는 Hopper의 비동기성, FA4는 Blackwell에서 텐서코어만 빨라지고 나머지는 안 따라온 불균형 제거.
+
 ### Price ###
 
 * https://instances.vantage.sh/aws/ec2/p4d.24xlarge?currency=USD&region=ap-northeast-2
