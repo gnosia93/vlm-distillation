@@ -27,13 +27,13 @@ _* ICN Region_
 > EC2의 P 계열은 딥러닝 학습·추론과 HPC에 특화된 GPU 가속 인스턴스로, 세대마다 최신 NVIDIA 데이터센터 GPU를 탑재한다.
 > 연산성능·대역폭은 **GPU 1개 기준의 NVIDIA 공표 피크값**이며(별도 표기 제외), 정밀도(FP16/FP8/FP4)와 sparsity 적용 여부에 따라 달라진다.
 
-| 패밀리 | GPU 아키텍처 | GPU 메모리 | 연산성능(TFLOPS) | 대역폭 | 주요특징 | 비고 |
+| 패밀리 | GPU 아키텍처 | 아키텍처 | GPU 메모리 | 연산성능(TFLOPS) | 대역폭 | 주요특징 | 비고 |
 |--------|-------------|-----------|------------------|--------|---------|------|
-| **P4** | NVIDIA A100 (Ampere) | 40 / 80GB | FP16 312 | 1.6 / 2.0 TB/s | 이전 세대 학습 표준 | p4d=40GB, p4de=80GB |
-| **P5** | NVIDIA H100 (Hopper) | 80GB | FP8 1,979 / FP16 989 | 3.35 TB/s | 대규모 LLM 학습·추론 |  |
-| **P5e / P5en** | NVIDIA H200 (Hopper) | 141GB | FP8 1,979 / FP16 989 | 4.8 TB/s | H100과 연산 동일, 메모리·대역폭 강화 | |
-| **P6-B200** | NVIDIA Blackwell B200 | 180GB | FP4 9,000 / FP8 4,500 | 7.7 TB/s | P5en 대비 메모리 대역폭 +60%, EFAv4 최대 3.2Tbps |  |
-| **P6-B300** | NVIDIA Blackwell Ultra (B300) | 268GB | B200 대비 약 1.5배 | 7.7 TB/s | EFA 6.4Tbps, ENA 300Gbps, B200 대비 네트워크 2배 |  |
+| **P4** | NVIDIA A100 | (Ampere) | 40 / 80GB | FP16 312 | 1.6 / 2.0 TB/s | 이전 세대 학습 표준 | p4d=40GB, p4de=80GB |
+| **P5** | NVIDIA H100 | (Hopper) | 80GB | FP8 1,979 / FP16 989 | 3.35 TB/s | 대규모 LLM 학습·추론 |  |
+| **P5e / P5en** | NVIDIA H200 | (Hopper) | 141GB | FP8 1,979 / FP16 989 | 4.8 TB/s | H100과 연산 동일, 메모리·대역폭 강화 | |
+| **P6-B200** | NVIDIA Blackwell B200 | Blackwell | 180GB | FP4 9,000 / FP8 4,500 | 7.7 TB/s | P5en 대비 메모리 대역폭 +60%, EFAv4 최대 3.2Tbps |  |
+| **P6-B300** | NVIDIA Blackwell Ultra (B300)| Blackwell | 268GB | B200 대비 약 1.5배 | 7.7 TB/s | EFA 6.4Tbps, ENA 300Gbps, B200 대비 네트워크 2배 |  |
 
 #### 각주 ####
 1. NVIDIA 단일 GPU 원사양은 B200 = 192GB, Blackwell Ultra(B300) ≈ 288GB HBM3e. AWS는 P6-B200을 "총 1,440GB", P6-B300을 "총 2.1TB"로 안내하며, 이는 인스턴스에서 노출/할당되는 값 기준이라 원사양 단순 합산과 차이가 있다.
