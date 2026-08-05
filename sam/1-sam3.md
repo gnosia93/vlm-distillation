@@ -5,6 +5,7 @@ SAM 3(Segment Anything Model 3)는 Meta가 개발한 세그멘테이션 파운�
 SAM 3의 핵심 능력은 PCS(Promptable Concept Segmentation, 개념 기반 분할)이다. 입력으로는 이미지 또는 영상과 함께 프롬프트를 받는데, 프롬프트는 child나 yellow school bus 같은 짧은 명사구 형태의 텍스트 개념, 참조용 이미지 예시(exemplar), 또는 점·박스·마스크 같은 기하학적 프롬프트가 될 수 있다. 이에 대해 SAM 3는 픽셀 단위 실루엣인 마스크와 바운딩 박스, 각 객체를 구분하는 인스턴스 ID를 출력하며, 영상의 경우 프레임 간 추적 트랙까지 함께 제공한다. 특히 클릭 하나로 객체 하나를 잡던 기존 방식과 달리, 개념에 맞는 모든 인스턴스를 한 번에 찾아낸다는 점이 특징이다. 예를 들어 child라는 프롬프트를 주면 화면 속 아이 전부를 동시에 분할한다.
 
 ![](https://github.com/gnosia93/vlm-distillation/blob/main/images/sam3-arch.png)
+![]()
 
 - Vision Encoder: 이미지를 특징으로 변환 (Detector·Tracker가 공유)
 - Detector: 텍스트/예시 프롬프트로 객체 탐지·분할 (DETR 기반, 박스+분류)
