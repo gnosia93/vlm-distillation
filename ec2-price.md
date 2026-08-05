@@ -28,11 +28,11 @@ EC2의 P 계열은 딥러닝 학습·추론과 HPC에 특화된 GPU 가속 인�
 
 | 패밀리 | GPU 아키텍처 | 아키텍처 | GPU 메모리 | 연산성능(TFLOPS) | 대역폭 | 주요특징 | 비고 |
 |--------|--------|-----|-----------|------------------|--------|---------|------|
-| **P4** | 텐서코어 3세대 - NVIDIA A100 | Ampere | 40 / 80GB | FP16 312 | HBM2 1.6 / 2.0 TB/s | 이전 세대 학습 표준 | p4d=40GB, p4de=80GB |
-| **P5** | 텐서코어 4세대 - NVIDIA H100 | Hopper | 80GB | FP8 1,979 / FP16 989 | HBM3 3.35 TB/s | 대규모 LLM 학습·추론 |  |
-| **P5e / P5en** | 텐서코어 4세대 - NVIDIA H200 | Hopper | 141GB | FP8 1,979 / FP16 989 | HBM3 4.8 TB/s | H100과 연산 동일, 메모리·대역폭 강화 | |
-| **P6-B200** | 텐서코어 5세대 - NVIDIA BW B200 | Blackwell | 180GB | FP4 9,000 / FP8 4,500 | HBM3e 7.7 TB/s | P5en 대비 메모리 대역폭 +60%, EFAv4 최대 3.2Tbps |  |
-| **P6-B300** | 텐서코어 5세대 - NVIDIA BW B300| Blackwell | 268GB | B200 대비 약 1.5배 | HBM3e 7.7 TB/s | EFA 6.4Tbps, ENA 300Gbps, B200 대비 네트워크 2배 |  |
+| **P4** | 텐서코어 3세대 - NVIDIA A100 | Ampere | 40 / 80GB | FP16 312 | HBM2 1.6 / 2.0 TB/s | - | p4d=40GB, p4de=80GB |
+| **P5** | 텐서코어 4세대 - NVIDIA H100 | Hopper | 80GB | FP8 1,979 / FP16 989 | HBM3 3.35 TB/s | - |  |
+| **P5e / P5en** | 텐서코어 4세대 - NVIDIA H200 | Hopper | 141GB | FP8 1,979 / FP16 989 | HBM3 4.8 TB/s | - | |
+| **P6-B200** | 텐서코어 5세대 - NVIDIA BW B200 | Blackwell | 180GB | FP4 9,000 / FP8 4,500 | HBM3e 7.7 TB/s | - |  |
+| **P6-B300** | 텐서코어 5세대 - NVIDIA BW B300| Blackwell | 268GB | B200 대비 약 1.5배 | HBM3e 7.7 TB/s | - |  |
 
 
 ### Price ###
