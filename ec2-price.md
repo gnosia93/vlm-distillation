@@ -24,8 +24,7 @@ _* ICN Region_
 
 ### P 시리즈 스팩 비교 ###
 
-> EC2의 P 계열은 딥러닝 학습·추론과 HPC에 특화된 GPU 가속 인스턴스로, 세대마다 최신 NVIDIA 데이터센터 GPU를 탑재한다.
-> 연산성능·대역폭은 **GPU 1개 기준의 NVIDIA 공표 피크값**이며(별도 표기 제외), 정밀도(FP16/FP8/FP4)와 sparsity 적용 여부에 따라 달라진다.
+EC2의 P 계열은 딥러닝 학습·추론과 HPC에 특화된 GPU 가속 인스턴스로, 세대마다 최신 NVIDIA 데이터센터 GPU를 탑재.
 
 | 패밀리 | GPU 아키텍처 | 아키텍처 | GPU 메모리 | 연산성능(TFLOPS) | 대역폭 | 주요특징 | 비고 |
 |--------|--------|-----|-----------|------------------|--------|---------|------|
@@ -34,19 +33,6 @@ _* ICN Region_
 | **P5e / P5en** | 텐서코어 4세대 - NVIDIA H200 | Hopper | 141GB | FP8 1,979 / FP16 989 | HBM 4.8 TB/s | H100과 연산 동일, 메모리·대역폭 강화 | |
 | **P6-B200** | 텐서코어 5세대 - NVIDIA BW B200 | Blackwell | 180GB | FP4 9,000 / FP8 4,500 | HBM 7.7 TB/s | P5en 대비 메모리 대역폭 +60%, EFAv4 최대 3.2Tbps |  |
 | **P6-B300** | 텐서코어 5세대 - NVIDIA BW B300| Blackwell | 268GB | B200 대비 약 1.5배 | HBM 7.7 TB/s | EFA 6.4Tbps, ENA 300Gbps, B200 대비 네트워크 2배 |  |
-
-#### 각주 ####
-1. NVIDIA 단일 GPU 원사양은 B200 = 192GB, Blackwell Ultra(B300) ≈ 288GB HBM3e. AWS는 P6-B200을 "총 1,440GB", P6-B300을 "총 2.1TB"로 안내하며, 이는 인스턴스에서 노출/할당되는 값 기준이라 원사양 단순 합산과 차이가 있다.
-2. P6e 계열의 연산성능은 GPU 1개가 아니라 **UltraServer(최대 72 GPU) 전체** 기준이다. 나머지 P4~P6은 GPU 1개 기준이므로 직접 비교 시 유의.
-
-#### 접미사 의미 ####
-- `e` : 메모리(HBM) 강화 버전 (예: P5e = H200)
-- `n` : 네트워킹 강화 버전
-- `GB`: Grace CPU + Blackwell GPU 슈퍼칩(NVL72)
-- `UltraServer`: 여러 노드를 NVLink로 묶어 다수 GPU를 하나처럼 사용하는 구성
-
-
-
 
 
 ### Price ###
