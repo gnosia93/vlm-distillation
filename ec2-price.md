@@ -1,7 +1,7 @@
 _* ICN Region_
 ![](https://github.com/gnosia93/vlm-distillation/blob/main/images/gpu-compare-2.png)
 
-* [p6](https://aws.amazon.com/ko/ec2/instance-types/p6/)
+* [p6](https://aws.amazon.com/ko/ec2/instance-types/p6/) - us-east-1 기준 p6-b200.48xlarge USD 113.9328, p6-b300.48xlarge USD 142.416
 * [p5e.48xlarge](https://aws.amazon.com/ko/ec2/instance-types/p5/) - USD 87.34848 - NVIDIA H200 Tensor Core GPU x 8개 (GPU당 141GB HBM3) -> 8
 * [p5.48xlarge](https://aws.amazon.com/ko/ec2/instance-types/p5/) - USD 75.9552 - NVIDIA H100 x 8개 (GPU당 80GB HBM3) -> 1/8
 * <img width="12" height="12" alt="download" src="https://github.com/user-attachments/assets/6e5eca91-aaae-4c52-a43d-6f5b24b1dff8" /> [p4d.24xlarge](https://aws.amazon.com/ko/ec2/instance-types/p4/) - USD 30.41028 - NVIDIA A100 Tensor Core GPU x 8개 (GPU당 40GB HBM2) -> 8
