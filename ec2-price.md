@@ -29,10 +29,10 @@ _* ICN Region_
 
 | 패밀리 | GPU 아키텍처 | GPU 메모리 | 연산성능(TFLOPS) | 대역폭 | 주요특징 | 비고 |
 |--------|-------------|-----------|------------------|--------|---------|------|
-| **P4** | NVIDIA A100 (Ampere) | 40 / 80GB | FP16 312 (dense) | 1.6~2.0 TB/s | 이전 세대 학습 표준 | p4d=40GB, p4de=80GB |
-| **P5** | NVIDIA H100 (Hopper) | 80GB | FP8 1,979 / FP16 989 (dense) | 3.35 TB/s | 대규모 LLM 학습·추론 |  |
-| **P5e / P5en** | NVIDIA H200 (Hopper) | 141GB | FP8 1,979 / FP16 989 (dense) | 4.8 TB/s | H100과 연산 동일, 메모리·대역폭 강화 | |
-| **P6-B200** | NVIDIA Blackwell B200 | 180GB | FP4 9,000 / FP8 4,500 (dense) | 7.7 TB/s | P5en 대비 메모리 대역폭 +60%, EFAv4 최대 3.2Tbps |  |
+| **P4** | NVIDIA A100 (Ampere) | 40 / 80GB | FP16 312 | 1.6 / 2.0 TB/s | 이전 세대 학습 표준 | p4d=40GB, p4de=80GB |
+| **P5** | NVIDIA H100 (Hopper) | 80GB | FP8 1,979 / FP16 989 | 3.35 TB/s | 대규모 LLM 학습·추론 |  |
+| **P5e / P5en** | NVIDIA H200 (Hopper) | 141GB | FP8 1,979 / FP16 989 | 4.8 TB/s | H100과 연산 동일, 메모리·대역폭 강화 | |
+| **P6-B200** | NVIDIA Blackwell B200 | 180GB | FP4 9,000 / FP8 4,500 | 7.7 TB/s | P5en 대비 메모리 대역폭 +60%, EFAv4 최대 3.2Tbps |  |
 | **P6-B300** | NVIDIA Blackwell Ultra (B300) | 268GB | B200 대비 약 1.5배 | 7.7 TB/s | EFA 6.4Tbps, ENA 300Gbps, B200 대비 네트워크 2배 |  |
 
 #### 각주 ####
