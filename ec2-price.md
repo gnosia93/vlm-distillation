@@ -30,7 +30,7 @@ EC2의 P 계열은 딥러닝 학습·추론과 HPC에 특화된 GPU 가속 인�
 |--------|--------|-----|-----------|------------------|--------|---------|------|
 | P4e / P4de | 텐서코어 3세대 - [NVIDIA A100](https://www.nvidia.com/ko-kr/data-center/a100/) | Ampere | 40 or 80GB | FP32-19.5, FP16-312, INT8-624 | HBM2e 1.6 or 2.0 TB/s | NVLink 600GB/s, EFA 400Gbps |  |
 | P5 | 텐서코어 4세대 - [NVIDIA H100](https://www.nvidia.com/ko-kr/data-center/h100/) | Hopper | 80GB | FP32-67, FP16-1.9P FP8-3.9P | HBM3 3.35 TB/s | NVLink 900GB/s |  |
-| P5e / P5en | 텐서코어 4세대 - NVIDIA H200 | Hopper | 141GB | FP8 1,979 / FP16 989 | HBM3 4.8 TB/s | - | |
+| P5e / P5en | 텐서코어 4세대 - [NVIDIA H200](https://www.nvidia.com/ko-kr/data-center/h200/) | Hopper | 141GB | FP8 1,979 / FP16 989 | HBM3 4.8 TB/s | - | |
 | P6-B200 | 텐서코어 5세대 - NVIDIA BW B200 | Blackwell | 180GB | FP4 9,000 / FP8 4,500 | HBM3e 7.7 TB/s | - |  |
 | P6-B300 | 텐서코어 5세대 - NVIDIA BW B300| Blackwell | 268GB | B200 대비 약 1.5배 | HBM3e 7.7 TB/s | - |  |
 
