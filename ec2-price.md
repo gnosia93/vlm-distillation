@@ -31,8 +31,8 @@ EC2의 P 계열은 딥러닝 학습·추론과 HPC에 특화된 GPU 가속 인�
 | P4e / P4de | 텐서코어 3세대 - [NVIDIA A100](https://www.nvidia.com/ko-kr/data-center/a100/) | Ampere | 40 or 80GB | FP32-19.5, FP16-312, INT8-624 | HBM2e 1.6 or 2.0 TB/s | NVLink 600GB/s, EFA 400Gbps |  |
 | P5 | 텐서코어 4세대 - [NVIDIA H100](https://www.nvidia.com/ko-kr/data-center/h100/) | Hopper | 80GB | FP32-67, FP16-1.9P FP8-3.9P | HBM3 3.35 TB/s | NVLink 900GB/s |  |
 | P5e / P5en | 텐서코어 4세대 - [NVIDIA H200](https://www.nvidia.com/ko-kr/data-center/h200/) | Hopper | 141GB | FP32-67, FP16-1.9P FP8-3.9P  | HBM3 4.8 TB/s | - | |
-| P6-B200 | 텐서코어 5세대 - [NVIDIA BW B200](https://www.nvidia.com/ko-kr/data-center/hgx/) | Blackwell | 180GB | -| HBM3e 7.7 TB/s | - |  |
-| P6-B300 | 텐서코어 5세대 - [NVIDIA BW B300](https://www.nvidia.com/ko-kr/data-center/hgx/) | Blackwell | 268GB | - | HBM3e 7.7 TB/s | - |  |
+| P6-B200 | 텐서코어 5세대 - [NVIDIA BW B200](https://www.nvidia.com/ko-kr/data-center/hgx/) | Blackwell | 180GB | FP32-600, FP16-36P FP8-72P, FP4-144P | HBM3e 7.7 TB/s | NVLink 1.8 TB/s |  |
+| P6-B300 | 텐서코어 5세대 - [NVIDIA BW B300](https://www.nvidia.com/ko-kr/data-center/hgx/) | Blackwell | 268GB | FP32-600, FP16-36P FP8-72P, FP4-144P  | HBM3e 7.7 TB/s | NVLink 1.8 TB/s |  |
 
 
 ### Price ###
