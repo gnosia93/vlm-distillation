@@ -11,8 +11,7 @@ _* ICN Region_
 * [g4dn.metal](https://aws.amazon.com/ko/ec2/instance-types/g4/) - USD 9.624 - NVIDIA T4 x 4개 (GPU당 16 GB) -> 1/4/Metal 8
 
 
-.
-.
+..
 ### G 시리즈 스팩 비교 ###
 
 | 패밀리 | GPU | 아키텍처 | GPU 메모리 | 연산성능(TFLOPS) | 대역폭 | 주요특징 | 비고 |
@@ -25,8 +24,7 @@ _* ICN Region_
 | g7e | 텐서코어 5세대 - [NVIDIA RTX PRO 6000 BW](https://www.nvidia.com/en-us/data-center/rtx-pro-6000-blackwell-server-edition/) | Blackwell | 96GB | FP32-120, FP16-1P, FP8-2P | **GDDR7 ~1.6 TB/s** | + **Flash Attention 3/4, FP4** | **G6e 인스턴스 대비 최대 2.3배의 추론 성능 성능 향상**, G6e 인스턴스 대비 최대 4배의 GPU 간 통신 대역폭 및 4배의 EFA(Elastic Fabric Adapter) 네트워크 대역폭 제공, EFA를 통해 최대 1600Gbps의 네트워크 대역폭 지원, 최대 15.2TB의 로컬 NVMe SSD 스토리지 제공. |
 
 
-.
-.
+..
 ### P 시리즈 스팩 비교 ###
 
 EC2의 P 계열은 딥러닝 학습·추론과 HPC에 특화된 GPU 가속 인스턴스로, 세대마다 최신 NVIDIA 데이터센터 GPU를 탑재.
