@@ -94,6 +94,80 @@ spec:
 Karpenter는 내부적으로 이미 price-capacity-optimized(가격+용량 균형, 중단 최소화 지향)를 전략을 사용하여 EC2 인스턴스를 프로비저닝 한다. 
 **capacity-type + instance-type + AZ 조합이므로 충분한 인스턴스를 확보할 수 있다.** 
 
+### [Weighted NodePools](https://karpenter.sh/docs/concepts/scheduling/#weighting-nodepools) ###
+```
+# ── NodePool 1: g7/g6/g5 우선 ──────────────────────────────
+apiVersion: karpenter.sh/v1
+kind: NodePool
+metadata:
+name: gpu-preferred
+spec:
+weight: 100                       # 먼저 시도
+template:
+  metadata:
+    labels:
+      gpu: "true"
+  spec:
+    taints:
+      - key: nvidia.com/gpu
+        value: "true"
+        effect: NoSchedule
+    requirements:
+      - key: karpenter.k8s.aws/instance-family
+        operator: In
+        values: ["g7", "g6", "g5"]
+      - key: karpenter.sh/capacity-type
+        operator: In
+        values: ["on-demand"]     # spot도 쓰려면 "spot" 추가
+      - key: kubernetes.io/arch
+        operator: In
+        values: ["amd64"]
+    nodeClassRef:
+      group: karpenter.k8s.aws
+      kind: EC2NodeClass
+      name: default               # 실제 EC2NodeClass 이름으로 교체
+    expireAfter: 720h
+disruption:
+  consolidationPolicy: WhenEmptyOrUnderutilized
+  consolidateAfter: 1m
+---
+# ── NodePool 2: g4dn 폴백 ─────────────────────────────────
+apiVersion: karpenter.sh/v1
+kind: NodePool
+metadata:
+name: gpu-fallback
+spec:
+weight: 10                        # g7/g6/g5 안 되면 여기로
+template:
+  metadata:
+    labels:
+      gpu: "true"
+  spec:
+    taints:
+      - key: nvidia.com/gpu
+        value: "true"
+        effect: NoSchedule
+    requirements:
+      - key: karpenter.k8s.aws/instance-family
+        operator: In
+        values: ["g4dn"]
+      - key: karpenter.sh/capacity-type
+        operator: In
+        values: ["on-demand"]
+      - key: kubernetes.io/arch
+        operator: In
+        values: ["amd64"]
+    nodeClassRef:
+      group: karpenter.k8s.aws
+      kind: EC2NodeClass
+      name: default
+    expireAfter: 720h
+disruption:
+  consolidationPolicy: WhenEmptyOrUnderutilized
+  consolidateAfter: 1m
+```
+
+
 
 ### Indexed Job (배치 인퍼런스, Spot 내성) ###
 ```
