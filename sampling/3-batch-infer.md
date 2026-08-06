@@ -118,7 +118,7 @@ template:
         values: ["g7", "g6", "g5"]
       - key: karpenter.sh/capacity-type
         operator: In
-        values: ["on-demand"]     # spot도 쓰려면 "spot" 추가
+        values: ["spot", "on-demand"]     # spot도 쓰려면 "spot" 추가
       - key: kubernetes.io/arch
         operator: In
         values: ["amd64"]
@@ -153,7 +153,7 @@ template:
         values: ["g4dn"]
       - key: karpenter.sh/capacity-type
         operator: In
-        values: ["on-demand"]
+        values: ["spot", "on-demand"]
       - key: kubernetes.io/arch
         operator: In
         values: ["amd64"]
@@ -166,7 +166,7 @@ disruption:
   consolidationPolicy: WhenEmptyOrUnderutilized
   consolidateAfter: 1m
 ```
-
+인스턴스 할당 시도 순위는  g7/g6/g5 spot → g7/g6/g5 on-demand → g4dn spot → g4dn on-demand 순이다. 
 
 
 ### Indexed Job (배치 인퍼런스, Spot 내성) ###
