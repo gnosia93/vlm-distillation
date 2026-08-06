@@ -45,7 +45,6 @@ EC2의 P 계열은 딥러닝 학습·추론과 HPC에 특화된 GPU 가속 인�
 
 ### FlashAttention ###
 
-![](https://github.com/gnosia93/vlm-distillation/blob/main/images/fa-evol.png)
 
 | 버전 | 대상 GPU | 핵심 혁신 | 해결한 병목 |
 |------|----------|-----------|-------------|
@@ -55,6 +54,8 @@ EC2의 P 계열은 딥러닝 학습·추론과 HPC에 특화된 GPU 가속 인�
 | FA4 (2025~26) | B200 (Blackwell) | 알고리즘·커널 co-design, exp 근사, CuTe-DSL | 비대칭 스케일링(SFU·공유메모리) |
 
 **"exact attention을 유지하면서, 매 세대 GPU에서 새로 생긴 병목을 찾아 최적화한다"**, FA1~2는 메모리 I/O, FA3는 Hopper의 비동기성, FA4는 Blackwell에서 텐서코어만 빨라지고 나머지는 안 따라온 불균형 제거.
+
+![](https://github.com/gnosia93/vlm-distillation/blob/main/images/fa-evol-kr.png)
 
 ### Price ###
 
