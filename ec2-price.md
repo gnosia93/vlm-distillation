@@ -1,4 +1,4 @@
-_* ICN Region_
+_* ap-northeast-2 (seoul region)_
 ![](https://github.com/gnosia93/vlm-distillation/blob/main/images/gpu-compare-2.png)
 
 * [p6-b300.48xlarge](https://aws.amazon.com/ko/ec2/instance-types/p6/) - USD 142.416(_us-east-1_) - NVIDIA BW Tensor Core GPU x 8개 (GPU당 268GB HBM3e) -> 8
