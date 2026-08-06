@@ -63,6 +63,32 @@ spec:
   disruption:
     consolidationPolicy: WhenEmpty
     consolidateAfter: 1m        # 비면 1분 후 노드 정리 → scale to 0
+
+---
+apiVersion: karpenter.k8s.aws/v1
+kind: EC2NodeClass
+metadata:
+  name: gpu
+spec:
+  role: "eksctl-KarpenterNodeRole-${CLUSTER_NAME}"
+  amiSelectorTerms:
+    # Required; when coupled with a pod that requests NVIDIA GPUs or AWS Neuron
+    # devices, Karpenter will select the correct AL2023 accelerated AMI variant
+    # see https://aws.amazon.com/ko/blogs/containers/amazon-eks-optimized-amazon-linux-2023-accelerated-amis-now-available/
+    # EKS GPU Optimized AMI: NVIDIA 드라이버와 CUDA 런타임만 포함된 가벼운 이미지 (Karpenter가 자동으로 선택 가능) 가 설치됨.
+    # 특정 DLAMI 가 필요한 경우 - name : 필드에 정의해야 함. 
+    - alias: al2023@latest
+  subnetSelectorTerms:                          # 해당 리전의 모든 서브넷 us-east-1 의 경우 6개의 AZ 사용.
+    - tags:
+        karpenter.sh/discovery: vlm-cluster 
+  securityGroupSelectorTerms:
+    - tags:
+        karpenter.sh/discovery: vlm-cluster 
+  blockDeviceMappings:
+    - deviceName: /dev/xvda
+      ebs:
+        volumeSize: 600Gi
+        volumeType: gp3
 ```
 
 Karpenter는 내부적으로 이미 price-capacity-optimized(가격+용량 균형, 중단 최소화 지향)를 전략을 사용하여 EC2 인스턴스를 프로비저닝 한다. 
