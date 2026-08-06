@@ -78,7 +78,7 @@ spec:
     # EKS GPU Optimized AMI: NVIDIA 드라이버와 CUDA 런타임만 포함된 가벼운 이미지 (Karpenter가 자동으로 선택 가능) 가 설치됨.
     # 특정 DLAMI 가 필요한 경우 - name : 필드에 정의해야 함. 
     - alias: al2023@latest
-  subnetSelectorTerms:                          # 대상 서브넷으로 태그로 찾으므로, 필요한 만큼의 서브넷(AZ)에 태깅하면 된다. (us-east-1의 경우 6개 AZ)
+  subnetSelectorTerms:                          # 대상 서브넷을 태그로 찾으므로, 필요한 만큼의 서브넷(AZ)에 태깅한다.. (us-east-1의 경우 6개 AZ)
     - tags:
         karpenter.sh/discovery: vlm-distillation 
   securityGroupSelectorTerms:
