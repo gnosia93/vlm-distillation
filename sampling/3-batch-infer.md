@@ -32,9 +32,9 @@ s3://<bucket>/
 
 ```
 
+## 카펜터 ##
 
-
-### 카펜터 GPU 노드풀 ###
+### 1. GPU 노드풀 ###
 ```
 apiVersion: karpenter.sh/v1
 kind: NodePool
@@ -94,7 +94,7 @@ spec:
 Karpenter는 내부적으로 이미 price-capacity-optimized(가격+용량 균형, 중단 최소화 지향)를 전략을 사용하여 EC2 인스턴스를 프로비저닝 한다. 
 **capacity-type + instance-type + AZ 조합이므로 충분한 인스턴스를 확보할 수 있다.** 
 
-### [가중치 기반 노드풀 (Weighted NodePools)](https://karpenter.sh/docs/concepts/scheduling/#weighting-nodepools) ###
+### 2. [가중치 기반 노드풀 (Weighted NodePools)](https://karpenter.sh/docs/concepts/scheduling/#weighting-nodepools) ###
 
 Karpenter의 NodePool weight는 1~100 사이 정수라서 우선순위를 최대 100단계까지 표현할 수 있으며(미지정 시 0), 실무에서는 100·50·10처럼 간격을 넓게 두어 나중에
 중간 단계를 끼워넣을 수 있게 하는 것이 관례이다. 또한 NodePool 개수 자체에는 하드 제한이 없어, weight로 우선순위를 매긴 여러 NodePool을 원하는 만큼 폴백
@@ -173,7 +173,10 @@ disruption:
 * 인스턴스 할당 시도 순위는  g7/g6/g5 spot → g7/g6/g5 on-demand → g4dn spot → g4dn on-demand 순이다. 
 * [테스트 가이드](https://github.com/gnosia93/vlm-distillation/blob/main/sampling/3-karpenter-test.md)
 
-### Indexed Job (배치 인퍼런스, Spot 내성) ###
+
+## Job ##
+
+### 1. Indexed Job (배치 인퍼런스, Spot 내성) ###
 ```
 apiVersion: batch/v1
 kind: Job
@@ -209,7 +212,7 @@ spec:
             # JOB_COMPLETION_INDEX 는 Indexed Job이 자동 주입
 ```
 
-### worker 로직 ###
+### 2. worker 로직 ###
 ```
 import os
 idx   = int(os.environ["JOB_COMPLETION_INDEX"])   # 내 샤드 번호 (자동 주입)
@@ -226,8 +229,7 @@ for it in mine:
     write_to_s3(it["id"], result)        # 결정적 출력 경로
 ```
 
-
-### 실행하기 ### 
+#### 실행하기 #### 
 ```
 # 1) 아이템 manifest를 S3에 올림 (producer)
 # 2) Job apply
@@ -237,9 +239,6 @@ kubectl get pods -w
 # 4) 완료 후 노드 자동 축소 확인
 kubectl get nodes
 ```
-
-### 정리 ###
-
 * 고정 배치면: Karpenter GPU NodePool(Spot·다중타입·scale-to-0) + Indexed Job(샤드) + 멱등 워커. 
 * Spot 내성: podFailurePolicy로 중단 무시 + backoffLimitPerIndex + 워커 멱등성.
 * 비용 최적화: 끝나면 Karpenter가 노드를 0으로 내림.
