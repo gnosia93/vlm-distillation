@@ -170,8 +170,8 @@ disruption:
   consolidationPolicy: WhenEmptyOrUnderutilized
   consolidateAfter: 1m
 ```
-인스턴스 할당 시도 순위는  g7/g6/g5 spot → g7/g6/g5 on-demand → g4dn spot → g4dn on-demand 순이다. 
-
+* 인스턴스 할당 시도 순위는  g7/g6/g5 spot → g7/g6/g5 on-demand → g4dn spot → g4dn on-demand 순이다. 
+* [테스트 가이드](https://github.com/gnosia93/vlm-distillation/blob/main/sampling/3-karpenter-test.md)
 
 ### Indexed Job (배치 인퍼런스, Spot 내성) ###
 ```
