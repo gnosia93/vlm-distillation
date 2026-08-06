@@ -78,12 +78,12 @@ spec:
     # EKS GPU Optimized AMI: NVIDIA 드라이버와 CUDA 런타임만 포함된 가벼운 이미지 (Karpenter가 자동으로 선택 가능) 가 설치됨.
     # 특정 DLAMI 가 필요한 경우 - name : 필드에 정의해야 함. 
     - alias: al2023@latest
-  subnetSelectorTerms:                          # 해당 리전의 모든 서브넷 us-east-1 의 경우 6개의 AZ 사용.
+  subnetSelectorTerms:                          # 대상 서브넷으로 태그로 찾으므로, 필요한 만큼의 서브넷(AZ)에 태깅하면 된다. (us-east-1의 경우 6개 AZ)
     - tags:
-        karpenter.sh/discovery: vlm-cluster 
+        karpenter.sh/discovery: vlm-distillation 
   securityGroupSelectorTerms:
     - tags:
-        karpenter.sh/discovery: vlm-cluster 
+        karpenter.sh/discovery: vlm-distillation 
   blockDeviceMappings:
     - deviceName: /dev/xvda
       ebs:
@@ -92,6 +92,8 @@ spec:
 ```
 
 Karpenter는 내부적으로 이미 price-capacity-optimized(가격+용량 균형, 중단 최소화 지향)를 전략을 사용하여 EC2 인스턴스를 프로비저닝 한다. 
+**capacity-type + instance-type + AZ 조합이므로 충분한 인스턴스를 확보할 수 있다.** 
+
 
 ### Indexed Job (배치 인퍼런스, Spot 내성) ###
 ```
