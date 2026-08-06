@@ -95,6 +95,10 @@ Karpenter는 내부적으로 이미 price-capacity-optimized(가격+용량 균�
 **capacity-type + instance-type + AZ 조합이므로 충분한 인스턴스를 확보할 수 있다.** 
 
 ### [Weighted NodePools](https://karpenter.sh/docs/concepts/scheduling/#weighting-nodepools) ###
+
+Karpenter의 NodePool weight는 1~100 사이 정수라서 우선순위를 최대 100단계까지 표현할 수 있으며(미지정 시 0), 실무에서는 100·50·10처럼 간격을 넓게 두어 나중에
+중간 단계를 끼워넣을 수 있게 하는 것이 관례이다. 또한 NodePool 개수 자체에는 하드 제한이 없어, weight로 우선순위를 매긴 여러 NodePool을 원하는 만큼 폴백
+체인으로 구성할 수 있다.
 ```
 # ── NodePool 1: g7/g6/g5 우선 ──────────────────────────────
 apiVersion: karpenter.sh/v1
