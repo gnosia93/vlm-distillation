@@ -45,6 +45,8 @@ EC2의 P 계열은 딥러닝 학습·추론과 HPC에 특화된 GPU 가속 인�
 
 ### FlashAttention ###
 
+![](https://github.com/gnosia93/vlm-distillation/blob/main/images/fa-evol.png)
+
 | 버전 | 대상 GPU | 핵심 혁신 | 해결한 병목 |
 |------|----------|-----------|-------------|
 | FA1 (2022) | A100 (Ampere) | Tiling + online softmax + recompute | HBM I/O, O(N²) 메모리 |
